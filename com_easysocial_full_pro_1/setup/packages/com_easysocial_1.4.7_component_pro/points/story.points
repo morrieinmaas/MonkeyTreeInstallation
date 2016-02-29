@@ -1,0 +1,12 @@
+
+[
+	{
+		"title" 		: "COM_EASYSOCIAL_POINTS_POST_NEW_UPDATE",
+		"alias"			: "story-create",
+		"description"	: "COM_EASYSOCIAL_POINTS_POST_NEW_UPDATE_DESC",
+		"command"		: "story.create",
+		"extension"		: "com_easysocial",
+		"state"			: true,
+		"points"		: 5
+	}
+]

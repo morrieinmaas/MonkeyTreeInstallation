@@ -1,0 +1,70 @@
+
+{
+	"type": "photos",
+	"rules":
+		[
+			{
+				"core"			: true,
+				"command" 		: "view",
+				"description"	: "COM_EASYSOCIAL_PRIVACY_DESC_PHOTOS_VIEW",
+				"default"		: "public",
+				"options"		:
+				[
+					{
+						"name"	: "public"
+					},
+					{
+						"name"	: "member"
+					},
+					{
+						"name"	: "friend"
+					},
+					{
+						"name" : "only_me"
+					},
+					{
+						"name" : "custom"
+					}
+				]
+			},
+
+			{
+				"core"			: true,
+				"command" 		: "tagme",
+				"description"	: "COM_EASYSOCIAL_PRIVACY_DESC_PHOTOS_TAGME",
+				"default"		: "friend",
+				"options"		:
+				[
+					{
+						"name"	: "friend"
+					},
+					{
+						"name" : "only_me"
+					},
+					{
+						"name" : "custom"
+					}
+				]
+			},
+
+			{
+				"core"			: true,
+				"command" 		: "tag",
+				"description"	: "COM_EASYSOCIAL_PRIVACY_DESC_PHOTOS_TAG",
+				"default"		: "friend",
+				"options"		:
+				[
+					{
+						"name"	: "friend"
+					},
+					{
+						"name" : "only_me"
+					},
+					{
+						"name" : "custom"
+					}
+				]
+			}
+
+		]
+}

@@ -1,0 +1,13 @@
+{
+    "searchable" : false,
+    "privacy" : false,
+    "default": false,
+    "visible_display": false,
+    "title": {
+        "default": "FIELDS_EVENT_UPCOMINGREMINDER_DEFAULT_TITLE"
+    },
+
+    "description": {
+        "default": "FIELDS_EVENT_UPCOMINGREMINDER_DEFAULT_DESCRIPTION"
+    }
+}

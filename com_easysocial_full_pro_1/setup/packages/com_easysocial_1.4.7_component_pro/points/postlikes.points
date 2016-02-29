@@ -1,0 +1,20 @@
+[
+    {
+        "title"         : "Like Posts",
+        "alias"         : "like-posts",
+        "description"   : "Earn points when someone likes your posts.",
+        "command"       : "post.like",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 5
+    },
+    {
+        "title"         : "Unlike Posts",
+        "alias"         : "unlike-posts",
+        "description"   : "Demote points when someone unlike your posts.",
+        "command"       : "post.unlike",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -5
+    }
+]
