@@ -307,6 +307,23 @@ var es =
 					return false;
 				}
 
+				es.installation.installProjectFields();
+			});
+		},
+
+		installProjectFields: function()
+		{
+			es.installation.setActive('data-progress-projectfields');
+
+			es.installation.ajaxCall('installFields', { "group" : "project" } , function(result) {
+				// Set the progress
+				es.installation.update( 'data-progress-projectfields' , result , '58%');
+
+				if (!result.state) {
+					es.installation.showRetry('installProjectFields');
+					return false;
+				}
+
 				es.installation.installPlugins();
 			});
 		},
