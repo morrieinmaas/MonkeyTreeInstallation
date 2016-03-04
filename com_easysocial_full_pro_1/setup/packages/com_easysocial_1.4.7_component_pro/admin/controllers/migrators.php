@@ -175,6 +175,14 @@ class EasySocialControllerMigrators extends EasySocialController
 		$this->purgeHistory('jomsocialevent');
 	}
 
+	public function purgeJomsocialProjectHistory() {
+
+		// Check for request forgeries
+		FD::checkToken();
+
+		$this->purgeHistory('jomsocialproject');
+	}
+
 	public function purgeJomsocialGroupHistory() {
 
 		// Check for request forgeries

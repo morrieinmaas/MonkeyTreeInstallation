@@ -1,0 +1,124 @@
+[
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_CREATE_PROJECT",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_CREATE_PROJECT_TOOLTIP",
+        "group"         : "user",
+        "name"          : "projects.create"
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_CREATE_PROJECT_TOTAL",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_CREATE_PROJECT_TOTAL_TOOLTIP",
+        "name"          : "projects.limit",
+        "type"          : "limitinterval",
+        "group"         : "user",
+        "default"       : {
+            "value": 0,
+            "interval": 0
+        }
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_JOIN_PROJECT_TOTAL",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_JOIN_PROJECT_TOTAL_TOOLTIP",
+        "name"          : "projects.join",
+        "type"          : "limit",
+        "group"         : "user",
+        "default"       : 0
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_CREATE_PROJECT_MODERATION",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_CREATE_PROJECT_MODERATION_TOOLTIP",
+        "group"         : "user",
+        "name"          : "projects.moderate"
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_ENABLED",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_ENABLED_TOOLTIP",
+        "group"         : "project",
+        "name"          : "photos.enabled"
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_TOTAL_PHOTOS_ALLOWED",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_TOTAL_PHOTOS_ALLOWED_TOOLTIP",
+        "group"         : "project",
+        "name"          : "photos.max",
+        "type"          : "limit",
+        "suffix"        : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_TOTAL_PHOTOS_SUFFIX",
+        "default"       : 0
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_TOTAL_PHOTOS_DAILY_ALLOWED",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_TOTAL_PHOTOS_DAILY_ALLOWED_TOOLTIP",
+        "group"         : "project",
+        "name"          : "photos.maxdaily",
+        "type"          : "limit",
+        "suffix"        : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_TOTAL_PHOTOS_SUFFIX",
+        "default"       : 0
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_PHOTO_MAXSIZE_ALLOWED",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_PHOTOS_PHOTO_MAXSIZE_ALLOWED_TOOLTIP",
+        "group"         : "project",
+        "name"          : "photos.maxsize",
+        "type"          : "text",
+        "class"         : "form-control input-sm input-short text-center",
+        "suffix"        : "MB",
+        "default"       : "8"
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_FILES_ALLOWED",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_FILES_ALLOWED_TOOLTIP",
+        "group"         : "project",
+        "name"          : "files.enabled",
+        "type"          : "boolean",
+        "default"       : true
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_FILES_TOTAL_FILES_ALLOWED",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_FILES_TOTAL_FILES_ALLOWED_TOOLTIP",
+        "group"         : "project",
+        "name"          : "files.max",
+        "type"          : "limit",
+        "suffix"        : "COM_EASYSOCIAL_ACCESS_PROJECTS_FILES_TOTAL_FILES_SUFFIX",
+        "default"       : 0
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_FILES_MAXSIZE_ALLOWED",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_FILES_MAXSIZE_ALLOWED_TOOLTIP",
+        "group"         : "project",
+        "name"          : "files.maxsize",
+        "type"          : "text",
+        "class"         : "form-control input-sm input-short text-center",
+        "suffix"        : "MB",
+        "default"       : "8"
+    },
+    {
+        "title": "COM_EASYSOCIAL_ACCESS_PROJECTS_VIDEOS_ENABLED",
+        "group": "project",
+        "name": "videos.create",
+        "type": "boolean",
+        "default": 1
+    },
+    {
+        "title": "COM_EASYSOCIAL_ACCESS_PROJECTS_VIDEOS_TOTAL_VIDEOS_ALLOWED",
+        "group": "project",
+        "name": "videos.total",
+        "type": "limit",
+        "default": 0
+    },
+    {
+        "title": "COM_EASYSOCIAL_ACCESS_VIDEOS_MAX_SIZE",
+        "group": "project",
+        "name": "videos.maxsize",
+        "type": "limit",
+        "suffix": "MB",
+        "default": 0
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_ACCESS_PROJECTS_ALLOW_GROUP_PROJECT",
+        "description"   : "COM_EASYSOCIAL_ACCESS_PROJECTS_ALLOW_GROUP_PROJECT_TOOLTIP",
+        "group"         : "group",
+        "name"          : "projects.groupproject",
+        "type"          : "boolean",
+        "default"       : true
+    }
+]
