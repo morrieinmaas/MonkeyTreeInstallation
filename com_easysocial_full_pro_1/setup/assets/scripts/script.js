@@ -252,6 +252,24 @@ var es =
 					return false;
 				}
 
+				es.installation.installProjectApps();
+			});
+		},
+
+		installProjectApps: function()
+		{
+			es.installation.setActive('data-progress-projectapps');
+
+			es.installation.ajaxCall('installApps' , { "group" : "project" } , function(result) {
+				// Set the progress
+				es.installation.update('data-progress-projectapps', result, '48%');
+
+				if( !result.state )
+				{
+					es.installation.showRetry('installProjectApps');
+					return false;
+				}
+
 				es.installation.installUserFields();
 			});
 		},
@@ -501,6 +519,26 @@ var es =
 				if( !result.state )
 				{
 					es.installation.showRetry( 'installDefaultEventCategories' );
+					return false;
+				}
+
+				es.installation.installProjectCategories();
+			});
+		},
+
+		installProjectCategories : function()
+		{
+			// Install the admin stuffs
+			es.installation.setActive( 'data-progress-projectcategories' );
+
+			es.installation.ajaxCall( 'installDefaultProjectCategories' , {} , function( result )
+			{
+				// Set the progress
+				es.installation.update( 'data-progress-projectcategories' , result , '92%');
+
+				if( !result.state )
+				{
+					es.installation.showRetry( 'installDefaultProjectCategories' );
 					return false;
 				}
 
