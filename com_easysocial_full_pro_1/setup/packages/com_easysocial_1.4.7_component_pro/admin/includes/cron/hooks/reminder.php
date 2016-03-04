@@ -24,6 +24,7 @@ class SocialCronHooksReminder
 	{
 		$states[] = $this->processUserReminder();
 		$states[] = $this->processUpcomingEventReminder();
+		$states[] = $this->processUpcomingProjectReminder();
 
 	}
 
@@ -77,5 +78,22 @@ class SocialCronHooksReminder
 		}
 
 		return JText::_( 'COM_EASYSOCIAL_CRONJOB_EVENT_UPCOMING_REMINDER_NOTHING_TO_EXECUTE' );
+	}
+
+	public function processUpcomingProjectReminder()
+	{
+
+		$model = FD::model('Projects');
+		$results = $model->getUpcomingReminder();
+
+		if ($results) {
+			$state 		= $model->sendUpcomingReminder( $results );
+
+			if ($state) {
+				return JText::sprintf( 'COM_EASYSOCIAL_CRONJOB_PROJECT_UPCOMING_REMINDER_PROCESSED', $state );
+			}
+		}
+
+		return JText::_( 'COM_EASYSOCIAL_CRONJOB_PROJECT_UPCOMING_REMINDER_NOTHING_TO_EXECUTE' );
 	}
 }
