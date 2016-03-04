@@ -173,6 +173,30 @@ abstract class SocialAppItem extends SocialAppsAbstract
 	}
 
 	/**
+	 * Executes when a trigger is called.
+	 *
+	 * @since	1.0
+	 * @param	string	The project name.
+	 * @param	Array	An array of arguments
+	 * @access	public
+	 */
+	public final function updateproject( $projectName , &$args )
+	{
+		$paths 	= array();
+
+		$paths[ 'tables' ]	= SOCIAL_APPS . '/' . $this->group . '/' . $this->element . '/tables';
+
+		$this->paths 		= $paths;
+
+		if( method_exists( $this , $projectName ) )
+		{
+			return call_user_func_array( array( $this , $projectName ) , $args );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Retrieves a JTable object. This simplifies the caller from manually adding include path all the time.
 	 *
 	 * @since	1.0
