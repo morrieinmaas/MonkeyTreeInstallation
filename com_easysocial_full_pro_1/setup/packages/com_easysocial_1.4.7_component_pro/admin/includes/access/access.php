@@ -91,6 +91,13 @@ class SocialAccess
 			$type	= SOCIAL_TYPE_CLUSTERS;
 		}
 
+		if ($type === SOCIAL_TYPE_PROJECT) {
+			$project	= FD::project($id);
+			$uid 	= $project->category_id;
+
+			$type	= SOCIAL_TYPE_CLUSTERS;
+		}
+
 		$this->getDefaultValues($type);
 
 		if (empty($loadedAccess[$type][$uid])) {
