@@ -242,6 +242,39 @@ class SocialFields
 		return call_user_func_array(array($this->triggerer, $event), $arguments);
 	}
 
+	public function triggerprojects($project, $group, &$fields, &$data = array(), $callback = null)
+	{
+		// If there's no fields to load, we shouldn't be doing anything at all.
+		if (empty($fields)) {
+			return false;
+		}
+		// Initialize adapter if necessary.
+		if (is_null($this->triggerer)) {
+			// Create the triggers
+			$this->triggerer = new SocialFieldTriggers($this->params);
+
+			if (empty($this->user)) {
+				$this->user = FD::user();
+			}
+
+			$this->triggerer->setUser($this->user);
+		}
+
+		// Change to is_callable because we've implemented magic method __call on SocialFieldTriggers
+		$exists = is_callable(array($this->triggerer, $project));
+
+		if (!$exists) {
+			return false;
+		}
+
+		// Set the project name for element references
+		$this->triggerer->setEProject($project);
+
+		$arguments = array($group, &$fields, &$data, $callback);
+
+		return call_user_func_array(array($this->triggerer, $project), $arguments);
+	}
+
 	public function getHandler()
 	{
 		if (is_null($this->handler)) {
