@@ -66,6 +66,11 @@ class SocialDispatcher
 
 	}
 
+	public function registerproject( $projectType , $projectName , $apps )
+	{
+
+	}
+
 	/**
 	 * Single method to run specific triggers. Caller can specify callbacks which can be
 	 * executed by the caller.
@@ -135,6 +140,69 @@ class SocialDispatcher
 
 			// Run the initial execution.
 			$result[]	= $observer->update( $eventName , $args );
+		}
+
+		return $result;
+	}
+
+	public function triggerproject( $group , $projectName , $args , $elements = null , $callbacks = array() )
+	{
+		// Hot load this so that trigger caller doesn't need to load the apps
+		FD::apps()->load( $group );
+
+		// Check if there's anything to load at all.
+		if( !isset( $this->observers[ $group ] ) )
+		{
+			return false;
+		}
+
+		// Get the list of observers
+		$observers 	= $this->observers[ $group ];
+
+		// If elements is an array, this means that
+		// we only want to trigger those specific group of apps,
+		// in that specific ordering as in that array.
+		if( is_array($elements) ) {
+
+			$observers = array();
+
+			foreach( $elements as $element )
+			{
+				if ( isset( $this->observers[ $group ][ $element ] ) )
+				{
+					$observers[] = $this->observers[ $group ][ $element ];
+				}
+			}
+		}
+
+		$result		= array();
+
+		// Arguments must always be an array.
+		$args 		= FD::makeArray( $args );
+
+
+		foreach( $observers as $observer )
+		{
+			// If the observer is not an instance of SocialAppItem, we just skip this.
+			if( ! $observer instanceof SocialAppItem )
+			{
+				continue;
+			}
+
+			// Execute any callback methods.
+			if( !empty($callbacks) )
+			{
+				foreach( $callbacks as $callback => $value )
+				{
+					if( method_exists( $observer , $callback ) )
+					{
+						call_user_func_array( array( $observer , $callback ) , array( $value ) );
+					}
+				}
+			}
+
+			// Run the initial execution.
+			$result[]	= $observer->update( $projectName , $args );
 		}
 
 		return $result;
