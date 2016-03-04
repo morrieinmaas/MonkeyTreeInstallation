@@ -172,6 +172,46 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		return $this->output($result);
 	}
 
+	public function installDefaultProjectCategories()
+	{
+		$this->foundry();
+
+		$db = FD::db();
+		$sql = $db->sql();
+
+		$sql->select('#__social_clusters_categories');
+		$sql->column('COUNT(1)');
+		$sql->where('type', SOCIAL_TYPE_PROJECT);
+
+		$db->setQuery( $sql );
+		$total = $db->loadResult();
+
+		// There are categories already, we shouldn't be doing anything here.
+		if ($total) {
+			$result = $this->getResultObj(JText::_('COM_EASYSOCIAL_INSTALLATION_ERROR_CREATE_DEFAULT_PROJECT_CATEGORIES_EXISTS'), true);
+
+			return $this->output($result);
+		}
+
+		$categories = array('general', 'meeting');
+
+		foreach ($categories as $categoryKey) {
+			$results[] = $this->createProjectCategory($categoryKey);
+		}
+
+		$result = new stdClass();
+		$result->state = true;
+		$result->message = '';
+
+		foreach ($results as $obj) {
+			$class = $obj->state ? 'success' : 'error';
+
+			$result->message .= '<div class="text-' . $class . '">' . $obj->message . '</div>';
+		}
+
+		return $this->output($result);
+	}
+
 	/**
 	 * Creates default video categories
 	 *
@@ -312,6 +352,30 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$result = new stdClass();
 		$result->state = true;
 		$result->message = JText::sprintf('COM_EASYSOCIAL_INSTALLATION_CREATE_EVENT_CATEGORY_SUCCESS', $title);
+
+		return $result;
+	}
+
+	public function createProjectCategory($categoryTitle)
+	{
+		$key = strtoupper($categoryTitle);
+		$title = JText::_('COM_EASYSOCIAL_INSTALLATION_DEFAULT_PROJECT_CATEGORY_' . $key);
+		$desc = JText::_('COM_EASYSOCIAL_INSTALLATION_DEFAULT_PROJECT_CATEGORY_' . $key . '_DESC');
+
+		$category = FD::table('ProjectCategory');
+		$category->alias = strtolower($categoryTitle);
+		$category->title = $title;
+		$category->description = $desc;
+		$category->type = SOCIAL_TYPE_PROJECT;
+		$category->created = FD::date()->toSql();
+		$category->uid = FD::user()->id;
+		$category->state = SOCIAL_STATE_PUBLISHED;
+
+		$category->store();
+
+		$result = new stdClass();
+		$result->state = true;
+		$result->message = JText::sprintf('COM_EASYSOCIAL_INSTALLATION_CREATE_PROJECT_CATEGORY_SUCCESS', $title);
 
 		return $result;
 	}
