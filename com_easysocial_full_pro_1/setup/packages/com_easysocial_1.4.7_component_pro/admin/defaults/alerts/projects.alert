@@ -1,0 +1,107 @@
+[
+    {
+        "element"   : "projects",
+        "rule"      : "discussion.create",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "discussion.reply",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "discussion.answered",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "discussion.locked",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.makeadmin",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.revokeadmin",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.reject",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.approve",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.remove",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.going",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.maybe",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.notgoing",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.request",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.withdraw",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "guest.invited",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "news",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "task.created",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "task.completed",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "milestone.created",
+        "core"      : true
+    },
+    {
+        "element"   : "projects",
+        "rule"      : "updates",
+        "core"      : true
+    },
+    {
+        "element": "projects",
+        "rule": "video.create",
+        "core": true
+    }
+]
