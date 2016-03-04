@@ -1468,6 +1468,33 @@ class ES
 	}
 
 	/**
+	 * Alias for FD::get('Project')
+	 *
+	 * @since	1.0
+	 * @access	public
+	 * @param	Mixed		$ids	The id to load.
+	 * @return	SocialProject			The event object
+	 */
+	public static function project($ids = null, $debug = false)
+	{
+		// Load the group library
+		FD::load('project');
+
+		if (is_null($ids)) {
+			return new SocialProject();
+		}
+
+		$state = SocialProjet::factory($ids, $debug);
+
+		if( $state === false )
+		{
+			return new SocialProject();
+		}
+
+		return $state;
+	}
+
+	/**
 	 * Alias for FD::get( 'User' )
 	 *
 	 * @since	1.0
@@ -1954,6 +1981,8 @@ class ES
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_USER, 'onNotificationBeforeCreate', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_GROUP, 'onNotificationBeforeCreate', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_EVENT, 'onNotificationBeforeCreate', $args);
+		$dispatcher->trigger(SOCIAL_APPS_GROUP_PROJECT, 'onNotificationBeforeCreate', $args);
+
 
 		if (!$alert) {
 			return false;
@@ -1964,7 +1993,8 @@ class ES
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_USER, 'onNotificationAfterCreate', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_GROUP, 'onNotificationAfterCreate', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_EVENT, 'onNotificationAfterCreate', $args);
-		
+		$dispatcher->trigger(SOCIAL_APPS_GROUP_PROJECT, 'onNotificationAfterCreate', $args);
+
 		return $state;
 	}
 
