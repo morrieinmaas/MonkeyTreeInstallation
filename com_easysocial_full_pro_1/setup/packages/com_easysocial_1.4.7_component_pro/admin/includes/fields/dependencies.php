@@ -97,6 +97,8 @@ abstract class SocialFieldItem
 	 */
 	public $event = null;
 
+	public $project = null;
+
 	public function __construct($config = array())
 	{
 		$app = JFactory::getApplication();
@@ -427,55 +429,113 @@ abstract class SocialFieldItem
 
 			$fieldFile = $prefix . '/' . $file;
 
-			if( $this->theme->exists( $fieldFile ) )
-			{
+			if ($this->theme->exists($fieldFile)) {
 				return $fieldFile;
 			}
 
 			$generalFieldFile = $prefix . '/event';
 
-			if( $this->theme->exists( $generalFieldFile ) )
-			{
+			if ($this->theme->exists($generalFieldFile)) {
 				return $generalFieldFile;
 			}
 
-			if( $checkSubFiles )
-			{
+			if ($checkSubFiles) {
 				$filecontent = $file;
 
 				$subFile = 'site/fields/' . $filecontent;
 
-				if( $this->theme->exists( $subFile ) )
-				{
-					do
-					{
+				if ($this->theme->exists($subFile)) {
+					do {
 						$subFieldFile = $prefix . '/' . $filecontent . '_content';
 
-						if( $this->theme->exists( $subFieldFile ) )
-						{
-							$this->theme->set( 'subNamespace', $subFieldFile );
+						if ($this->theme->exists($subFieldFile)) {
+							$this->theme->set('subNamespace', $subFieldFile);
 							return $subFile;
 						}
 
 						// If reach here, means no subFieldFile is found, then we fallback
-						$subFallback = $this->getFallbackTemplate( $filecontent );
+						$subFallback = $this->getFallbackTemplate($filecontent);
 
-						if( $subFallback !== false )
-						{
+						if ($subFallback !== false) {
 							$filecontent = $subFallback;
 						}
-					} while( $subFallback !== false );
+					} while ($subFallback !== false);
 
 					$subFieldContent = $prefix . '/content';
 
-					if( $this->theme->exists( $subFieldContent ) )
-					{
-						$this->theme->set( 'subNamespace', $subFieldContent );
+					if ($this->theme->exists($subFieldContent)) {
+						$this->theme->set('subNamespace', $subFieldContent);
 						return $subFile;
 					}
 				}
 			}
+		} while( $fallback !== false );
 
+		$checkSubFiles = false;
+
+		if( is_null( $file ) && !empty( $this->project ) )
+		{
+
+			{
+				$file = strtolower( substr( $this->project, 2 ) );
+
+				// We only check sub files if we are trying to display an event based theme file
+				$checkSubFiles = true;
+			}
+			do
+			{
+				$prefix = 'fields/' . $group . '/' . $element;
+
+				$fieldFile = $prefix . '/' . $file;
+
+				if( $this->theme->exists( $fieldFile ) )
+				{
+					return $fieldFile;
+				}
+
+				$generalFieldFile = $prefix . '/project';
+
+				if( $this->theme->exists( $generalFieldFile ) )
+				{
+					return $generalFieldFile;
+				}
+
+				if( $checkSubFiles )
+				{
+					$filecontent = $file;
+
+					$subFile = 'site/fields/' . $filecontent;
+
+					if( $this->theme->exists( $subFile ) )
+					{
+						do
+						{
+							$subFieldFile = $prefix . '/' . $filecontent . '_content';
+
+							if( $this->theme->exists( $subFieldFile ) )
+							{
+								$this->theme->set( 'subNamespace', $subFieldFile );
+								return $subFile;
+							}
+
+							// If reach here, means no subFieldFile is found, then we fallback
+							$subFallback = $this->getFallbackTemplate( $filecontent );
+
+							if( $subFallback !== false )
+							{
+								$filecontent = $subFallback;
+							}
+						} while( $subFallback !== false );
+
+						$subFieldContent = $prefix . '/content';
+
+						if( $this->theme->exists( $subFieldContent ) )
+						{
+							$this->theme->set( 'subNamespace', $subFieldContent );
+							return $subFile;
+						}
+					}
+				}
 			// If we reach here, means no return is executed, then we try to fallback
 			$fallback = $this->getFallbackTemplate( $file );
 
@@ -487,6 +547,7 @@ abstract class SocialFieldItem
 		} while( $fallback !== false );
 
 		return false;
+		}
 	}
 
 	private function getFallbackTemplate($file)
