@@ -146,6 +146,11 @@ class SocialUserAppVideos extends SocialAppItem
 
             $event = Foundry::event( $item->cluster_id );
             $this->set( 'cluster' , $event );
+        } else if ($item->cluster_id && $item->cluster_type == SOCIAL_TYPE_PROJECT) {
+            $file = 'project/';
+
+            $project = Foundry::project( $item->cluster_id );
+            $this->set( 'cluster' , $project );
         }
 
         $file   .= 'title.create';

@@ -489,13 +489,22 @@ class SocialUserAppStory extends SocialAppItem
 				$stream->fonticon = 'fa fa-calendar';
 				$stream->label = FD::_('APP_USER_STORY_EVENTS_STREAM_TOOLTIP', true);
 			}
+
+			if ($stream->cluster_type == SOCIAL_TYPE_PROJECT) {
+				$stream->color = '#f06050';
+				$stream->fonticon = 'fa fa-calendar';
+				$stream->label = FD::_('APP_USER_STORY_PROJECTS_STREAM_TOOLTIP', true);
+			}
 		}
 
 		$appGroup = SOCIAL_APPS_GROUP_USER;
 		if ($stream->cluster_id) {
 			if ($stream->cluster_type == SOCIAL_TYPE_EVENT) {
 				$appGroup = SOCIAL_APPS_GROUP_EVENT;
-			} else {
+			} else if ($stream->cluster_type == SOCIAL_TYPE_PROJECT) {
+				$appGroup = SOCIAL_APPS_GROUP_PROJECT;
+			}
+			else {
 				$appGroup = SOCIAL_APPS_GROUP_GROUP;
 			}
 		}

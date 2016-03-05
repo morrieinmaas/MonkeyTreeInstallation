@@ -326,6 +326,28 @@ class SocialUserAppPhotos extends SocialAppItem
 			$item->label = FD::_('APP_USER_EVENTS_STREAM_TOOLTIP', true);
 		}
 
+		// If this is a project, we need to prepare accordingly.
+		if ($item->cluster_id && $item->cluster_type == SOCIAL_TYPE_PROJECT) {
+			$project = FD::project($item->cluster_id);
+
+			if (empty($project) || empty($project->id)) {
+				return;
+			}
+
+			if (!$project->isOpen() && !$project->getGuest()->isGuest()) {
+				return;
+			}
+
+			// Check if the project is private or invite, dont show the sharing button
+			if( !$project->isOpen()) {
+				$item->sharing = false;
+			}
+
+			$item->color = '#f06050';
+			$item->fonticon = 'fa fa-calendar';
+			$item->label = FD::_('APP_USER_PROJECTS_STREAM_TOOLTIP', true);
+		}
+
 		// Process actions on the stream
 		$this->processActions( $item , $privacy );
 
@@ -377,6 +399,11 @@ class SocialUserAppPhotos extends SocialAppItem
 			$this->prepareEventUploadAvatarStream($item, $privacy, $includePrivacy);
 		}
 
+		// Process project avatar updates
+		if ($item->verb == 'uploadAvatar' && $item->cluster_id && $item->cluster_type == SOCIAL_TYPE_PROJECT && $params->get('uploadAvatar', true)) {
+			$this->prepareProjectUploadAvatarStream($item, $privacy, $includePrivacy);
+		}
+
 		// Process user avatar updates
 		if($item->verb == 'uploadAvatar' && !$item->cluster_id && $params->get('uploadAvatar', true)) {
 			$this->prepareUploadAvatarStream($item, $privacy, $includePrivacy);
@@ -390,6 +417,11 @@ class SocialUserAppPhotos extends SocialAppItem
 		// Process event cover updates
 		if ($item->verb == 'updateCover' && $item->cluster_id && $item->cluster_type == SOCIAL_TYPE_EVENT && $params->get('uploadCover', true)) {
 			$this->prepareEventUpdateCoverStream($item, $privacy, $includePrivacy);
+		}
+
+		// Process project cover updates
+		if ($item->verb == 'updateCover' && $item->cluster_id && $item->cluster_type == SOCIAL_TYPE_PROJECT && $params->get('uploadCover', true)) {
+			$this->prepareProjectUpdateCoverStream($item, $privacy, $includePrivacy);
 		}
 
 		// Process user cover updates
@@ -412,6 +444,11 @@ class SocialUserAppPhotos extends SocialAppItem
 		// Process photo streams for events
 		if (in_array($item->verb, $photoStreams) && $item->cluster_id && $item->cluster_type == SOCIAL_TYPE_EVENT && $params->get('uploadPhotos', true)) {
 			$this->prepareEventPhotoStream($item, $privacy, $includePrivacy, $useAlbum);
+		}
+
+		// Process photo streams for projects
+		if (in_array($item->verb, $photoStreams) && $item->cluster_id && $item->cluster_type == SOCIAL_TYPE_PROJECT && $params->get('uploadPhotos', true)) {
+			$this->prepareProjectPhotoStream($item, $privacy, $includePrivacy, $useAlbum);
 		}
 
 		// Process photo streams for users
@@ -726,6 +763,84 @@ class SocialUserAppPhotos extends SocialAppItem
 	}
 
 	/**
+	 * Prepares the stream items for photo uploads via story in a project.
+	 *
+	 * @since	1.3
+	 * @access	public
+	 */
+	public function prepareProjectPhotoStream(SocialStreamItem &$item, $privacy, $includePrivacy = true, $useAlbum = false)
+	{
+// There could be more than 1 photo
+		$photos = array();
+
+// The default element and uid
+		$element = $item->context;
+		$uid = $item->contextId;
+
+// Get photo objects
+		$photos = $this->getPhotoFromParams($item, $privacy);
+
+// Get the unique item and element to be used
+		if (count($item->contextIds) > 1) {
+			$uid = $photos[0]->id;
+			$element = SOCIAL_TYPE_ALBUM;
+		}
+
+// Get the first photo's album id.
+		$albumId = $photos[0]->album_id;
+
+// Determine the privacy rule to use.
+		$privacyRule = ($useAlbum) ? 'albums.view' : 'photos.view';
+
+// Load up the album object
+		$album = FD::table('Album');
+		$album->load($albumId);
+
+// Get the actor
+		$actor = $item->actor;
+
+// Determine what text to use.
+		$count = count($item->contextIds);
+
+// Load up the group object
+		$project = FD::project($item->cluster_id);
+		$totalPhotos = count($photos);
+
+		$ids = array();
+
+		foreach ($photos as $photo) {
+			$ids[] = $photo->id;
+		}
+
+// Get params
+		$app = FD::table('app');
+		$app->loadByElement('photos', 'user', 'apps');
+		$params = $app->getParams();
+
+		$this->set('totalPhotos', $totalPhotos);
+		$this->set('ids', $ids);
+		$this->set('project', $project);
+		$this->set('count', $count);
+		$this->set('photos', $photos);
+		$this->set('album', $album);
+		$this->set('actor', $actor);
+		$this->set('params', $params);
+
+// old data compatibility
+		$verb = ($item->verb == 'create') ? 'add' : $item->verb;
+
+// Set the display mode to be full.
+		$item->display = SOCIAL_STREAM_DISPLAY_FULL;
+
+		$item->title = parent::display('streams/project/' . $verb . '.title');
+		$item->preview = parent::display('streams/project/' . $verb . '.content');
+
+		if ($includePrivacy) {
+			$item->privacy = $privacy->form($uid, $element, $item->actor->id, $privacyRule, false, $item->uid);
+		}
+	}
+
+	/**
 	 * Prepares the stream items for photo uploads
 	 *
 	 * @since	1.0
@@ -887,6 +1002,38 @@ class SocialUserAppPhotos extends SocialAppItem
 	}
 
 	/**
+	 * Prepares the upload avatar stream for a project
+	 *
+	 * @since	1.3
+	 * @access	public
+	 */
+	public function prepareProjectUploadAvatarStream(&$item, $privacy, $includePrivacy = true)
+	{
+		$element = $item->context;
+		$uid = $item->contextId;
+
+// Load the photo
+		$photo = $this->getPhotoFromParams($item);
+
+// Get the data of the group
+		$registry = Foundry::registry($item->params);
+		$project = new SocialProject();
+		$project->bind($registry->get($item->cluster_type));
+
+		$this->set('project', $project);
+		$this->set('photo', $photo);
+		$this->set('actor', $item->actor);
+
+
+		$item->title = parent::display('streams/project/upload.avatar.title');
+		$item->content = parent::display('streams/project/upload.avatar.content');
+
+		if ($includePrivacy) {
+			$item->privacy = $privacy->form($uid, $element, $item->actor->id, 'core.view', false, $item->uid);
+		}
+	}
+
+	/**
 	 * Retrieves the Gender representation of the language string
 	 *
 	 * @since	1.2
@@ -980,11 +1127,11 @@ class SocialUserAppPhotos extends SocialAppItem
 	}
 
 	/**
-	 * Prepares the upload cover stream for event.
-	 *
-	 * @since	1.3
-	 * @access	public
-	 */
+ * Prepares the upload cover stream for event.
+ *
+ * @since	1.3
+ * @access	public
+ */
 	public function prepareEventUpdateCoverStream(&$item, $privacy, $includePrivacy = true)
 	{
 		// Load the photo
@@ -1003,6 +1150,39 @@ class SocialUserAppPhotos extends SocialAppItem
 
 		$item->title = parent::display('streams/event/upload.cover.title');
 		$item->content = parent::display('streams/event/upload.cover.content');
+
+		if ($includePrivacy) {
+			$element = $item->context;
+			$uid = $item->contextId;
+
+			$item->privacy = $privacy->form($uid, $element, $item->actor->id, 'core.view', false, $item->uid);
+		}
+	}
+
+	/**
+	 * Prepares the upload cover stream for project.
+	 *
+	 * @since	1.3
+	 * @access	public
+	 */
+	public function prepareProjectUpdateCoverStream(&$item, $privacy, $includePrivacy = true)
+	{
+// Load the photo
+		$photo = $this->getPhotoFromParams($item);
+
+// Load the project
+		$project = Foundry::project($item->cluster_id);
+
+// Get the cover object for the project
+		$cover = $project->getCoverData();
+
+		$this->set('cover', $cover);
+		$this->set('photo', $photo);
+		$this->set('actor', $item->actor);
+		$this->set('project', $project);
+
+		$item->title = parent::display('streams/project/upload.cover.title');
+		$item->content = parent::display('streams/project/upload.cover.content');
 
 		if ($includePrivacy) {
 			$element = $item->context;
