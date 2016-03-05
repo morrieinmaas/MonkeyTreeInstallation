@@ -3098,6 +3098,11 @@ class SocialUser extends JUser
 		return FD::model('Events')->getTotalEvents(array('guestuid' => $this->id, 'types' => 'all', 'gueststate' => SOCIAL_EVENT_GUEST_GOING));
 	}
 
+	public function getTotalProjects()
+	{
+		return FD::model('Projects')->getTotalProjects(array('guestuid' => $this->id, 'types' => 'all', 'gueststate' => SOCIAL_PROJECT_GUEST_GOING));
+	}
+
 	/**
 	 * Returns the total number of events that this user created.
 	 *
@@ -3113,6 +3118,15 @@ class SocialUser extends JUser
 		$options = array_merge($baseOptions, $customOptions);
 
 		return FD::model('Events')->getTotalEvents($options);
+	}
+
+	public function getTotalCreatedProjects($customOptions = array())
+	{
+		$baseOptions = array('creator_uid' => $this->id, 'creator_type' => SOCIAL_TYPE_USER, 'types' => 'all');
+
+		$options = array_merge($baseOptions, $customOptions);
+
+		return FD::model('Events')->getTotalProjects($options);
 	}
 
 	/**
