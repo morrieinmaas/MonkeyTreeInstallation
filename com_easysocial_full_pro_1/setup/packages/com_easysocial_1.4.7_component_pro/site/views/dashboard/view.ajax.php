@@ -77,6 +77,7 @@ class EasySocialViewDashboard extends EasySocialSiteView
 		// Initialize the default ids
 		$groupId = false;
 		$eventId = false;
+		$projectId = false;
 
 		// Retrieve the story lib
 		$story = FD::get('Story', SOCIAL_TYPE_USER);
@@ -88,7 +89,7 @@ class EasySocialViewDashboard extends EasySocialSiteView
 		}
 
 		// If the stream is a group type, we need to set the story
-		if ($type == SOCIAL_TYPE_GROUP || $type == SOCIAL_TYPE_EVENT) {
+		if ($type == SOCIAL_TYPE_GROUP || $type == SOCIAL_TYPE_EVENT || $type == SOCIAL_TYPE_PROJECT) {
 			$story = FD::get('Story', $type);
 
 			$clusterId = $this->input->getInt('id', 0);
@@ -104,6 +105,10 @@ class EasySocialViewDashboard extends EasySocialSiteView
 			if ($type == SOCIAL_TYPE_EVENT) {
 				$eventId = $clusterId;
 			}
+
+			if ($type == SOCIAL_TYPE_PROJECT){
+				$projectId = $clusterId;
+			}
 		}
 
 		// Set the story to the stream
@@ -112,6 +117,7 @@ class EasySocialViewDashboard extends EasySocialSiteView
 		$theme = FD::themes();
 		$theme->set('rssLink', $this->rssLink);
 		$theme->set('eventId', $eventId);
+		$theme->set('projectId', $projectId);
 		$theme->set('groupId', $groupId);
 		$theme->set('hashtag', false);
 		$theme->set('stream', $stream);

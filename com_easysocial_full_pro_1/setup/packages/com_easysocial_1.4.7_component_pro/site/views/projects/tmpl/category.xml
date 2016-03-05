@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_EASYSOCIAL_PROJECTS_LAYOUT_PROJECT_CATEGORY">
+        <message>
+            <![CDATA[COM_EASYSOCIAL_PROJECTS_LAYOUT_PROJECT_CATEGORY_DESC]]>
+        </message>
+        <view>projects</view>
+        <layout>category</layout>
+    </layout>
+
+    <fields name="request">
+        <fieldset name="request" addfieldpath="/administrator/components/com_easysocial/models/fields">
+            <field name="id" type="easysocial_projectcategory" label="COM_EASYSOCIAL_PROJECTS_LAYOUT_PROJECT_CATEGORY_SELECT_PROJECT_CATEGORY" description="COM_EASYSOCIAL_PROJECTS_LAYOUT_PROJECT_CATEGORY_SELECT_PROJECT_CATEGORY_DESC" required="true" message="COM_EASYSOCIAL_PROJECTS_LAYOUT_PROJECT_CATEGORY_SELECT_PROJECT_CATEGORY_REQUIRED" />
+        </fieldset>
+    </fields>
+</metadata>

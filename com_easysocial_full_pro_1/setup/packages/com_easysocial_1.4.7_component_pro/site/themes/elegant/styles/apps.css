@@ -41,20 +41,28 @@ div#fd.es .es-profile .es-content .es-app-wrapper .empty >i {
   display: block;
 }
 div#fd.es .es-profile .es-widget.widget-groups .widget-list li,
-div#fd.es .es-profile .es-widget.widget-events .widget-list li {
+div#fd.es .es-profile .es-widget.widget-events .es-widget.widget-projects .widget-list li {
   margin-right: 10px;
   margin-bottom: 3px;
 }
 div#fd.es .es-profile .es-widget.widget-groups .widget-list li +li,
-div#fd.es .es-profile .es-widget.widget-events .widget-list li +li {
+div#fd.es .es-profile .es-widget.widget-projects .es-widget.widget-events .widget-list li +li {
   padding-top: 8px;
   border-top: 1px solid #d7d7d7;
   margin-top: 5px;
 }
 div#fd.es .es-profile .es-widget.widget-groups .widget-list li .event-meta >a,
 div#fd.es .es-profile .es-widget.widget-groups .widget-list li .group-meta >a,
+div#fd.es .es-profile .es-widget.widget-groups .widget-list li .project-meta >a,
 div#fd.es .es-profile .es-widget.widget-events .widget-list li .event-meta >a,
+div#fd.es .es-profile .es-widget.widget-events .widget-list li .project-meta >a,
 div#fd.es .es-profile .es-widget.widget-events .widget-list li .group-meta >a {
+  color: #666;
+  font-size: 11px;
+}
+div#fd.es .es-profile .es-widget.widget-projects .widget-list li .event-meta >a,
+div#fd.es .es-profile .es-widget.widget-projects .widget-list li .project-meta >a,
+div#fd.es .es-profile .es-widget.widget-projects .widget-list li .group-meta >a {
   color: #666;
   font-size: 11px;
 }

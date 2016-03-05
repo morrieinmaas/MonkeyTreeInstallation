@@ -127,6 +127,7 @@ div#fd.es .es-story-text {
 }
 div#fd.es .plugin-polls .es-story-text,
 div#fd.es .plugin-event .es-story-text,
+div#fd.es .plugin-project .es-story-text,
 div#fd.es .plugin-broadcast .es-story-text,
 div#fd.es .plugin-blog .es-story-text,
 div#fd.es .plugin-discuss .es-story-text {
@@ -134,6 +135,7 @@ div#fd.es .plugin-discuss .es-story-text {
 }
 div#fd.es .plugin-polls .es-story-panel-contents.active,
 div#fd.es .plugin-event .es-story-panel-contents.active,
+div#fd.es .plugin-project .es-story-panel-contents.active,
 div#fd.es .plugin-broadcast .es-story-panel-contents.active,
 div#fd.es .plugin-blog .es-story-panel-contents.active,
 div#fd.es .plugin-discuss .es-story-panel-contents.active {

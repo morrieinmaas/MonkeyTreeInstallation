@@ -36,6 +36,29 @@
 				}
 			}
 		}
+		&.widget-projects {
+			.widget-list {
+
+				li {
+					margin-right: 10px;
+					margin-bottom: 3px;
+
+					+li {
+						padding-top: 8px;
+						border-top: 1px solid @esBorder;
+						margin-top: 5px;
+					}
+
+					.project-meta,
+					.group-meta {
+						>a {
+							color: @esColor;
+							font-size: @fontSizeSmall;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 

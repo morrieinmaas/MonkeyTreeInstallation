@@ -66,6 +66,15 @@ defined('_JEXEC') or die('Unauthorized Access');
 				</div>
 				<?php } ?>
 
+				<?php if ($this->config->get('projects.enabled')){ ?>
+					<div>
+						<a href="<?php echo FRoute::projects();?>">
+							<i class="fa fa-calendar"></i>
+							<b><?php echo JText::_('COM_EASYSOCIAL_TOOLBAR_PROFILE_PROJECTS');?></b>
+						</a>
+					</div>
+				<?php } ?>
+
 				<?php if ($this->config->get('badges.enabled')){ ?>
 				<div>
 					<a href="<?php echo FRoute::badges(array('layout' => 'achievements'));?>">

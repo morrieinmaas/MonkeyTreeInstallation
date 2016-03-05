@@ -98,6 +98,14 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 				</li>
 				<?php } ?>
 
+				<?php if ($this->config->get('projects.enabled')){ ?>
+					<li>
+						<a href="<?php echo FRoute::projects();?>">
+							<?php echo JText::_('COM_EASYSOCIAL_TOOLBAR_PROFILE_PROJECTS');?>
+						</a>
+					</li>
+				<?php } ?>
+
 				<?php if ($this->config->get('badges.enabled')){ ?>
 				<li>
 					<a href="<?php echo FRoute::badges(array('layout' => 'achievements'));?>">

@@ -132,6 +132,10 @@ class EasySocialViewDashboard extends EasySocialSiteView
 		$eventModel = FD::model('Events');
 		$events = $eventModel->getEvents(array('creator_uid' => $this->my->id, 'creator_type' => SOCIAL_TYPE_USER, 'ongoing' => true, 'upcoming' => true, 'ordering' => 'start', 'limit' => 5));
 
+		// Retrieve user's projects
+		$projectModel = FD::model('Projects');
+		$projects = $projectModel->getProjects(array('creator_uid' => $this->my->id, 'creator_type' => SOCIAL_TYPE_USER, 'ongoing' => true, 'upcoming' => true, 'ordering' => 'start', 'limit' => 5));
+
 		// Retrieve user's status
 		$story = FD::get('Story', SOCIAL_TYPE_USER);
 		$story->setTarget($this->my->id);
@@ -143,6 +147,7 @@ class EasySocialViewDashboard extends EasySocialSiteView
 		// Determines if we should be rendering the group streams
 		$groupId = false;
 		$eventId = false;
+		$projectId = false;
 
 		$tags = array();
 
@@ -317,6 +322,33 @@ class EasySocialViewDashboard extends EasySocialSiteView
 			$stream->get(array('clusterId' => $event->id , 'clusterType' => SOCIAL_TYPE_EVENT, 'nosticky' => true, 'startlimit' => $startlimit));
 		}
 
+		if ($filter == 'project') {
+			$id = $this->input->get('projectId', 0, 'int');
+			$project   = FD::project($id);
+			$projectId = $project->id;
+
+// Check if the user is a member of the group
+			if (!$project->getGuest()->isGuest()) {
+				$this->setMessage(JText::_('COM_EASYSOCIAL_STREAM_GROUPS_NO_PERMISSIONS'), SOCIAL_MSG_ERROR);
+				$this->info->set($this->getMessage());
+				return $this->redirect(FRoute::dashboard(array(), false));
+			}
+
+// When posting stories into the stream, it should be made to the group
+			$story = FD::get('Story', SOCIAL_TYPE_PROJECT);
+			$story->setCluster($project->id, SOCIAL_TYPE_PROJECT);
+			$story->showPrivacy(false);
+			$stream->story 	= $story;
+
+//lets get the sticky posts 1st
+			$stickies = $stream->getStickies(array('clusterId' => $project->id, 'clusterType' 	=> SOCIAL_TYPE_PROJECT, 'limit' => 0));
+			if ($stickies) {
+				$stream->stickies = $stickies;
+			}
+
+			$stream->get(array('clusterId' => $project->id , 'clusterType' => SOCIAL_TYPE_PROJECT, 'nosticky' => true, 'startlimit' => $startlimit));
+		}
+
 		if ($filter == 'me') {
 			$stream->get( array('startlimit' => $startlimit) );
 		}
@@ -370,6 +402,8 @@ class EasySocialViewDashboard extends EasySocialSiteView
 		$this->set('title'	, $title);
 		$this->set('eventId', $eventId);
 		$this->set('events', $events);
+		$this->set('projectId', $projectId);
+		$this->set('projects', $projects);
 		$this->set('filterId', $filterId );
 		$this->set('appFilters', $appFilters );
 		$this->set('groupId', $groupId );
