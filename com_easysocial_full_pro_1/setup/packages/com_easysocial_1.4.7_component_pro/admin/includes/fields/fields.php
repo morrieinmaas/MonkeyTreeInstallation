@@ -259,6 +259,7 @@ class SocialFields
 	 * @param	string
 	 * @return
 	 */
+
 	public function renderWidgets($group, $view, $position, $args)
 	{
 		// Get the app that uses the unique key.
@@ -305,7 +306,7 @@ class SocialFields
 		// Check if the class exists in this context.
 		if( !class_exists( $className ) )
 		{
-			continue;
+			return;
 		}
 
 		$widgetObj 	= new $className();
@@ -447,6 +448,7 @@ class SocialFields
 	 *
 	 * @author	Mark Lee <mark@stackideas.com>
 	 */
+
 	public function getCoreManifest( $fieldGroup = SOCIAL_FIELDS_GROUP_USER , $apps )
 	{
 		// Ensure that it's an array.
