@@ -47,6 +47,12 @@ class SocialFieldTriggers
 	private $event = null;
 
 	/**
+	 * Stores the current project
+	 * @var String
+	 */
+	private $project = null;
+
+	/**
 	 * Stores the field library
 	 * @var SocialFields
 	 */
