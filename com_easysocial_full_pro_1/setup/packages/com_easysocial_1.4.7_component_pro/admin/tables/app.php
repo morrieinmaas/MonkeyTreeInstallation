@@ -1023,6 +1023,16 @@ class SocialTableApp extends SocialTable
 			unset($options['eventId']);
 		}
 
+		if (isset($options['projectId'])) {
+
+			$event = FD::event($options['projectId']);
+			$options['uid'] = $project->getAlias();
+			$options['type'] = SOCIAL_TYPE_PROJECT;
+
+			unset($options['projectId']);
+		}
+
+
 		$url 		= FRoute::apps($options);
 
 		return $url;

@@ -636,6 +636,10 @@ class SocialTableFile extends SocialTable
 			$view = 'events';
 		}
 
+		if ($this->type == SOCIAL_TYPE_PROJECT) {
+			$view = 'projects';
+		}
+
 		$task = 'download';
 
 		if ($customView) {

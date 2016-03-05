@@ -1709,6 +1709,10 @@ class SocialTablePhoto extends SocialTable implements ISocialIndexerTable, ISoci
             $options['uid'] = FD::event($this->uid)->getAlias();
         }
 
+        if ($this->type == SOCIAL_TYPE_PROJECT) {
+            $options['uid'] = FD::project($this->uid)->getAlias();
+        }
+
         if ($this->type == SOCIAL_TYPE_USER) {
             $options['uid'] = FD::user($this->uid)->getAlias();
         }
