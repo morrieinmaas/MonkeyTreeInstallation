@@ -241,6 +241,7 @@ class SocialFieldHandlers
 	 * @param  SocialFieldItem	$class	Field class item
 	 * @param  Array			$data	Arguments to pass when triggering event
 	 * @param  Array			$result Result of the returned value by triggered event
+	 * adding projects
 	 */
 	public function onAdminEditBeforeSave(&$class, &$data, &$result)
 	{
