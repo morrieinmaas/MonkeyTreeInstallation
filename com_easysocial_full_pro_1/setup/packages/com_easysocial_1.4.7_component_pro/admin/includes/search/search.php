@@ -222,6 +222,11 @@ class SocialSearch
 							$creatorColumn = 'creator_uid';
 							$objAdapter = FD::event($row->id);
 							break;
+					case 'EasySocial.Projects':
+						$group = 'projects';
+						$creatorColumn = 'creator_uid';
+						$objAdapter = FD::project($row->id);
+						break;
 					case 'EasySocial.Videos':
 							$group = 'videos';
 							$creatorColumn = 'user_id';

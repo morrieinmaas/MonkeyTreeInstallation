@@ -151,6 +151,12 @@ class SocialRouterActivities extends SocialRouterAdapter
             return $vars;
         }
 
+        // URL: http://site.com/menu/activities/projects
+        if ($total == 2 && $segments[1] == $this->translate('activities_type_projects')) {
+            $vars['type'] = 'projects';
+            return $vars;
+        }
+
         // URL: http://site.com/menu/activities/badges
         if ($total == 2 && $segments[1] == $this->translate('activities_type_badges')) {
             $vars['type'] = 'badges';

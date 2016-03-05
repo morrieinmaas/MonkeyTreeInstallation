@@ -88,6 +88,14 @@ class SocialRouterDashboard extends SocialRouterAdapter
 			unset($query['eventId']);
 		}
 
+		// There could be a possibility that this is filter by projects
+		$projectId = isset($query['projectId']) ? $query['projectId'] : '';
+
+		if ($projectId) {
+			$segments[]	= $projectId;
+			unset($query['projectId']);
+		}
+
 		// Translate list id in the query string
 		$listId = isset($query['listId']) ? $query['listId'] : '';
 
@@ -199,6 +207,20 @@ class SocialRouterDashboard extends SocialRouterAdapter
 			$vars['view']	= 'dashboard';
 			$vars['type']	= 'event';
 			$vars['eventId'] = $this->getIdFromPermalink($segments[2]);
+
+			if ($this->doc->getType() != 'html') {
+				$vars['filter'] = $vars['type'];
+				unset($vars['type']);
+			}
+
+			return $vars;
+		}
+
+		// URL: http://site.com/menu/dashboard/group/ID-xxxx
+		if ($total == 3 && $segments[ 1 ] == $this->translate('dashboard_project')) {
+			$vars['view']	= 'dashboard';
+			$vars['type']	= 'project';
+			$vars['projectId'] = $this->getIdFromPermalink($segments[2]);
 
 			if ($this->doc->getType() != 'html') {
 				$vars['filter'] = $vars['type'];
