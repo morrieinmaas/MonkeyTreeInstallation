@@ -126,6 +126,7 @@ class SocialStream
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_USER, 'onBeforeStreamDelete', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_GROUP, 'onBeforeStreamDelete', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_EVENT, 'onBeforeStreamDelete', $args);
+		$dispatcher->trigger(SOCIAL_APPS_GROUP_PROJECT, 'onBeforeStreamDelete', $args);
 
 		$model 	= FD::model('Stream');
 
@@ -135,6 +136,8 @@ class SocialStream
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_USER, 'onAfterStreamDelete', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_GROUP, 'onAfterStreamDelete', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_EVENT, 'onAfterStreamDelete', $args);
+		$dispatcher->trigger(SOCIAL_APPS_GROUP_PROJECT, 'onAfterStreamDelete', $args);
+
 	}
 
 	/**
@@ -988,6 +991,13 @@ class SocialStream
 							$url = FRoute::events(array('layout' => 'item', 'id' => $event->getAlias(), 'tag' => $alias));
 							break;
 
+						case SOCIAL_TYPE_PROJECT:
+							$project = new SocialProject();
+							$project->bind($object);
+
+							$url = FRoute::projects(array('layout' => 'item', 'id' => $project->getAlias(), 'tag' => $alias));
+							break;
+
 						default:
 							FRoute::dashboard(array('layout' => 'hashtag' , 'tag' => $alias));
 							break;
@@ -1303,6 +1313,9 @@ class SocialStream
 			if ($view == 'events') {
 				$params .= '&layout=item';
 			}
+			if ($view == 'projects') {
+				$params .= '&layout=item';
+			}
 			if ($view=='profile') {
 				$params .= '&layout=timeline';
 			}
@@ -1328,12 +1341,14 @@ class SocialStream
 
 			if (JRequest::getVar('id', '')) {
 
-				if ($view=='profile' || $view=='profiles' || $view=='groups' || $view=='events') {
+				if ($view=='profile' || $view=='profiles' || $view=='groups' || $view=='events' || $view=='projects') {
 					$params .= '&id=' . JRequest::getVar('id');
 				} else if ($type == 'group') {
 					$params .= '&groupId=' . JRequest::getVar('id');
 				} else if ($type == 'event') {
 					$params .= '&eventId=' . JRequest::getVar('id');
+				} else if ($type == 'project') {
+					$params .= '&projectId=' . JRequest::getVar('id');
 				} else {
 					$params .= '&filterid=' . JRequest::getVar('id');
 				}
@@ -1348,6 +1363,8 @@ class SocialStream
 			} else if ( $type == 'apps' ) {
 				$params .= '&app=' . JRequest::getVar('id');
 			} else if ($type == 'event') {
+				$params .= '&type=' . $type;
+			} else if ($type == 'project') {
 				$params .= '&type=' . $type;
 			} else if ( $type == 'group') {
 				$params .= '&type=' . $type;
@@ -1369,15 +1386,22 @@ class SocialStream
 					$params .= '&eventId=' . JRequest::getVar('eventId');
 				}
 
+				if(JRequest::getVar('projectId', '')) {
+					$params .= '&projectId=' . JRequest::getVar('projectId');
+				}
+
 				if(JRequest::getVar('groupId', '')) {
 					$params .= '&groupId=' . JRequest::getVar('groupId');
 				}
 			}
 
 			if (JRequest::getVar('id', '')) {
-				if ($view=='profile' || $view=='profiles' || $view=='groups' || $view=='events') {
+				if ($view=='profile' || $view=='profiles' || $view=='groups' || $view=='events' || $view=='projects') {
 					if ($view == 'events' && JRequest::getVar('eventId', '')) {
 						$params .= '&id=' . JRequest::getVar('eventId');
+
+					} elseif ($view == 'projects' && JRequest::getVar('ProjectId', '')) {
+						$params .= '&id=' . JRequest::getVar('projectId');
 
 					} else {
 						$params .= '&id=' . JRequest::getVar('id');
@@ -1392,7 +1416,13 @@ class SocialStream
 					$params .= '&eventId=' . JRequest::getVar('id');
 
 
-				} else if($type == 'list') {
+				} else if ($type == 'project') {
+
+				$params .= '&projectId=' . JRequest::getVar('id');
+
+				}
+
+				else if($type == 'list') {
 					$params .= '&listId=' . JRequest::getVar('id');
 				} else {
 
@@ -2072,7 +2102,7 @@ class SocialStream
 		$group = SOCIAL_APPS_GROUP_USER;
 
 		// If it is in the group view we should render the apps based on the appropriate group
-		if ($view && ($view == 'groups' || $view == 'events' || $view == 'stream') && $item->cluster_type) {
+		if ($view && ($view == 'groups' || $view == 'events' || $view == 'stream' || $view == 'projects') && $item->cluster_type) {
 			$group = $item->cluster_type;
 		}
 

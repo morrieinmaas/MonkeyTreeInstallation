@@ -62,6 +62,13 @@ abstract class AbstractClient extends Client implements AwsClientInterface
             'client.credentials_changed',
         ));
     }
+    public static function getAllProjects()
+    {
+        return array_merge(Client::getAllProjects(), array(
+            'client.region_changed',
+            'client.credentials_changed',
+        ));
+    }
 
     /**
      * @param CredentialsInterface $credentials AWS credentials
