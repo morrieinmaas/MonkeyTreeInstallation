@@ -245,6 +245,8 @@ define('SOCIAL_TYPE_ACTIVITY', 'activity');
 define('SOCIAL_TYPE_FILES', 'files');
 define('SOCIAL_TYPE_EVENT', 'event');
 define('SOCIAL_TYPE_EVENTS', 'events');
+define('SOCIAL_TYPE_PROJECT', 'project');
+define('SOCIAL_TYPE_PROJECTS', 'projects');
 define('SOCIAL_TYPE_POLLS', 'polls');
 define('SOCIAL_TYPE_VIDEO', 'video');
 define('SOCIAL_TYPE_VIDEOS', 'videos');

@@ -20,7 +20,7 @@ require_once( dirname( __FILE__ ) . '/abstract.php' );
  * @access	public
  *
  */
-class SocialAlbumsAdapterproject extends SocialAlbumsAdapter
+class SocialAlbumsAdapterProject extends SocialAlbumsAdapter
 {
 	private $project = null;
 
@@ -52,7 +52,7 @@ class SocialAlbumsAdapterproject extends SocialAlbumsAdapter
 	public function isValidNode()
 	{
 		if (!$this->project || !$this->project->id) {
-			$this->lib->setError(JText::_('COM_EASYSOCIAL_ALBUMS_project_INVALID_project_ID_PROVIDED'));
+			$this->lib->setError(JText::_('COM_EASYSOCIAL_ALBUMS_PROJECT_INVALID_PROJECT_ID_PROVIDED'));
 			return false;
 		}
 
@@ -69,7 +69,7 @@ class SocialAlbumsAdapterproject extends SocialAlbumsAdapter
 	 */
 	public function getViewAlbumsLink($xhtml = true)
 	{
-		$url = FRoute::albums(array('uid' => $this->project->getAlias(), 'type' => SOCIAL_TYPE_project), $xhtml);
+		$url = FRoute::albums(array('uid' => $this->project->getAlias(), 'type' => SOCIAL_TYPE_PROJECT), $xhtml);
 
 		return $url;
 	}
@@ -394,7 +394,7 @@ class SocialAlbumsAdapterproject extends SocialAlbumsAdapter
 	 */
 	public function getCreateLink()
 	{
-		$url = FRoute::albums(array('layout' => 'form', 'uid' => $this->project->getAlias(), 'type' => SOCIAL_TYPE_project));
+		$url = FRoute::albums(array('layout' => 'form', 'uid' => $this->project->getAlias(), 'type' => SOCIAL_TYPE_PROJECT));
 
 		return $url;
 	}
