@@ -125,3 +125,18 @@ CREATE TABLE IF NOT EXISTS `#__social_events_meta` (
   KEY `idx_upcoming_reminder` (`reminder`,`start`),
   KEY `idx_start` (`start`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `#__social_projects_meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cluster_id` int(11) NOT NULL COMMENT 'The project cluster id',
+  `start` datetime NOT NULL COMMENT 'The start datetime of the project',
+  `end` datetime NOT NULL COMMENT 'The end datetime of the project',
+  `timezone` varchar(255) NOT NULL COMMENT 'The optional timezone of the project for datetime calculation',
+  `all_day` tinyint(3) NOT NULL COMMENT 'Flag if this project is an all day project',
+  `group_id` int(11) NOT NULL COMMENT 'The group id if this is a group project',
+  `reminder` int(11) NULL default 0 COMMENT 'the number of days before the actual project date',
+  PRIMARY KEY (`id`),
+  KEY `cluster_id` (`cluster_id`),
+  KEY `idx_reminder` (`reminder`),
+  KEY `idx_upcoming_reminder` (`reminder`,`start`),
+  KEY `idx_start` (`start`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

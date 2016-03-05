@@ -773,6 +773,20 @@ class EasySocialControllerStream extends EasySocialController
 			$stream->get($streamOptions);
 		}
 
+
+		//project category
+		if( $type == 'projectcategory' )
+		{
+			$uid = JRequest::getVar( 'id', '');
+			$stream->get(
+				array(
+					'clusterCategory' 	=> $uid,
+					'clusterType' => SOCIAL_TYPE_PROJECT,
+					'startlimit' => $startlimit
+				)
+			);
+		}
+
 		//event category
 		if( $type == 'eventcategory' )
 		{
@@ -786,7 +800,7 @@ class EasySocialControllerStream extends EasySocialController
 						);
 		}
 
-		//event category
+		//group category
 		if( $type == 'groupcategory' )
 		{
 			$uid = JRequest::getVar( 'id', '');
@@ -800,7 +814,7 @@ class EasySocialControllerStream extends EasySocialController
 		}
 
 		//cluster types
-		$clusters = array( SOCIAL_TYPE_GROUP, SOCIAL_TYPE_EVENT );
+		$clusters = array( SOCIAL_TYPE_GROUP, SOCIAL_TYPE_EVENT, SOCIAL_TYPE_PROJECT );
 
 		if( in_array( $type , $clusters ) )
 		{
@@ -1070,6 +1084,11 @@ class EasySocialControllerStream extends EasySocialController
 
 				if ($item->cluster_type == 'group') {
 					$cluster = FD::group($item->cluster_id);
+				}
+
+
+				if ($item->cluster_type == 'project') {
+					$cluster = FD::project($item->cluster_id);
 				}
 
 				if ($item->cluster_type == 'event') {

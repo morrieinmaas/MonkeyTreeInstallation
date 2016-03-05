@@ -123,6 +123,25 @@ function getEventCategoryAlias($id)
 	return $categories[$id];
 }
 
+function getProjectCategoryAlias($id)
+{
+	static $categories = array();
+
+	// Ensure that the id is purely an integer
+	if (!isset($categories[$id])) {
+
+		$category = FD::table('ProjectCategory');
+		$category->load($id);
+
+		$alias = $category->getAlias();
+		$alias = str_ireplace(':', '-', $alias);
+
+		$categories[$id]	= $alias;
+	}
+
+	return $categories[$id];
+}
+
 function getVideoAlias($id)
 {
 	// Ensure that it's typecasted appropriately.
@@ -172,6 +191,23 @@ function getEventAlias($id)
 	}
 
 	return $events[$id];
+}
+
+function getProjectAlias($id)
+{
+	static $projects 	= array();
+
+	// Ensure that the id is purely an integer
+	if (!isset($projects[$id])) {
+		$project = FD::project($id);
+		// We need to replace : with - since SH404 correctly processes it.
+		$alias = $project->getAlias();
+		$alias = str_ireplace(':', '-', $alias);
+
+		$projects[$id]	= $alias;
+	}
+
+	return $projects[$id];
 }
 
 function getUserAlias( $id )

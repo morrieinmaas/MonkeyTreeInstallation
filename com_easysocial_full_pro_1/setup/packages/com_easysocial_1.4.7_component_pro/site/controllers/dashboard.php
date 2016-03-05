@@ -105,6 +105,26 @@ class EasySocialControllerDashboard extends EasySocialController
 			$stream->get(array('clusterId' => $id , 'clusterType' => SOCIAL_TYPE_EVENT, 'nosticky' => true));
 		}
 
+		// Filter stream items by project
+		if ($type == 'project') {
+			$id    = $this->input->get('id', 0, 'int');
+			$project = FD::project($id);
+
+			// Check if the user is a member of the group
+			if (!$project->getGuest()->isGuest() && !$this->my->isSiteAdmin()) {
+				$this->view->setMessage(JText::_('COM_EASYSOCIAL_STREAM_PROJECTS_NO_PERMISSIONS'), SOCIAL_MSG_ERROR);
+				return $this->view->call(__FUNCTION__, $stream, $type);
+			}
+
+			//lets get the sticky posts 1st
+			$stickies = $stream->getStickies(array('clusterId' => $id, 'clusterType' 	=> SOCIAL_TYPE_PROJECT, 'limit' => 0));
+			if ($stickies) {
+				$stream->stickies = $stickies;
+			}
+
+			$stream->get(array('clusterId' => $id , 'clusterType' => SOCIAL_TYPE_PROJECT, 'nosticky' => true));
+		}
+
 		if ($type == 'group') {
 
 			$id    = $this->input->get('id', 0, 'int');

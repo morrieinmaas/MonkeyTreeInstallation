@@ -41,6 +41,10 @@ if (isset($type)) {
 			$alias = getEventAlias($uid);
 		}
 
+		if ($type == SOCIAL_TYPE_PROJECT) {
+			$alias = getProjectAlias($uid);
+		}
+
 		$title[] = $alias;
 
 		shRemoveFromGETVarsList('uid');

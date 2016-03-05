@@ -1,0 +1,164 @@
+[
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_CREATE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_CREATE_DESC",
+        "alias"         : "projects-create",
+        "command"       : "projects.create",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 5
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_UPDATE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_UPDATE_DESC",
+        "alias"         : "projects-update",
+        "command"       : "projects.update",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 2
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_REMOVED",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_REMOVED_DESC",
+        "alias"         : "projects-remove",
+        "command"       : "projects.remove",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -5
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_INVITE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_INVITE_DESC",
+        "alias"         : "projects-invite",
+        "command"       : "projects.invite",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_GOING",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_GOING_DESC",
+        "alias"         : "projects-going",
+        "command"       : "projects.going",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 2
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_NOTGOING",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_NOTGOING_DESC",
+        "alias"         : "projects-notgoing",
+        "command"       : "projects.notgoing",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -2
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_CREATE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_CREATE_DESC",
+        "alias"         : "projects-discussion-create",
+        "command"       : "projects.discussion.create",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_DELETE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_DELETE_DESC",
+        "alias"         : "projects-discussion-delete",
+        "command"       : "projects.discussion.delete",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_ANSWER",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_ANSWER_DESC",
+        "alias"         : "projects-discussion-answer",
+        "command"       : "projects.discussion.answer",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_REPLY",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_DISCUSSION_REPLY_DESC",
+        "alias"         : "projects-discussion-reply",
+        "command"       : "projects.discussion.reply",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_NEWS_CREATE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_NEWS_CREATE_DESC",
+        "alias"         : "projects-news-create",
+        "command"       : "projects.news.create",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_NEWS_DELETE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_NEWS_DELETE_DESC",
+        "alias"         : "projects-news-delete",
+        "command"       : "projects.news.delete",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_MILESTONE_CREATE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_MILESTONE_CREATE_DESC",
+        "alias"         : "projects-milestone-create",
+        "command"       : "projects.milestone.create",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_MILESTONE_DELETE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_MILESTONE_DELETE_DESC",
+        "alias"         : "projects-milestone-delete",
+        "command"       : "projects.milestone.delete",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_CREATE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_CREATE_DESC",
+        "alias"         : "projects-task-create",
+        "command"       : "projects.task.create",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_DELETE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_DELETE_DESC",
+        "alias"         : "projects-task-delete",
+        "command"       : "projects.task.delete",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_RESOLVE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_RESOLVE_DESC",
+        "alias"         : "projects-task-resolve",
+        "command"       : "projects.task.resolve",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : 1
+    },
+    {
+        "title"         : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_UNRESOLVE",
+        "description"   : "COM_EASYSOCIAL_POINTS_PROJECTS_TASK_UNRESOLVE_DESC",
+        "alias"         : "projects-task-unresolve",
+        "command"       : "projects.task.unresolve",
+        "extension"     : "com_easysocial",
+        "state"         : true,
+        "points"        : -1
+    }
+]
