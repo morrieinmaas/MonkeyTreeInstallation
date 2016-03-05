@@ -32,6 +32,8 @@ class EasySocialModelAccessLogs extends EasySocialModel
 
 		$isEvent = $rule == 'events.limit' ? true : false;
 
+		$isProject = $rule == 'projects.limit' ? true : false;
+
 
 		$query = "select count(1) from `#__social_access_logs` as a";
 
@@ -44,6 +46,18 @@ class EasySocialModelAccessLogs extends EasySocialModel
 			// if this is an event limit checking, we need to join with event meta table as we only want to count
 			// ongoing event and upcoming event.
 			$query .= " inner join `#__social_events_meta` as b on a.`uid` = b.`cluster_id` and (b.`start` >= " . $db->Quote($start) . " OR";
+			$query .= " (b.`start` <= " . $db->Quote($now) . " AND b.`end` >= " . $db->Quote($now) . "))";
+		}
+
+		if ($isProject) {
+			$now = FD::date()->toMySQL();
+
+			$parts = explode(' ', $now);
+			$start = $parts[0] . ' 00:00:00';
+			$end = $parts[0] . ' 23:59:59';
+			// if this is an project limit checking, we need to join with project meta table as we only want to count
+			// ongoing project and upcoming project.
+			$query .= " inner join `#__social_projects_meta` as b on a.`uid` = b.`cluster_id` and (b.`start` >= " . $db->Quote($start) . " OR";
 			$query .= " (b.`start` <= " . $db->Quote($now) . " AND b.`end` >= " . $db->Quote($now) . "))";
 		}
 

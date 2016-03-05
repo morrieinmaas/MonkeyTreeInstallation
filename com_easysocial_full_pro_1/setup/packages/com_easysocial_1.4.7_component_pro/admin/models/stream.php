@@ -1820,7 +1820,7 @@ class EasySocialModelStream extends EasySocialModel
 				$streamContexts[] = $row->context_type;
 				$lastItemDate 	= $row->modified;
 
-				if ($row->cluster_type == SOCIAL_TYPE_GROUP || $row->cluster_type == SOCIAL_TYPE_EVENT) {
+				if ($row->cluster_type == SOCIAL_TYPE_GROUP || $row->cluster_type == SOCIAL_TYPE_EVENT || $row->cluster_type == SOCIAL_TYPE_PROJECT) {
 					$clusterIds[] = $row->cluster_id;
 				}
 			}

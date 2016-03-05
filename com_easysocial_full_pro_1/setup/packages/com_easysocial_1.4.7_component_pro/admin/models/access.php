@@ -103,6 +103,11 @@ class EasySocialModelAccess extends EasySocialModel
 				$group = SOCIAL_TYPE_EVENT;
 				$type = SOCIAL_TYPE_CLUSTERS;
 			break;
+
+			case SOCIAL_TYPE_PROJECT:
+				$group = SOCIAL_TYPE_PROJECT;
+				$type = SOCIAL_TYPE_CLUSTERS;
+				break;
 		}
 
 		$rules = $model->getAllRules(array(

@@ -1167,7 +1167,7 @@ class EasySocialModelSearch extends EasySocialModel
 	    $my     = FD::user();
 	    $config = FD::config();
 
-	    $coreType = array( SOCIAL_INDEXER_TYPE_USERS, SOCIAL_INDEXER_TYPE_PHOTOS, SOCIAL_INDEXER_TYPE_LISTS,  SOCIAL_INDEXER_TYPE_GROUPS, SOCIAL_INDEXER_TYPE_EVENTS );
+	    $coreType = array( SOCIAL_INDEXER_TYPE_USERS, SOCIAL_INDEXER_TYPE_PHOTOS, SOCIAL_INDEXER_TYPE_LISTS,  SOCIAL_INDEXER_TYPE_GROUPS, SOCIAL_INDEXER_TYPE_EVENTS, SOCIAL_INDEXER_TYPE_PROJECTS );
 
 		if( empty( $keywords ) )
 			return;
@@ -1261,6 +1261,13 @@ class EasySocialModelSearch extends EasySocialModel
 		$query .= ' where `utype` = ' . $db->Quote( SOCIAL_INDEXER_TYPE_EVENTS );
 		$query .= ' and (' . $where . ')';
 		if( $type == '' || $type == SOCIAL_INDEXER_TYPE_EVENTS)
+			$mainQuery[] = $query;
+
+		// projects
+		$query = 'select a.* FROM `#__social_indexer` as a';
+		$query .= ' where `utype` = ' . $db->Quote( SOCIAL_INDEXER_TYPE_PROJECTS );
+		$query .= ' and (' . $where . ')';
+		if( $type == '' || $type == SOCIAL_INDEXER_TYPE_PROJECTS)
 			$mainQuery[] = $query;
 
 		// others

@@ -943,6 +943,10 @@ class EasySocialModelFields extends EasySocialModel
 					$stepType = SOCIAL_TYPE_CLUSTERS;
 					break;
 
+				case SOCIAL_TYPE_PROJECT:
+					$stepType = SOCIAL_TYPE_CLUSTERS;
+					break;
+
 				default:
 				case SOCIAL_TYPE_USER:
 					$stepType = SOCIAL_TYPE_PROFILES;

@@ -574,6 +574,36 @@ class EasySocialModelApps extends EasySocialModel
 		return $apps;
 	}
 
+	public function getProjectApps($projectId)
+	{
+		$db 	= FD::db();
+		$sql 	= $db->sql();
+
+		$sql->select('#__social_apps');
+
+		$sql->where('group', SOCIAL_TYPE_PROJECT);
+		$sql->where('state', SOCIAL_STATE_PUBLISHED);
+		$sql->where('type', SOCIAL_APPS_TYPE_APPS);
+		$sql->where('system', SOCIAL_STATE_PUBLISHED, '!=');
+
+		$db->setQuery($sql);
+		$result = $db->loadObjectList();
+
+		$apps = array();
+
+		foreach ($result as $row) {
+			$app = FD::table('App');
+			$app->bind($row);
+
+			// Check if the apps should really have such view
+			if ($app->appListing('projects', $projectId, SOCIAL_TYPE_PROJECT)) {
+				$apps[] = $app;
+			}
+		}
+
+		return $apps;
+	}
+
 	/**
 	 * Returns a list of field type applications that are installed and published.
 	 *
