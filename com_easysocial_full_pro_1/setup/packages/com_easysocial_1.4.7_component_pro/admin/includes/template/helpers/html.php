@@ -38,6 +38,11 @@ class ThemesHelperHTML
 			$theme->set('event', $obj);
 			$output = $theme->output('site/events/mini.header');
 		}
+		if ($obj instanceof SocialProject) {
+
+			$theme->set('project', $obj);
+			$output = $theme->output('site/projects/mini.header');
+		}
 
 		return $output;
 	}
@@ -139,6 +144,27 @@ class ThemesHelperHTML
 		$theme->set('event', $event);
 
 		$output = $theme->output('admin/html/html.event');
+
+		return $output;
+	}
+
+	public static function project($obj, $popbox = false, $popboxPosition = 'top-left')
+	{
+		if (!is_object($obj)) {
+			$event = FD::project($obj);
+		}
+
+		if ($obj instanceof SocialProject) {
+			$project = $obj;
+		}
+
+		$theme = FD::themes();
+
+		$theme->set('popbox', $popbox);
+		$theme->set('position', $popboxPosition);
+		$theme->set('project', $project);
+
+		$output = $theme->output('admin/html/html.project');
 
 		return $output;
 	}
