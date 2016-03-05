@@ -1637,6 +1637,34 @@ class SocialGroup extends SocialCluster
 		return false;
 	}
 
+	public function canCreateProject($userId = null)
+	{
+		if (is_null($userId)) {
+			$userId = FD::user()->id;
+		}
+
+		if ($this->isOwner($userId) || FD::user()->getAccess()->get('projects.create') || FD::user($userId)->isSiteAdmin()) {
+			return true;
+		}
+
+		// Check access
+		if (!$this->getAccess()->get('projects.groupproject', true)) {
+			return false;
+		}
+
+		$allowed = FD::makeArray($this->getParams()->get('projectcreate', '[]'));
+
+		if (in_array('admin', $allowed) && $this->isAdmin($userId)) {
+			return true;
+		}
+
+		if (in_array('member', $allowed) && $this->isMember($userId)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function copyAvatar($targetGroupId)
 	{
 		// get avatar from target group
