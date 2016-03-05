@@ -117,6 +117,7 @@ define('SOCIAL_APPS_ICON_SMALL', 'small');
 define('SOCIAL_APPS_GROUP_USER', 'user');
 define('SOCIAL_APPS_GROUP_GROUP', 'group');
 define('SOCIAL_APPS_GROUP_EVENT', 'event');
+define('SOCIAL_APPS_GROUP_PROJECT', 'project');
 
 // States
 define('SOCIAL_STATE_TRASHED', -1);
@@ -297,6 +298,7 @@ define('SOCIAL_THEME_COMPILE_CACHE', 'cache');
 define('SOCIAL_FIELDS_GROUP_USER', 'user');
 define('SOCIAL_FIELDS_GROUP_GROUP', 'group');
 define('SOCIAL_FIELDS_GROUP_EVENT', 'event');
+define('SOCIAL_FIELDS_GROUP_PROJECT', 'project');
 define('SOCIAL_FIELDS_PREFIX', 'es-fields-');
 
 // Profiles
@@ -378,6 +380,7 @@ define('SOCIAL_INDEXER_TYPE_PHOTOS', 'photos');
 define('SOCIAL_INDEXER_TYPE_ALBUMS', 'albums');
 define('SOCIAL_INDEXER_TYPE_GROUPS', 'groups');
 define('SOCIAL_INDEXER_TYPE_EVENTS', 'events');
+define('SOCIAL_INDEXER_TYPE_PROJECTS', 'projects');
 
 // Album constants
 define('SOCIAL_ALBUM_PROFILE_PHOTOS', 1);

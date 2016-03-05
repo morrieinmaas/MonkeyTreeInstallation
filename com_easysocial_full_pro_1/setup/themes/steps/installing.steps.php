@@ -81,6 +81,13 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 	<span class="progress-state text-info"><?php echo JText::_('COM_EASYSOCIAL_INSTALLATION_INITIALIZING');?></span>
 	<div class="notes"></div>
 </li>
+<li class="pending" data-progress-projectapps>
+	<b class="split__title">
+		<?php echo JText::_('COM_EASYSOCIAL_INSTALLATION_INITIALIZING_PROJECT_APPS');?>
+	</b>
+	<span class="progress-state text-info"><?php echo JText::_('COM_EASYSOCIAL_INSTALLATION_INITIALIZING');?></span>
+	<div class="notes"></div>
+</li>
 <li class="pending" data-progress-userfields>
 	<b class="split__title">
 		<?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING_USER_FIELDS' );?>
@@ -95,13 +102,6 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 	<span class="progress-state text-info"><?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING' );?></span>
 	<div class="notes"></div>
 </li>
-<li class="pending" data-progress-eventfields>
-	<b class="split__title">
-		<?php echo JText::_('COM_EASYSOCIAL_INSTALLATION_INITIALIZING_EVENT_FIELDS');?>
-	</b>
-	<span class="progress-state text-info"><?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING' );?></span>
-	<div class="notes"></div>
-</li>
 <li class="pending" data-progress-plugins>
 	<b class="split__title">
 		<?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING_PLUGINS' );?>
@@ -112,6 +112,20 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 <li class="pending" data-progress-modules>
 	<b class="split__title">
 		<?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING_MODULES' );?>
+	</b>
+	<span class="progress-state text-info"><?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING' );?></span>
+	<div class="notes"></div>
+</li>
+<li class="pending" data-progress-eventfields>
+	<b class="split__title">
+		<?php echo JText::_('COM_EASYSOCIAL_INSTALLATION_INITIALIZING_EVENT_FIELDS');?>
+	</b>
+	<span class="progress-state text-info"><?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING' );?></span>
+	<div class="notes"></div>
+</li>
+<li class="pending" data-progress-projectfields>
+	<b class="split__title">
+		<?php echo JText::_('COM_EASYSOCIAL_INSTALLATION_INITIALIZING_PROJECT_FIELDS');?>
 	</b>
 	<span class="progress-state text-info"><?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING' );?></span>
 	<div class="notes"></div>
@@ -161,6 +175,13 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 <li class="pending" data-progress-eventcategories>
 	<b class="split__title">
 		<?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING_EVENT_CATEGORIES' );?>
+	</b>
+	<span class="progress-state text-info"><?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING' );?></span>
+	<div style="text-align:left;margin-left: 0;" class="notes"></div>
+</li>
+<li class="pending" data-progress-projectcategories>
+	<b class="split__title">
+		<?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING_PROJECT_CATEGORIES' );?>
 	</b>
 	<span class="progress-state text-info"><?php echo JText::_( 'COM_EASYSOCIAL_INSTALLATION_INITIALIZING' );?></span>
 	<div style="text-align:left;margin-left: 0;" class="notes"></div>

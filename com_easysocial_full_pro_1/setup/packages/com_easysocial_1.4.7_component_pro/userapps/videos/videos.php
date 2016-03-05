@@ -746,6 +746,10 @@ class SocialUserAppVideos extends SocialAppItem
                 return false;
             }
 
+            if ($cluster->getType() == SOCIAL_TYPE_PROJECT && !$cluster->isOpen() && !$cluster->getGuest()->isGuest()) {
+                return false;
+            }
+
             // If the cluster is not public, sharing should be disabled
             if (!$cluster->isOpen()) {
                 $stream->sharing = false;
@@ -758,6 +762,11 @@ class SocialUserAppVideos extends SocialAppItem
             }
 
             if ($cluster->getType() == SOCIAL_TYPE_EVENT) {
+                $stream->color = '#f06050';
+                $stream->fonticon = 'ies-calendar';
+            }
+
+            if ($cluster->getType() == SOCIAL_TYPE_PROJECT) {
                 $stream->color = '#f06050';
                 $stream->fonticon = 'ies-calendar';
             }
