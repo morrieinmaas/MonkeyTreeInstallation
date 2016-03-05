@@ -232,6 +232,9 @@ class SocialNotification extends JObject
 			// @trigger onNotificationLoad from event apps
 			$dispatcher->trigger(SOCIAL_APPS_GROUP_EVENT, 'onNotificationLoad', $args, $type);
 
+			// @trigger onNotificationLoad from project apps
+			$dispatcher->trigger(SOCIAL_APPS_GROUP_PROJECT, 'onNotificationLoad', $args, $type);
+
 			// If an app lets us know that they want to exclude the stream, we should exclude it.
 			if (isset($item->exclude) && $item->exclude) {
 				continue;
@@ -284,6 +287,8 @@ class SocialNotification extends JObject
 
 			// @trigger onNotificationLoad
 			$dispatcher->trigger(SOCIAL_APPS_GROUP_EVENT, 'onNotificationLoad', $args);
+
+			$dispatcher->trigger(SOCIAL_APPS_GROUP_PROJECT, 'onNotificationLoad', $args);
 
 			// If an app lets us know that they want to exclude the stream, we should exclude it.
 			if (isset($item->exclude) && $item->exclude) {
