@@ -293,6 +293,10 @@ class SocialUserAppLinks extends SocialAppItem
 				$cluster = FD::event($stream->cluster_id);
 			}
 
+			if ($stream->cluster_type == SOCIAL_APPS_GROUP_PROJECT) {
+				$cluster = FD::project($stream->cluster_id);
+			}
+
 			if (!$cluster) {
 				return;
 			}
@@ -439,6 +443,12 @@ class SocialUserAppLinks extends SocialAppItem
 				$stream->color = '#f06050';
 				$stream->fonticon = 'fa fa-calendar';
 				$stream->label = FD::_('APP_USER_EVENTS_STREAM_TOOLTIP', true);
+			}
+
+			if ($stream->cluster_type == SOCIAL_APPS_GROUP_PROJECT) {
+				$stream->color = '#f06050';
+				$stream->fonticon = 'fa fa-calendar';
+				$stream->label = FD::_('APP_USER_PROJECTS_STREAM_TOOLTIP', true);
 			}
 
 			$this->set('cluster', $cluster);

@@ -257,6 +257,13 @@ class SocialUserAppFiles extends SocialAppItem
 				$item->label = FD::_('APP_USER_EVENTS_STREAM_TOOLTIP', true);
 			}
 
+
+			if ($item->cluster_type == SOCIAL_TYPE_PROJECT) {
+				$item->color = '#f06050';
+				$item->fonticon = 'fa fa-calendar';
+				$item->label = FD::_('APP_USER_PROJECTS_STREAM_TOOLTIP', true);
+			}
+
 			if ($item->verb == 'uploaded') {
 				$this->prepareUploadedStream($item);
 			}
