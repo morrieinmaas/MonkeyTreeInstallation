@@ -11,4 +11,4 @@
 */
 defined('_JEXEC') or die('Unauthorized Access');
 ?>
-<?php echo JText::sprintf(FD::string()->computeNoun('APP_USER_EVENTS_TASKS_STREAM_TITLE_ADDED_TASK', $total), $this->html('html.user', $actor), $total, '<a href="' . $permalink . '">' . $milestone->get('title') . '</a>', $this->html('html.event', $event));
+<?php echo JText::sprintf(FD::string()->computeNoun('APP_USER_PROJECTS_TASKS_STREAM_TITLE_ADDED_TASK', $total), $this->html('html.user', $actor), $total, '<a href="' . $permalink . '">' . $milestone->get('title') . '</a>', $this->html('html.project', $project));

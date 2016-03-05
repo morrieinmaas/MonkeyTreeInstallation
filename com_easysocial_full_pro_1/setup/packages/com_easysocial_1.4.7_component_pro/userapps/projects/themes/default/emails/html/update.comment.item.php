@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Unauthorized Access');
     <td style="text-align: center;padding: 40px 10px 0;">
         <div style="margin-bottom:15px;">
             <div style="font-family:Arial;font-size:32px;font-weight:normal;color:#333;display:block; margin: 4px 0">
-                <?php echo JText::sprintf('APP_USER_EVENTS_EMAILS_UPDATE_COMMENT_ITEM_TITLE', $actor); ?>
+                <?php echo JText::sprintf('APP_USER_PROJECTS_EMAILS_UPDATE_COMMENT_ITEM_TITLE', $actor); ?>
             </div>
         </div>
     </td>
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Unauthorized Access');
                     </p>
 
                     <p style="text-align:left;">
-                        <?php echo JText::sprintf('APP_USER_EVENTS_EMAILS_UPDATE_COMMENT_ITEM_CONTENT', $actor); ?>
+                        <?php echo JText::sprintf('APP_USER_PROJECTS_EMAILS_UPDATE_COMMENT_ITEM_CONTENT', $actor); ?>
                     </p>
                 </td>
             </tr>

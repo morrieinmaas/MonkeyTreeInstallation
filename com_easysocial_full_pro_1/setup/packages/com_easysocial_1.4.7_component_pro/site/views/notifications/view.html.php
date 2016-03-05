@@ -105,6 +105,7 @@ class EasySocialViewNotifications extends EasySocialSiteView
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_USER, 'onBeforeNotificationRedirect', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_GROUP, 'onBeforeNotificationRedirect', $args);
 		$dispatcher->trigger(SOCIAL_APPS_GROUP_EVENT, 'onBeforeNotificationRedirect', $args);
+		$dispatcher->trigger(SOCIAL_APPS_GROUP_PROJECT, 'onBeforeNotificationRedirect', $args);
 
 		// Ensure that all &amp; are replaced with &
 		$url = str_ireplace('&amp;', '&', $table->url);

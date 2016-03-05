@@ -12,12 +12,12 @@
 defined('_JEXEC') or die('Unauthorized Access');
 
 /**
- * Dashboard widget for event
+ * Dashboard widget for project
  *
  * @since   1.0
  * @access  public
  */
-class EventsWidgetsDashboard extends SocialAppsWidgets
+class ProjectsWidgetsDashboard extends SocialAppsWidgets
 {
     public function sidebarBottom()
     {
@@ -52,16 +52,16 @@ class EventsWidgetsDashboard extends SocialAppsWidgets
 
         $options['ordering'] = 'start';
 
-        $events = FD::model('Events')->getEvents($options);
+        $projects = FD::model('Projects')->getProjects($options);
 
-        if (empty($events)) {
+        if (empty($projects)) {
             return;
         }
 
         $theme = FD::themes();
-        $theme->set('events', $events);
+        $theme->set('projects', $projects);
         $theme->set('app', $this->app);
 
-        echo $theme->output('themes:/apps/user/events/widgets/dashboard/upcoming');
+        echo $theme->output('themes:/apps/user/projects/widgets/dashboard/upcoming');
     }
 }

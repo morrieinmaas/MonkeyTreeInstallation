@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Unauthorized Access');
     <td style="text-align: center;padding: 40px 10px 0;">
         <div style="margin-bottom:15px;">
             <div style="font-family:Arial;font-size:32px;font-weight:normal;color:#333;display:block; margin: 4px 0">
-                <?php echo JText::sprintf('APP_USER_EVENTS_GUESTS_EMAILS_NOTGOING_LIKE_INVOLVED_TITLE', $actor); ?>
+                <?php echo JText::sprintf('APP_USER_PROJECTS_GUESTS_EMAILS_NOTGOING_LIKE_INVOLVED_TITLE', $actor); ?>
             </div>
         </div>
     </td>
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Unauthorized Access');
                     </p>
 
                     <p style="text-align:left;">
-                        <?php echo JText::sprintf('APP_USER_EVENTS_GUESTS_EMAILS_NOTGOING_LIKE_INVOLVED_CONTENT', $actor); ?>
+                        <?php echo JText::sprintf('APP_USER_PROJECTS_GUESTS_EMAILS_NOTGOING_LIKE_INVOLVED_CONTENT', $actor); ?>
                     </p>
                 </td>
             </tr>
@@ -62,7 +62,7 @@ defined('_JEXEC') or die('Unauthorized Access');
                                     border-width: 1px;
                                     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
                                     border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;
-                                    " href="<?php echo $permalink; ?>"><?php echo JText::_('APP_USER_EVENTS_GUESTS_VIEW_ITEM'); ?> &rarr;</a>
+                                    " href="<?php echo $permalink; ?>"><?php echo JText::_('APP_USER_PROJECTS_GUESTS_VIEW_ITEM'); ?> &rarr;</a>
                         </p>
                     </td>
                 </tr>

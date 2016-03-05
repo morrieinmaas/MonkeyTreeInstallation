@@ -11,11 +11,11 @@
 */
 defined('_JEXEC') or die('Unauthorized Access');
 
-class EventsWidgetsProfile extends SocialAppsWidgets
+class ProjectsWidgetsProfile extends SocialAppsWidgets
 {
     public function sidebarBottom($user)
     {
-        if (!FD::config()->get('events.enabled')) {
+        if (!FD::config()->get('projects.enabled')) {
             return;
         }
 
@@ -27,71 +27,71 @@ class EventsWidgetsProfile extends SocialAppsWidgets
 
         $limit = $params->get('widget_profile_total', 5);
 
-        // Get created events
-        $this->getCreatedEvents($user, $limit, $params);
+        // Get created projects
+        $this->getCreatedProjects($user, $limit, $params);
     }
 
-    public function getCreatedEvents(SocialUser $user, $limit, $params)
+    public function getCreatedProjects(SocialUser $user, $limit, $params)
     {
-        $model = FD::model('Events');
+        $model = FD::model('Projects');
 
         $now = FD::date()->toSql();
 
-        $createdEvents = $model->getEvents(array(
+        $createdProjects = $model->getProjects(array(
             'creator_uid' => $user->id,
             'creator_type' => SOCIAL_TYPE_USER,
             'state' => SOCIAL_STATE_PUBLISHED,
             'ordering' => 'start',
-            'type' => array(SOCIAL_EVENT_TYPE_PUBLIC, SOCIAL_EVENT_TYPE_PRIVATE),
+            'type' => array(SOCIAL_PROJECT_TYPE_PUBLIC, SOCIAL_PROJECT_TYPE_PRIVATE),
             'limit' => $limit,
             'ongoing' => true, 
             'upcoming' => true
         ));
 
-        $createdTotal = $model->getTotalEvents(array(
+        $createdTotal = $model->getTotalProjects(array(
             'creator_uid' => $user->id,
             'creator_type' => SOCIAL_TYPE_USER,
             'state' => SOCIAL_STATE_PUBLISHED,
-            'type' => array(SOCIAL_EVENT_TYPE_PUBLIC, SOCIAL_EVENT_TYPE_PRIVATE),
+            'type' => array(SOCIAL_PROJECT_TYPE_PUBLIC, SOCIAL_PROJECT_TYPE_PRIVATE),
             'ongoing' => true, 
             'upcoming' => true
         ));
 
-        $attendingEvents = $model->getEvents(array(
+        $attendingProjects = $model->getProjects(array(
             'guestuid' => $user->id,
-            'gueststate' => SOCIAL_EVENT_GUEST_GOING,
+            'gueststate' => SOCIAL_PROJECT_GUEST_GOING,
             'state' => SOCIAL_STATE_PUBLISHED,
             'ongoing' => true, 
             'upcoming' => true,
             'ordering' => 'start',
-            'type' => array(SOCIAL_EVENT_TYPE_PUBLIC, SOCIAL_EVENT_TYPE_PRIVATE),
+            'type' => array(SOCIAL_PROJECT_TYPE_PUBLIC, SOCIAL_PROJECT_TYPE_PRIVATE),
             'limit' => $limit,
         ));
 
-        $attendingTotal = $model->getTotalEvents(array(
+        $attendingTotal = $model->getTotalProjects(array(
             'guestuid' => $user->id,
-            'gueststate' => SOCIAL_EVENT_GUEST_GOING,
+            'gueststate' => SOCIAL_PROJECT_GUEST_GOING,
             'state' => SOCIAL_STATE_PUBLISHED,
-            'type' => array(SOCIAL_EVENT_TYPE_PUBLIC, SOCIAL_EVENT_TYPE_PRIVATE),
+            'type' => array(SOCIAL_PROJECT_TYPE_PUBLIC, SOCIAL_PROJECT_TYPE_PRIVATE),
             'ongoing' => true, 
             'upcoming' => true
         ));
 
-        $allowCreate = $user->isSiteAdmin() || $user->getAccess()->get('events.create');
+        $allowCreate = $user->isSiteAdmin() || $user->getAccess()->get('projects.create');
 
         $total = $createdTotal + $attendingTotal;
 
         $theme = FD::themes();
         $theme->set('user', $user);
         $theme->set('total', $total);
-        $theme->set('createdEvents', $createdEvents);
-        $theme->set('createdEvents', $createdProjects);
+        $theme->set('createdProjects', $createdProjects);
+        $theme->set('createdProjects', $createdProjects);
         $theme->set('createdTotal', $createdTotal);
-        $theme->set('attendingEvents', $attendingEvents);
+        $theme->set('attendingProjects', $attendingProjects);
         $theme->set('attendingTotal', $attendingTotal);
         $theme->set('app', $this->app);
         $theme->set('allowCreate', $allowCreate);
 
-        echo $theme->output('themes:/apps/user/events/widgets/profile/events');
+        echo $theme->output('themes:/apps/user/projects/widgets/profile/projects');
     }
 }

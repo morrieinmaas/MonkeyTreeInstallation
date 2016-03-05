@@ -172,6 +172,44 @@ class SocialUserAppCalendar extends SocialAppItem
 	}
 
 	/**
+	 * Triggers when an project is created
+	 *
+	 * @since	1.3
+	 * @access	public
+	 * @param	SocialProject	The project object
+	 * @param	SocialUser	The user object
+	 * @param	bool		Determines if the project is a new project
+	 * @return
+	 */
+	public function onProjectAfterSave(SocialProject &$project, SocialUser &$author, $isNew)
+	{
+// When a new project is created, we want to ensure that it's stored in the user's calendar
+		if ($isNew) {
+
+			$projectstart = $project->getProjectStart();
+			$projectend = $project->getProjectEnd();
+
+// Ensure that the start and end date is set
+			if (!$projectstart && !$projectend) {
+				return;
+			}
+
+			$calendar = FD::table('Calendar');
+
+// Get the start and end date
+			$calendar->title = $project->getName();
+			$calendar->description = $project->description;
+			$calendar->uid = $project->id;
+			$calendar->type = SOCIAL_TYPE_PROJECT;
+			$calendar->date_start = $projectstart->toSql();
+			$calendar->date_end = $projectend->toSql();
+			$calendar->user_id = $author->id;
+
+			$calendar->store();
+		}
+	}
+
+	/**
 	 * Prepares the stream item
 	 *
 	 * @since	1.0

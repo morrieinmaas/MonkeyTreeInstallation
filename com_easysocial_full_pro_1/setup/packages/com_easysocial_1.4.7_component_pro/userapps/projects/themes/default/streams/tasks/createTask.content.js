@@ -5,17 +5,17 @@ EasySocial.ready(function($) {
             parentItem = $(this).parents('li');
 
         if ($(this).is(':checked')) {
-            EasySocial.ajax('apps/event/tasks/controllers/tasks/resolve', {
+            EasySocial.ajax('apps/project/tasks/controllers/tasks/resolve', {
                 "id": taskId,
-                "eventId": "<?php echo $event->id; ?>"
+                "projectId": "<?php echo $project->id; ?>"
             })
             .done(function() {
                 $(parentItem).addClass('completed');
             });
         } else {
-            EasySocial.ajax('apps/event/tasks/controllers/tasks/unresolve', {
+            EasySocial.ajax('apps/project/tasks/controllers/tasks/unresolve', {
                 "id": taskId,
-                "eventId": "<?php echo $event->id; ?>"
+                "projectId": "<?php echo $project->id; ?>"
             })
             .done(function() {
                 $(parentItem).removeClass('completed');

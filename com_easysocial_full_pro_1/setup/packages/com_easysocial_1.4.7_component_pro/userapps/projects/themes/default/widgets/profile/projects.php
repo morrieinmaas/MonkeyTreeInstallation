@@ -14,14 +14,14 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 <div class="es-widget">
     <div class="es-widget-head">
         <div class="pull-left widget-title">
-            <?php echo JText::_('APP_USER_EVENTS_WIDGET_EVENTS'); ?>
+            <?php echo JText::_('APP_USER_PROJECTS_WIDGET_PROJECTS'); ?>
         </div>
         <span class="widget-label">(<?php echo $total; ?>)</span>
 
         <?php if ($this->my->id == $user->id) { ?>
         <div class="pull-right fd-small">
-            <a href="<?php echo FRoute::events(array('layout' => 'create'));?>">
-                <i class="icon-es-add"></i><?php echo JText::_('COM_EASYSOCIAL_NEW_EVENT');?>
+            <a href="<?php echo FRoute::projects(array('layout' => 'create'));?>">
+                <i class="icon-es-add"></i><?php echo JText::_('COM_EASYSOCIAL_NEW_PROJECT');?>
             </a>
         </div>
         <?php } ?>
@@ -30,14 +30,14 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
         <?php if ($total > 0) { ?>
         <ul class="fd-nav es-widget-tab" role="tablist">
             <li class="active">
-                <a href="#es-updated-events-attending" role="tab" data-toggle="tab">
-                    <span class="widget-label"><?php echo JText::_('APP_USER_EVENTS_WIDGET_ATTENDING_EVENTS'); ?></span>
+                <a href="#es-updated-projects-attending" role="tab" data-toggle="tab">
+                    <span class="widget-label"><?php echo JText::_('APP_USER_PROJECTS_WIDGET_ATTENDING_PROJECTS'); ?></span>
                 </a>
             </li>
             <?php if (!empty($createdTotal) && $allowCreate) { ?>
             <li>
-                <a href="#es-updated-events-default" role="tab" data-toggle="tab">
-                    <span class="widget-label"><?php echo JText::_('APP_USER_EVENTS_WIDGET_CREATED_EVENTS'); ?></span>
+                <a href="#es-updated-projects-default" role="tab" data-toggle="tab">
+                    <span class="widget-label"><?php echo JText::_('APP_USER_PROJECTS_WIDGET_CREATED_PROJECTS'); ?></span>
                 </a>
             </li>
             <?php } ?>
@@ -46,40 +46,40 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 
         <div class="tab-content">
 
-            <div class="tab-pane active" id="es-updated-events-attending">
-                <?php if (!empty($attendingEvents)) { ?>
+            <div class="tab-pane active" id="es-updated-projects-attending">
+                <?php if (!empty($attendingProjects)) { ?>
                 <ul class="widget-list">
-                    <?php foreach ($attendingEvents as $attendingEvent) {?>
+                    <?php foreach ($attendingProjects as $attendingProject) {?>
                     <li class="mb-10">
-                        <a href="<?php echo $attendingEvent->getPermalink();?>"><?php echo $attendingEvent->getName(); ?></a>
-                        <div class="es-muted"><i class="fa fa-calendar"></i> <?php echo $attendingEvent->getStartEndDisplay(array('end' => false)); ?></div>
+                        <a href="<?php echo $attendingProject->getPermalink();?>"><?php echo $attendingProject->getName(); ?></a>
+                        <div class="es-muted"><i class="fa fa-calendar"></i> <?php echo $attendingProject->getStartEndDisplay(array('end' => false)); ?></div>
                         <?php if ($this->my->id != $user->id) { ?>
-                            <?php echo $attendingEvent->showRsvpButton(); ?>
+                            <?php echo $attendingProject->showRsvpButton(); ?>
                         <?php } ?>
                     </li>
                     <?php } ?>
                 </ul>
                 <?php } else { ?>
-                <div class="fd-small"><?php echo JText::_('APP_USER_EVENTS_WIDGET_NO_EVENTS'); ?></div>
+                <div class="fd-small"><?php echo JText::_('APP_USER_PROJECTS_WIDGET_NO_PROJECTS'); ?></div>
                 <?php } ?>
             </div>
 
             <?php if (!empty($createdTotal) && $allowCreate) { ?>
-            <div class="tab-pane" id="es-updated-events-default">
-                <?php if (!empty($createdEvents)) { ?>
+            <div class="tab-pane" id="es-updated-projects-default">
+                <?php if (!empty($createdProjects)) { ?>
                 <ul class="widget-list">
-                    <?php foreach ($createdEvents as $createdEvent) {?>
+                    <?php foreach ($createdProjects as $createdProject) {?>
                     <li class="mb-10">
-                        <a href="<?php echo $createdEvent->getPermalink();?>"><?php echo $createdEvent->getName(); ?></a>
-                        <div class="es-muted"><i class="fa fa-calendar"></i> <?php echo $createdEvent->getStartEndDisplay(array('end' => false)); ?></div>
+                        <a href="<?php echo $createdProject->getPermalink();?>"><?php echo $createdProject->getName(); ?></a>
+                        <div class="es-muted"><i class="fa fa-calendar"></i> <?php echo $createdProject->getStartEndDisplay(array('end' => false)); ?></div>
                         <?php if ($this->my->id != $user->id) { ?>
-                            <?php echo $createdEvent->showRsvpButton(); ?>
+                            <?php echo $createdProject->showRsvpButton(); ?>
                         <?php } ?>
                     </li>
                     <?php } ?>
                 </ul>
                 <?php } else { ?>
-                <div class="fd-small"><?php echo JText::_('APP_USER_EVENTS_WIDGET_NO_EVENTS'); ?></div>
+                <div class="fd-small"><?php echo JText::_('APP_USER_PROJECTS_WIDGET_NO_PROJECTS'); ?></div>
                 <?php } ?>
             </div>
             <?php } ?>

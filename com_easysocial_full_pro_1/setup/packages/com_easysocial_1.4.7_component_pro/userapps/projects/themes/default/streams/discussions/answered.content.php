@@ -18,9 +18,9 @@ defined('_JEXEC') or die('Unauthorized Access');
         </blockquote>
 
         <div>
-            <a href="<?php echo $permalink;?>#answer" class="mt-5"><?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_VIEW_ANSWER'); ?></a>
+            <a href="<?php echo $permalink;?>#answer" class="mt-5"><?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_VIEW_ANSWER'); ?></a>
             &nbsp;&middot;&nbsp;
-            <a href="<?php echo $permalink;?>" class="mt-5"><?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_VIEW_DISCUSSION'); ?> &rarr;</a>
+            <a href="<?php echo $permalink;?>" class="mt-5"><?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_VIEW_DISCUSSION'); ?> &rarr;</a>
         </div>
     </div>
 </div>

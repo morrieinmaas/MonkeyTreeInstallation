@@ -11,4 +11,4 @@
 */
 defined('_JEXEC') or die('Unauthorized Access');
 ?>
-<?php echo JText::sprintf('APP_USER_EVENTS_TASKS_STREAM_TITLE_CREATED_MILESTONE', $this->html('html.user', $actor), $this->html('html.event', $event));
+<?php echo JText::sprintf('APP_USER_PROJECTS_TASKS_STREAM_TITLE_CREATED_MILESTONE', $this->html('html.user', $actor), $this->html('html.project', $project));

@@ -18,10 +18,10 @@ defined('_JEXEC') or die('Unauthorized Access');
                 <div class="media-object pull-right">
                     <ul class="fd-reset-list discussion-items ml-0">
                         <li class="stats-hits">
-                            <span><?php echo $discussion->hits;?></span> <?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_HITS'); ?>
+                            <span><?php echo $discussion->hits;?></span> <?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_HITS'); ?>
                         </li>
                         <li class="stats-replies">
-                            <span><?php echo $discussion->total_replies;?></span> <?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_REPLIES'); ?>
+                            <span><?php echo $discussion->total_replies;?></span> <?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_REPLIES'); ?>
                         </li>
                     </ul>
                 </div>
@@ -31,9 +31,9 @@ defined('_JEXEC') or die('Unauthorized Access');
 
                     <div class="discussion-meta fd-small">
                         <?php if ($files) { ?>
-                            <i class="fa fa-attachment" data-original-title="<?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_CONTAIN_ATTACHMENTS', true); ?>" data-es-provide="tooltip"></i>&nbsp;
+                            <i class="fa fa-attachment" data-original-title="<?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_CONTAIN_ATTACHMENTS', true); ?>" data-es-provide="tooltip"></i>&nbsp;
                         <?php } ?>
-                        <i class="fa fa-calendar"></i>&nbsp; <?php echo JText::sprintf('APP_USER_EVENTS_DISCUSSIONS_CONTENT_POSTED_ON_META' , FD::date($discussion->created)->format(JText::_('DATE_FORMAT_LC1'))); ?>
+                        <i class="fa fa-calendar"></i>&nbsp; <?php echo JText::sprintf('APP_USER_PROJECTS_DISCUSSIONS_CONTENT_POSTED_ON_META' , FD::date($discussion->created)->format(JText::_('DATE_FORMAT_LC1'))); ?>
                     </div>
                 </div>
             </div>
@@ -45,8 +45,8 @@ defined('_JEXEC') or die('Unauthorized Access');
             </p>
 
             <div>
-                <a href="<?php echo $permalink;?>#reply" class="mt-5"><?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_REPLY_DISCUSSION'); ?></a>&nbsp;&middot;&nbsp;
-                <a href="<?php echo $permalink;?>" class="mt-5"><?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_VIEW_DISCUSSION'); ?> &rarr;</a>
+                <a href="<?php echo $permalink;?>#reply" class="mt-5"><?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_REPLY_DISCUSSION'); ?></a>&nbsp;&middot;&nbsp;
+                <a href="<?php echo $permalink;?>" class="mt-5"><?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_VIEW_DISCUSSION'); ?> &rarr;</a>
             </div>
         </div>
     </div>

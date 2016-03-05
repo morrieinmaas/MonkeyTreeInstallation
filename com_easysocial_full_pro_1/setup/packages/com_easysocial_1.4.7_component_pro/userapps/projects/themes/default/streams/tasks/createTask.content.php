@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Unauthorized Access');
         <?php echo $stream->content; ?>
     </p>
 
-    <h5><?php echo JText::_('APP_EVENT_TASKS_STREAM_CONTENT_TASKS'); ?></h5>
+    <h5><?php echo JText::_('APP_PROJECT_TASKS_STREAM_CONTENT_TASKS'); ?></h5>
     <ul class="milestone-tasks fd-reset-list">
         <?php foreach ($tasks as $task) { ?>
         <li class="<?php echo $task->isCompleted() ? 'completed' : ''; ?>">

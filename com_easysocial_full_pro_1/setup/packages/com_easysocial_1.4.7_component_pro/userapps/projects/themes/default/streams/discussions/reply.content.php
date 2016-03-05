@@ -17,10 +17,10 @@ defined('_JEXEC') or die('Unauthorized Access');
             <div class="media-object pull-right">
                 <ul class="list-unstyled">
                     <li class="stats-hits">
-                        <span><?php echo $discussion->hits;?></span> <?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_HITS'); ?>
+                        <span><?php echo $discussion->hits;?></span> <?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_HITS'); ?>
                     </li>
                     <li class="stats-replies">
-                        <span><?php echo $discussion->total_replies;?></span> <?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_REPLIES'); ?>
+                        <span><?php echo $discussion->total_replies;?></span> <?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_REPLIES'); ?>
                     </li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Unauthorized Access');
             <div class="media-body">
                 <div class="discussion-title"><a href="<?php echo $permalink;?>"><?php echo $discussion->title; ?></a></div>
                 <div class="discussion-meta fd-small">
-                    <i class="fa fa-calendar"></i>&nbsp; <?php echo JText::sprintf('APP_USER_EVENTS_DISCUSSIONS_CONTENT_REPLIED_ON_META' , FD::date($reply->created)->format(JText::_('DATE_FORMAT_LC1'))); ?>
+                    <i class="fa fa-calendar"></i>&nbsp; <?php echo JText::sprintf('APP_USER_PROJECTS_DISCUSSIONS_CONTENT_REPLIED_ON_META' , FD::date($reply->created)->format(JText::_('DATE_FORMAT_LC1'))); ?>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Unauthorized Access');
         </p>
 
         <div class="mt-5">
-            <a href="<?php echo $permalink;?>"><?php echo JText::_('APP_USER_EVENTS_DISCUSSIONS_VIEW_DISCUSSION'); ?> &rarr;</a>
+            <a href="<?php echo $permalink;?>"><?php echo JText::_('APP_USER_PROJECTS_DISCUSSIONS_VIEW_DISCUSSION'); ?> &rarr;</a>
         </div>
     </div>
 </div>
