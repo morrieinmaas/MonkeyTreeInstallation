@@ -1,7 +1,7 @@
 FD40.installer("EasySocial", "definitions", function($){
-$.module(["easysocial/admin","easysocial/admin/access/discover","easysocial/progress/progress","easysocial/admin/alerts/discover","easysocial/admin/badges/discover","easysocial/admin/events/approveRecurring","easysocial/admin/events/store","easysocial/admin/events/users","easysocial/admin/grid/grid","easysocial/admin/grid/sort","easysocial/admin/grid/publishing","easysocial/admin/grid/ordering","easysocial/admin/groups/groups","easysocial/admin/groups/users","easysocial/admin/indexer/indexer","easysocial/admin/mailer/mailer","easysocial/admin/maintenance/database","easysocial/admin/maintenance/maintenance","easysocial/admin/migrators/migrator","easysocial/admin/points/discover","easysocial/admin/polls/polls","easysocial/admin/privacy/discover","easysocial/admin/profiles/avatar","easysocial/uploader/uploader","easysocial/uploader/queue","easysocial/admin/profiles/fields","easysocial/field","easysocial/admin/profiles/form","easysocial/utilities/alias","easysocial/admin/profiles/members","easysocial/admin/profiles/profile","easysocial/admin/profiles/profiles","easysocial/admin/regions/form","easysocial/admin/regions/init","easysocial/admin/reports/reporters","easysocial/admin/reports/reports","easysocial/admin/sidebar/sidebar","easysocial/admin/themes/compiler","easysocial/admin/users/form","easysocial/admin/users/privacy","easysocial/admin/users/users","easysocial/albums/album","easysocial/albums/browser","easysocial/albums/editor","easysocial/albums/editor/sortable","easysocial/albums/editor/uploader","easysocial/albums/uploader","easysocial/albums/uploader.item","easysocial/albums/item","easysocial/apps/event/discussions","easysocial/apps/event/guests","easysocial/apps/event/tasks","easysocial/apps/fields/event/permalink/content","easysocial/apps/fields/event/permalink/sample_content","easysocial/apps/fields/event/recurring/content","easysocial/apps/fields/event/startend/content","easysocial/apps/fields/event/startend/display","easysocial/apps/fields/group/permalink/content","easysocial/apps/fields/group/permalink/sample_content","easysocial/apps/fields/user/address/content","easysocial/apps/fields/user/address/display_content","easysocial/apps/fields/user/address/maps","easysocial/apps/fields/user/autocomplete/content","easysocial/apps/fields/user/avatar/content","easysocial/apps/fields/user/avatar/sample_content","easysocial/apps/fields/user/checkbox/content","easysocial/apps/fields/user/checkbox/sample_content","easysocial/apps/fields/user/country/content","easysocial/apps/fields/user/country/sample_content","easysocial/apps/fields/user/cover/content","easysocial/apps/fields/user/currency/sample_content","easysocial/apps/fields/user/datetime/content","easysocial/apps/fields/user/datetime/display_content","easysocial/apps/fields/user/datetime/dropdown","easysocial/apps/fields/user/datetime/sample_content","easysocial/apps/fields/user/dropdown/content","easysocial/apps/fields/user/email/content","easysocial/apps/fields/user/file/content","easysocial/apps/fields/user/file/sample_content","easysocial/apps/fields/user/gender/content","easysocial/apps/fields/user/joomla_email/content","easysocial/apps/fields/user/joomla_email/registermini_content","easysocial/apps/fields/user/joomla_email/sample_content","easysocial/apps/fields/user/joomla_fullname/content","easysocial/apps/fields/user/joomla_fullname/sample_content","easysocial/apps/fields/user/joomla_password/content","easysocial/apps/fields/user/joomla_password/registermini_content","easysocial/apps/fields/user/joomla_password/sample_content","easysocial/apps/fields/user/joomla_timezone/content","easysocial/apps/fields/user/joomla_username/content","easysocial/apps/fields/user/joomla_username/registermini_content","easysocial/apps/fields/user/joomla_username/sample_content","easysocial/apps/fields/user/multidropdown/content","easysocial/apps/fields/user/multilist/content","easysocial/apps/fields/user/multitextbox/content","easysocial/apps/fields/user/permalink/content","easysocial/apps/fields/user/permalink/sample_content","easysocial/apps/fields/user/relationship/content","easysocial/site/friends/suggest","easysocial/apps/fields/user/separator/sample","easysocial/apps/fields/user/terms/content","easysocial/apps/fields/user/textarea/content","easysocial/apps/fields/user/textbox/content","easysocial/apps/fields/user/textbox/sample_content","easysocial/apps/fields/user/url/content","easysocial/apps/fields/user/url/sample_content","easysocial/apps/group/feeds","easysocial/apps/group/tasks","easysocial/avatar","easysocial/utilities/webcam","easysocial/cover","easysocial/easysocial","easysocial/site/likes/likes","easysocial/site/reports/reports","easysocial/site/blocks/blocks","easysocial/site/repost/repost","easysocial/site/share/share","easysocial/site/layout/dialog","easysocial/site/layout/responsive","easysocial/site/layout/elements","easysocial/site/photos/photos","easysocial/site/photos/popup","easysocial/site/photos/dialog","easysocial/site/photos/avatar","easysocial/site/users/login","easysocial/site/dashboard/dashboard.guest.login","easysocial/validate","easysocial/site/profile/popbox","easysocial/site/conversations/composer","easysocial/site/privacy/privacy","easysocial/site/locations/popbox","easysocial/site/sidebar/sidebar","easysocial/site/friends/api","easysocial/site/popbox/popbox","easysocial/site/conversations/api","easysocial/site/groups/api","easysocial/site/followers/api","easysocial/site/stream/video","easysocial/oauth/facebook","easysocial/groups/suggest","easysocial/libraries/lightbox","easysocial/locations","easysocial/pagination","easysocial/photos/avatar","easysocial/photos/browser","easysocial/photos/editor","easysocial/photos/item","easysocial/photos/tags","easysocial/photos/tagger","easysocial/photos/navigation","easysocial/prism","easysocial/privacy","easysocial/sharing","easysocial/site/activities/activities","easysocial/site/activities/sidebar","easysocial/site/activities/sidebar.item","easysocial/site/activities/apps","easysocial/site/activities/item","easysocial/site/activities/list","easysocial/site/albums/all","easysocial/site/apps/apps","easysocial/site/badges/badge","easysocial/site/comments/control","easysocial/site/comments/frame","easysocial/site/comments/item","easysocial/site/conversations/conversations","easysocial/site/conversations/mailbox","easysocial/site/conversations/item","easysocial/site/conversations/filter","easysocial/site/conversations/read","easysocial/site/dashboard/apps","easysocial/site/dashboard/dashboard","easysocial/site/dashboard/feeds","easysocial/site/dashboard/sidebar","easysocial/site/stream/filter","easysocial/site/stream/sidebar","easysocial/site/dashboard/groups","easysocial/site/dashboard/events","easysocial/site/events/browser","easysocial/site/events/guestState","easysocial/site/events/buttonState","easysocial/site/events/create","easysocial/site/events/createRecurring","easysocial/site/events/edit","easysocial/site/events/item","easysocial/site/events/update","easysocial/site/explorer","easysocial/site/explorer/uploader","easysocial/site/explorer/popup","easysocial/site/followers/followers","easysocial/site/friends/friends","easysocial/site/friends/list","easysocial/site/friends/item","easysocial/site/groups/groups","easysocial/site/groups/item","easysocial/site/notifications/list","easysocial/site/points/history","easysocial/site/polls/polls","easysocial/site/profile/about","easysocial/site/profile/admintool","easysocial/site/profile/edit","easysocial/site/profile/feeds","easysocial/site/profile/friends","easysocial/site/profile/header","easysocial/site/profile/subscriptions","easysocial/site/profile/miniheader","easysocial/site/profile/notifications","easysocial/site/profile/privacy","easysocial/site/profile/profile","easysocial/site/registrations/registrations","easysocial/site/search/advanced.criteria","easysocial/site/search/map","easysocial/site/search/advanced","easysocial/site/search/advanced.list.group","easysocial/site/search/advanced.list","easysocial/site/search/item","easysocial/site/search/dating","easysocial/site/search/list","easysocial/site/search/search","easysocial/site/search/sidebar","easysocial/site/search/toolbar","easysocial/site/stream/item","easysocial/site/stream/stream","easysocial/site/subscriptions/follow","easysocial/site/system/broadcast","easysocial/site/toolbar/conversations","easysocial/site/toolbar/friends","easysocial/site/toolbar/login","easysocial/site/toolbar/notifications","easysocial/site/toolbar/story","easysocial/site/toolbar/system","easysocial/site/toolbar/profile","easysocial/site/users/popbox","easysocial/site/users/users","easysocial/story","easysocial/story/blog","easysocial/story/broadcast","easysocial/story/event","easysocial/story/files","easysocial/story/friends","easysocial/story/links","easysocial/story/locations","easysocial/story/mood","easysocial/story/photos","easysocial/story/polls","easysocial/story/quickpost","easysocial/story/tasks","easysocial/story/videos","easysocial/stream","easysocial/comment","easysocial/tab","easysocial/toggle","easysocial/uploader/item","easysocial/videos/form","easysocial/videos/item","easysocial/videos/list","easysocial/videos/process"]);
+$.module(["easysocial/admin","easysocial/admin/access/discover","easysocial/progress/progress","easysocial/admin/alerts/discover","easysocial/admin/badges/discover","easysocial/admin/events/approveRecurring","easysocial/admin/projects/approveRecurring","easysocial/admin/events/store","easysocial/admin/projects/store","easysocial/admin/events/users","easysocial/admin/projects/users","easysocial/admin/grid/grid","easysocial/admin/grid/sort","easysocial/admin/grid/publishing","easysocial/admin/grid/ordering","easysocial/admin/groups/groups","easysocial/admin/groups/users","easysocial/admin/indexer/indexer","easysocial/admin/mailer/mailer","easysocial/admin/maintenance/database","easysocial/admin/maintenance/maintenance","easysocial/admin/migrators/migrator","easysocial/admin/points/discover","easysocial/admin/polls/polls","easysocial/admin/privacy/discover","easysocial/admin/profiles/avatar","easysocial/uploader/uploader","easysocial/uploader/queue","easysocial/admin/profiles/fields","easysocial/field","easysocial/admin/profiles/form","easysocial/utilities/alias","easysocial/admin/profiles/members","easysocial/admin/profiles/profile","easysocial/admin/profiles/profiles","easysocial/admin/regions/form","easysocial/admin/regions/init","easysocial/admin/reports/reporters","easysocial/admin/reports/reports","easysocial/admin/sidebar/sidebar","easysocial/admin/themes/compiler","easysocial/admin/users/form","easysocial/admin/users/privacy","easysocial/admin/users/users","easysocial/albums/album","easysocial/albums/browser","easysocial/albums/editor","easysocial/albums/editor/sortable","easysocial/albums/editor/uploader","easysocial/albums/uploader","easysocial/albums/uploader.item","easysocial/albums/item","easysocial/apps/event/discussions","easysocial/apps/project/discussions","easysocial/apps/event/guests","easysocial/apps/project/guests","easysocial/apps/event/tasks","easysocial/apps/project/tasks","easysocial/apps/fields/event/permalink/content","easysocial/apps/fields/project/permalink/content","easysocial/apps/fields/event/permalink/sample_content","easysocial/apps/fields/project/permalink/sample_content","easysocial/apps/fields/event/recurring/content","easysocial/apps/fields/project/recurring/content","easysocial/apps/fields/event/startend/content","easysocial/apps/fields/project/startend/content","easysocial/apps/fields/event/startend/display","easysocial/apps/fields/project/startend/display","easysocial/apps/fields/group/permalink/content","easysocial/apps/fields/group/permalink/sample_content","easysocial/apps/fields/user/address/content","easysocial/apps/fields/user/address/display_content","easysocial/apps/fields/user/address/maps","easysocial/apps/fields/user/autocomplete/content","easysocial/apps/fields/user/avatar/content","easysocial/apps/fields/user/avatar/sample_content","easysocial/apps/fields/user/checkbox/content","easysocial/apps/fields/user/checkbox/sample_content","easysocial/apps/fields/user/country/content","easysocial/apps/fields/user/country/sample_content","easysocial/apps/fields/user/cover/content","easysocial/apps/fields/user/currency/sample_content","easysocial/apps/fields/user/datetime/content","easysocial/apps/fields/user/datetime/display_content","easysocial/apps/fields/user/datetime/dropdown","easysocial/apps/fields/user/datetime/sample_content","easysocial/apps/fields/user/dropdown/content","easysocial/apps/fields/user/email/content","easysocial/apps/fields/user/file/content","easysocial/apps/fields/user/file/sample_content","easysocial/apps/fields/user/gender/content","easysocial/apps/fields/user/joomla_email/content","easysocial/apps/fields/user/joomla_email/registermini_content","easysocial/apps/fields/user/joomla_email/sample_content","easysocial/apps/fields/user/joomla_fullname/content","easysocial/apps/fields/user/joomla_fullname/sample_content","easysocial/apps/fields/user/joomla_password/content","easysocial/apps/fields/user/joomla_password/registermini_content","easysocial/apps/fields/user/joomla_password/sample_content","easysocial/apps/fields/user/joomla_timezone/content","easysocial/apps/fields/user/joomla_username/content","easysocial/apps/fields/user/joomla_username/registermini_content","easysocial/apps/fields/user/joomla_username/sample_content","easysocial/apps/fields/user/multidropdown/content","easysocial/apps/fields/user/multilist/content","easysocial/apps/fields/user/multitextbox/content","easysocial/apps/fields/user/permalink/content","easysocial/apps/fields/user/permalink/sample_content","easysocial/apps/fields/user/relationship/content","easysocial/site/friends/suggest","easysocial/apps/fields/user/separator/sample","easysocial/apps/fields/user/terms/content","easysocial/apps/fields/user/textarea/content","easysocial/apps/fields/user/textbox/content","easysocial/apps/fields/user/textbox/sample_content","easysocial/apps/fields/user/url/content","easysocial/apps/fields/user/url/sample_content","easysocial/apps/group/feeds","easysocial/apps/group/tasks","easysocial/avatar","easysocial/utilities/webcam","easysocial/cover","easysocial/easysocial","easysocial/site/likes/likes","easysocial/site/reports/reports","easysocial/site/blocks/blocks","easysocial/site/repost/repost","easysocial/site/share/share","easysocial/site/layout/dialog","easysocial/site/layout/responsive","easysocial/site/layout/elements","easysocial/site/photos/photos","easysocial/site/photos/popup","easysocial/site/photos/dialog","easysocial/site/photos/avatar","easysocial/site/users/login","easysocial/site/dashboard/dashboard.guest.login","easysocial/validate","easysocial/site/profile/popbox","easysocial/site/conversations/composer","easysocial/site/privacy/privacy","easysocial/site/locations/popbox","easysocial/site/sidebar/sidebar","easysocial/site/friends/api","easysocial/site/popbox/popbox","easysocial/site/conversations/api","easysocial/site/groups/api","easysocial/site/followers/api","easysocial/site/stream/video","easysocial/oauth/facebook","easysocial/groups/suggest","easysocial/libraries/lightbox","easysocial/locations","easysocial/pagination","easysocial/photos/avatar","easysocial/photos/browser","easysocial/photos/editor","easysocial/photos/item","easysocial/photos/tags","easysocial/photos/tagger","easysocial/photos/navigation","easysocial/prism","easysocial/privacy","easysocial/sharing","easysocial/site/activities/activities","easysocial/site/activities/sidebar","easysocial/site/activities/sidebar.item","easysocial/site/activities/apps","easysocial/site/activities/item","easysocial/site/activities/list","easysocial/site/albums/all","easysocial/site/apps/apps","easysocial/site/badges/badge","easysocial/site/comments/control","easysocial/site/comments/frame","easysocial/site/comments/item","easysocial/site/conversations/conversations","easysocial/site/conversations/mailbox","easysocial/site/conversations/item","easysocial/site/conversations/filter","easysocial/site/conversations/read","easysocial/site/dashboard/apps","easysocial/site/dashboard/dashboard","easysocial/site/dashboard/feeds","easysocial/site/dashboard/sidebar","easysocial/site/stream/filter","easysocial/site/stream/sidebar","easysocial/site/dashboard/groups","easysocial/site/dashboard/events","easysocial/site/dashboard/projects","easysocial/site/events/browser","easysocial/site/projectss/browser","easysocial/site/events/guestState","easysocial/site/projects/guestState","easysocial/site/events/buttonState","easysocial/site/projects/buttonState","easysocial/site/events/create","easysocial/site/projects/create","easysocial/site/events/createRecurring","easysocial/site/projects/createRecurring","easysocial/site/events/edit","easysocial/site/projects/edit","easysocial/site/events/item","easysocial/site/projects/item","easysocial/site/events/update","easysocial/site/projects/update","easysocial/site/explorer","easysocial/site/explorer/uploader","easysocial/site/explorer/popup","easysocial/site/followers/followers","easysocial/site/friends/friends","easysocial/site/friends/list","easysocial/site/friends/item","easysocial/site/groups/groups","easysocial/site/groups/item","easysocial/site/notifications/list","easysocial/site/points/history","easysocial/site/polls/polls","easysocial/site/profile/about","easysocial/site/profile/admintool","easysocial/site/profile/edit","easysocial/site/profile/feeds","easysocial/site/profile/friends","easysocial/site/profile/header","easysocial/site/profile/subscriptions","easysocial/site/profile/miniheader","easysocial/site/profile/notifications","easysocial/site/profile/privacy","easysocial/site/profile/profile","easysocial/site/registrations/registrations","easysocial/site/search/advanced.criteria","easysocial/site/search/map","easysocial/site/search/advanced","easysocial/site/search/advanced.list.group","easysocial/site/search/advanced.list","easysocial/site/search/item","easysocial/site/search/dating","easysocial/site/search/list","easysocial/site/search/search","easysocial/site/search/sidebar","easysocial/site/search/toolbar","easysocial/site/stream/item","easysocial/site/stream/stream","easysocial/site/subscriptions/follow","easysocial/site/system/broadcast","easysocial/site/toolbar/conversations","easysocial/site/toolbar/friends","easysocial/site/toolbar/login","easysocial/site/toolbar/notifications","easysocial/site/toolbar/story","easysocial/site/toolbar/system","easysocial/site/toolbar/profile","easysocial/site/users/popbox","easysocial/site/users/users","easysocial/story","easysocial/story/blog","easysocial/story/broadcast","easysocial/story/event","easysocial/story/project","easysocial/story/files","easysocial/story/friends","easysocial/story/links","easysocial/story/locations","easysocial/story/mood","easysocial/story/photos","easysocial/story/polls","easysocial/story/quickpost","easysocial/story/tasks","easysocial/story/videos","easysocial/stream","easysocial/comment","easysocial/tab","easysocial/toggle","easysocial/uploader/item","easysocial/videos/form","easysocial/videos/item","easysocial/videos/list","easysocial/videos/process"]);
 $.require.template.loader(["easysocial/site/loading/small","easysocial/site/uploader/queue.item","easysocial/admin/profiles/fields/editor.item","easysocial/admin/profiles/fields/step.item","easysocial/admin/profiles/fields/editor.page","easysocial/admin/profiles/fields/config","easysocial/admin/profiles/fields/dialog.move","easysocial/admin/profiles/dialog.delete.profileavatar","easysocial/site/albums/browser.list.item","easysocial/site/albums/upload.item","easysocial/fields/user/checkbox/item","easysocial/site/friends/suggest.item","easysocial/site/friends/suggest.hint.search","easysocial/site/friends/suggest.hint.empty","easysocial/site/hashtags/suggest.item","easysocial/site/hashtags/suggest.hint.search","easysocial/site/hashtags/suggest.hint.empty","easysocial/site/dialog/default","easysocial/site/photos/popup","easysocial/site/groups/suggest.item","easysocial/site/location/story.suggestion","easysocial/site/photos/tags.item","easysocial/site/photos/tags.menu.item","easysocial/admin/profiles/form.privacy.custom.item","easysocial/site/activities/loadbutton","easysocial/site/explorer/popup","easysocial/site/friends/default.empty","easysocial/site/friends/list.assign","easysocial/site/registration/dialog.error","easysocial/site/search/loadbutton","easysocial/site/stream/loadbutton","easysocial/site/notifications/system.empty","easysocial/site/users/button.following","easysocial/apps/user/links/story/attachment.item","easysocial/apps/user/files/story/attachment.item","easysocial/apps/user/files/story/progress","easysocial/site/links/story/attachment.item","easysocial/apps/group/tasks/story/attachment.item","easysocial/site/likes/item","easysocial/site/uploader/preview"]);
-$.require.language.loader(["COM_EASYSOCIAL_SCAN_COMPLETED","JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST","COM_EASYSOCIAL_INDEXER_REINDEX_PROCESSING","COM_EASYSOCIAL_INDEXER_REINDEX_FINISHED","COM_EASYSOCIAL_INDEXER_REINDEX_RESTART","COM_EASYSOCIAL_CANCEL_BUTTON","COM_EASYSOCIAL_CLOSE_BUTTON","COM_EASYSOCIAL_POLLS_VIEW_POLLS_DIALOG_TITLE","COM_EASYSOCIAL_POLLS_ACTIONS_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_ITEM_CONFIG_LOADING","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_CONFIRMATION","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_CONFIRM","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_CANCEL","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_DELETING","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_CONFIRMATION","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_CONFIRM","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_CANCEL","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_DELETING","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_PARAMS_CORE_UNIQUE_KEY_SAVE_FIRST","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_CONFIGURE_PAGE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_CONFIGURE_FIELD","COM_EASYSOCIAL_FIELDS_REQUIRE_MANDATORY_FIELDS","COM_EASYSOCIAL_FIELDS_UNSAVED_CHANGES","COM_EASYSOCIAL_FIELDS_INVALID_VALUES","COM_EASYSOCIAL_ASSIGN_BUTTON","COM_EASYSOCIAL_PROFILES_ASSIGN_USER_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_CLEAR_AVATAR","COM_EASYSOCIAL_REGIONS_FORM_INCOMPLETE","COM_EASYSOCIAL_REPORTS_VIEW_REPORTS_DIALOG_TITLE","COM_EASYSOCIAL_REPORTS_ACTIONS_DIALOG_TITLE","FIELDS_EVENT_PERMALINK_EXCEEDED_MAX_LENGTH","FIELDS_EVENT_PERMALINK_REQUIRED","FIELDS_EVENT_STARTEND_VALIDATION_DATETIME_START_REQUIRED","FIELDS_EVENT_STARTEND_VALIDATION_DATETIME_END_REQUIRED","FIELDS_USER_DATETIME_LOCAL_TIMEZONE","FIELDS_USER_DATETIME_TIMEZONE_CHECKING","PLG_FIELDS_GROUP_PERMALINK_EXCEEDED_MAX_LENGTH","PLG_FIELDS_GROUP_PERMALINK_REQUIRED","PLG_FIELDS_ADDRESS_PLEASE_ENTER_ADDRESS1","PLG_FIELDS_ADDRESS_PLEASE_ENTER_ADDRESS2","PLG_FIELDS_ADDRESS_PLEASE_ENTER_CITY","PLG_FIELDS_ADDRESS_PLEASE_ENTER_STATE","PLG_FIELDS_ADDRESS_PLEASE_ENTER_ZIP","PLG_FIELDS_ADDRESS_PLEASE_ENTER_COUNTRY","COM_EASYSOCIAL_LOCATION_PERMISSION_ERROR","COM_EASYSOCIAL_LOCATION_TIMEOUT_ERROR","COM_EASYSOCIAL_LOCATION_UNAVAILABLE_ERROR","COM_EASYSOCIAL_STREAM_AT","PLG_FIELDS_AVATAR_VALIDATION_EMPTY_PROFILE_PICTURE","PLG_FIELDS_CHECKBOX_CHECK_AT_LEAST_ONE_ITEM","PLG_FIELDS_COUNTRY_VALIDATION_REQUIRED","PLG_FIELDS_COUNTRY_VALIDATION_MINIMUM_ERROR","PLG_FIELDS_COUNTRY_VALIDATION_MAXIMUM_ERROR","PLG_FIELDS_COVER_VALIDATION_REQUIRED","PLG_FIELDS_DATETIME_VALIDATION_INVALID_DATETIME_FORMAT","PLG_FIELDS_DATETIME_VALIDATION_PLEASE_SELECT_DATETIME","PLG_FIELDS_DATETIME_DAY","PLG_FIELDS_DROPDOWN_VALIDATION_PLEASE_SELECT_A_VALUE","PLG_FIELDS_EMAIL_VALIDATION_REQUIRED","PLG_FIELDS_EMAIL_VALIDATION_INVALID_FORMAT","PLG_FIELDS_FILE_ERROR_UNKNOWN_ERROR_OCCURED","COM_EASYSOCIAL_WORKING","PLG_FIELDS_GENDER_VALIDATION_GENDER_REQUIRED","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_REQUIRED","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_RECONFIRM_REQUIRED","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_NOT_MATCHING","PLG_FIELDS_JOOMLA_EMAIL_CHECKING","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_INVALID_FORMAT","PLG_FIELDS_JOOMLA_FULLNAME_VALIDATION_EMPTY_NAME","PLG_FIELDS_JOOMLA_PASSWORD_EMPTY_PASSWORD","PLG_FIELDS_JOOMLA_PASSWORD_EMPTY_RECONFIRM_PASSWORD","PLG_FIELDS_JOOMLA_PASSWORD_NOT_MATCHING","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_CHAR","PLG_FIELDS_JOOMLA_PASSWORD_MAXIMUM_CHAR","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_INTEGER","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_SYMBOLS","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_UPPERCASE","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_VERY_WEAK","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_WEAK","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_NORMAL","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_STRONG","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_VERY_STRONG","PLG_FIELDS_JOOMLA_PASSWORD_EMPTY_ORIGINAL_PASSWORD","PLG_FIELDS_JOOMLA_PASSWORD_TOO_SHORT","PLG_FIELDS_JOOMLA_PASSWORD_TOO_LONG","PLG_FIELDS_JOOMLA_TIMEZONE_VALIDATION_SELECT_TIMEZONE","PLG_FIELDS_JOOMLA_USERNAME_CHECKING","PLG_FIELDS_JOOMLA_USERNAME_EMPTY_USERNAME","PLG_FIELDS_MULTIDROPDOWN_VALIDATION_REQUIRED_FIELD","PLG_FIELDS_MULTILIST_VALIDATION_PLEASE_SELECT_A_VALUE","PLG_FIELDS_MULTITEXTBOX_VALIDATION_REQUIRED_FIELD","PLG_FIELDS_PERMALINK_EXCEEDED_MAX_LENGTH","PLG_FIELDS_PERMALINK_REQUIRED","COM_EASYSOCIAL_FRIENDS_REQUEST_SENT","PLG_FIELDS_RELATIONSHIP_APPROVE_CONFIRM","PLG_FIELDS_RELATIONSHIP_ACTION_APPROVE","PLG_FIELDS_TERMS_VALIDATION_REQUIRED","PLG_FIELDS_TEXTAREA_VALIDATION_INPUT_REQUIRED","PLG_FIELDS_TEXTAREA_VALIDATION_INPUT_TOO_SHORT","PLG_FIELDS_TEXTAREA_VALIDATION_INPUT_TOO_LONG","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_REQUIRED","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_TOO_SHORT","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_TOO_LONG","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_INVALID_FORMAT","PLG_FIELDS_URL_VALIDATION_EMPTY_URL","COM_EASYSOCIAL_CONVERSATIONS_ERROR_EMPTY_RECIPIENTS","COM_EASYSOCIAL_CONVERSATIONS_ERROR_EMPTY_MESSAGE","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_PUBLIC","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_MEMBER","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_FRIENDS_OF_FRIEND","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_FRIEND","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_ONLY_ME","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_CUSTOM","COM_EASYSOCIAL_AT_LOCATION","COM_EASYSOCIAL_ACTIVITY_APPS_UNHIDE_SUCCESSFULLY","COM_EASYSOCIAL_ACTIVITY_USERS_UNHIDE_SUCCESSFULLY","COM_EASYSOCIAL_ACTIVITY_LOG_LOAD_PREVIOUS_STREAM_ITEMS","COM_EASYSOCIAL_COMMENTS_STATUS_SAVE_ERROR","COM_EASYSOCIAL_COMMENTS_STATUS_LOADING","COM_EASYSOCIAL_COMMENTS_STATUS_LOAD_ERROR","COM_EASYSOCIAL_COMMENTS_STATUS_DELETING","COM_EASYSOCIAL_COMMENTS_STATUS_DELETE_ERROR","COM_EASYSOCIAL_LIKES_LIKE","COM_EASYSOCIAL_LIKES_UNLIKE","COM_EASYSOCIAL_COMMENTS_LOADED_OF_TOTAL","COM_EASYSOCIAL_COMMENTS_STATUS_SAVING","COM_EASYSOCIAL_COMMENTS_STATUS_SAVED","COM_EASYSOCIAL_NO_BUTTON","COM_EASYSOCIAL_CONVERSATION_REPLY_POSTED_SUCCESSFULLY","COM_EASYSOCIAL_CONVERSATION_REPLY_FORM_EMPTY","COM_EASYSOCIAL_STREAM_FILTER_WARNING_TITLE_EMPTY","COM_EASYSOCIAL_STREAM_FILTER_WARNING_HASHTAG_EMPTY","COM_EASYSOCIAL_EVENTS_GUEST_PENDING","COM_EASYSOCIAL_EVENTS_DETECTING_LOCATION","COM_EASYSOCIAL_EXPLORER_ENTER_FOLDER_NAME","COM_EASYSOCIAL_EXPLORER_INVALID_FOLDER_NAME","COM_EASYSOCIAL_FRIENDS_REQUEST_SENT_PENDING_APPROVAL","COM_EASYSOCIAL_FRIENDS_REQUEST_DIALOG_TITLE","COM_EASYSOCIAL_FRIENDS_CANCEL_REQUEST_DIALOG_CANCELLED","COM_EASYSOCIAL_FRIENDS_DIALOG_CANCEL_REQUEST","COM_EASYSOCIAL_YES_CANCEL_MY_REQUEST_BUTTON","COM_EASYSOCIAL_REGISTRATION_ERROR_DIALOG_TITLE","COM_EASYSOCIAL_ADVANCED_SEARCH_ADDRESS_DISTANCE_NOTICE","COM_EASYSOCIAL_STREAM_LOAD_PREVIOUS_STREAM_ITEMS","COM_EASYSOCIAL_SEARCH_LOAD_MORE_ITEMS","COM_EASYSOCIAL_FRIENDS_REQUEST_SENT_NOTICE","COM_EASYSOCIAL_SUBSCRIPTION_INFO","COM_EASYSOCIAL_FRIENDS_REQUEST_REJECTED","COM_EASYSOCIAL_STREAM_META_JOINER","COM_EASYSOCIAL_STORY_SUBMIT_ERROR","COM_EASYSOCIAL_STORY_CONTENT_EMPTY","COM_EASYSOCIAL_STORY_NOT_ON_STREAM_FILTER","COM_EASYSOCIAL_STORY_EVENT_INSUFFICIENT_DATA","COM_EASYSOCIAL_STORY_EVENT_INVALID_START_END_DATETIME","COM_EASYSOCIAL_STREAM_STORY_WITH","COM_EASYSOCIAL_STREAM_STORY_WITH_JOINER","COM_EASYSOCIAL_STREAM_STORY_WITH_LAST_JOINER","COM_EASYSOCIAL_AND","COM_EASYSOCIAL_MOOD_FEELING_CUSTOM","COM_EASYSOCIAL_VIDEOS_STORY_SELECT_CATEGORY","COM_EASYSOCIAL_VIDEOS_STORY_ENTER_VIDEO","COM_EASYSOCIAL_VIDEOS_STORY_PROCESSING_VIDEO","COM_EASYSOCIAL_VIDEOS_STORY_CLICK_INSERT_VIDEO","COM_EASYSOCIAL_VIDEOS_STORY_NO_VIDEO_DETECTED","COM_EASYSOCIAL_SUBSCRIPTION_DIALOG_UNSUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_DIALOG_SUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_OK","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_SUBMIT","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_CANCEL","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_UNSUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_ARE_YOU_SURE_UNSUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_SUBSCRIBE","COM_EASYSOCIAL_STREAM_DIALOG_FEED","COM_EASYSOCIAL_STREAM_BUTTON_CLOSE"]);
+$.require.language.loader(["COM_EASYSOCIAL_SCAN_COMPLETED","JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST","COM_EASYSOCIAL_INDEXER_REINDEX_PROCESSING","COM_EASYSOCIAL_INDEXER_REINDEX_FINISHED","COM_EASYSOCIAL_INDEXER_REINDEX_RESTART","COM_EASYSOCIAL_CANCEL_BUTTON","COM_EASYSOCIAL_CLOSE_BUTTON","COM_EASYSOCIAL_POLLS_VIEW_POLLS_DIALOG_TITLE","COM_EASYSOCIAL_POLLS_ACTIONS_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_ITEM_CONFIG_LOADING","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_CONFIRMATION","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_CONFIRM","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_CANCEL","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_PAGE_DIALOG_DELETING","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_CONFIRMATION","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_CONFIRM","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_CANCEL","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_DELETE_ITEM_DIALOG_DELETING","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_PARAMS_CORE_UNIQUE_KEY_SAVE_FIRST","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_CONFIGURE_PAGE","COM_EASYSOCIAL_PROFILES_FORM_FIELDS_CONFIGURE_FIELD","COM_EASYSOCIAL_FIELDS_REQUIRE_MANDATORY_FIELDS","COM_EASYSOCIAL_FIELDS_UNSAVED_CHANGES","COM_EASYSOCIAL_FIELDS_INVALID_VALUES","COM_EASYSOCIAL_ASSIGN_BUTTON","COM_EASYSOCIAL_PROFILES_ASSIGN_USER_DIALOG_TITLE","COM_EASYSOCIAL_PROFILES_FORM_CLEAR_AVATAR","COM_EASYSOCIAL_REGIONS_FORM_INCOMPLETE","COM_EASYSOCIAL_REPORTS_VIEW_REPORTS_DIALOG_TITLE","COM_EASYSOCIAL_REPORTS_ACTIONS_DIALOG_TITLE","FIELDS_EVENT_PERMALINK_EXCEEDED_MAX_LENGTH","FIELDS_PROJECT_PERMALINK_EXCEEDED_MAX_LENGTH","FIELDS_EVENT_PERMALINK_REQUIRED","FIELDS_PROJECT_PERMALINK_REQUIRED","FIELDS_EVENT_STARTEND_VALIDATION_DATETIME_START_REQUIRED","FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_START_REQUIRED","FIELDS_EVENT_STARTEND_VALIDATION_DATETIME_END_REQUIRED","FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_END_REQUIRED","FIELDS_USER_DATETIME_LOCAL_TIMEZONE","FIELDS_USER_DATETIME_TIMEZONE_CHECKING","PLG_FIELDS_GROUP_PERMALINK_EXCEEDED_MAX_LENGTH","PLG_FIELDS_GROUP_PERMALINK_REQUIRED","PLG_FIELDS_ADDRESS_PLEASE_ENTER_ADDRESS1","PLG_FIELDS_ADDRESS_PLEASE_ENTER_ADDRESS2","PLG_FIELDS_ADDRESS_PLEASE_ENTER_CITY","PLG_FIELDS_ADDRESS_PLEASE_ENTER_STATE","PLG_FIELDS_ADDRESS_PLEASE_ENTER_ZIP","PLG_FIELDS_ADDRESS_PLEASE_ENTER_COUNTRY","COM_EASYSOCIAL_LOCATION_PERMISSION_ERROR","COM_EASYSOCIAL_LOCATION_TIMEOUT_ERROR","COM_EASYSOCIAL_LOCATION_UNAVAILABLE_ERROR","COM_EASYSOCIAL_STREAM_AT","PLG_FIELDS_AVATAR_VALIDATION_EMPTY_PROFILE_PICTURE","PLG_FIELDS_CHECKBOX_CHECK_AT_LEAST_ONE_ITEM","PLG_FIELDS_COUNTRY_VALIDATION_REQUIRED","PLG_FIELDS_COUNTRY_VALIDATION_MINIMUM_ERROR","PLG_FIELDS_COUNTRY_VALIDATION_MAXIMUM_ERROR","PLG_FIELDS_COVER_VALIDATION_REQUIRED","PLG_FIELDS_DATETIME_VALIDATION_INVALID_DATETIME_FORMAT","PLG_FIELDS_DATETIME_VALIDATION_PLEASE_SELECT_DATETIME","PLG_FIELDS_DATETIME_DAY","PLG_FIELDS_DROPDOWN_VALIDATION_PLEASE_SELECT_A_VALUE","PLG_FIELDS_EMAIL_VALIDATION_REQUIRED","PLG_FIELDS_EMAIL_VALIDATION_INVALID_FORMAT","PLG_FIELDS_FILE_ERROR_UNKNOWN_ERROR_OCCURED","COM_EASYSOCIAL_WORKING","PLG_FIELDS_GENDER_VALIDATION_GENDER_REQUIRED","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_REQUIRED","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_RECONFIRM_REQUIRED","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_NOT_MATCHING","PLG_FIELDS_JOOMLA_EMAIL_CHECKING","PLG_FIELDS_JOOMLA_EMAIL_VALIDATION_INVALID_FORMAT","PLG_FIELDS_JOOMLA_FULLNAME_VALIDATION_EMPTY_NAME","PLG_FIELDS_JOOMLA_PASSWORD_EMPTY_PASSWORD","PLG_FIELDS_JOOMLA_PASSWORD_EMPTY_RECONFIRM_PASSWORD","PLG_FIELDS_JOOMLA_PASSWORD_NOT_MATCHING","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_CHAR","PLG_FIELDS_JOOMLA_PASSWORD_MAXIMUM_CHAR","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_INTEGER","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_SYMBOLS","PLG_FIELDS_JOOMLA_PASSWORD_MINIMUM_UPPERCASE","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_VERY_WEAK","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_WEAK","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_NORMAL","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_STRONG","PLG_FIELDS_JOOMLA_PASSWORD_STRENGTH_VERY_STRONG","PLG_FIELDS_JOOMLA_PASSWORD_EMPTY_ORIGINAL_PASSWORD","PLG_FIELDS_JOOMLA_PASSWORD_TOO_SHORT","PLG_FIELDS_JOOMLA_PASSWORD_TOO_LONG","PLG_FIELDS_JOOMLA_TIMEZONE_VALIDATION_SELECT_TIMEZONE","PLG_FIELDS_JOOMLA_USERNAME_CHECKING","PLG_FIELDS_JOOMLA_USERNAME_EMPTY_USERNAME","PLG_FIELDS_MULTIDROPDOWN_VALIDATION_REQUIRED_FIELD","PLG_FIELDS_MULTILIST_VALIDATION_PLEASE_SELECT_A_VALUE","PLG_FIELDS_MULTITEXTBOX_VALIDATION_REQUIRED_FIELD","PLG_FIELDS_PERMALINK_EXCEEDED_MAX_LENGTH","PLG_FIELDS_PERMALINK_REQUIRED","COM_EASYSOCIAL_FRIENDS_REQUEST_SENT","PLG_FIELDS_RELATIONSHIP_APPROVE_CONFIRM","PLG_FIELDS_RELATIONSHIP_ACTION_APPROVE","PLG_FIELDS_TERMS_VALIDATION_REQUIRED","PLG_FIELDS_TEXTAREA_VALIDATION_INPUT_REQUIRED","PLG_FIELDS_TEXTAREA_VALIDATION_INPUT_TOO_SHORT","PLG_FIELDS_TEXTAREA_VALIDATION_INPUT_TOO_LONG","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_REQUIRED","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_TOO_SHORT","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_TOO_LONG","PLG_FIELDS_TEXTBOX_VALIDATION_INPUT_INVALID_FORMAT","PLG_FIELDS_URL_VALIDATION_EMPTY_URL","COM_EASYSOCIAL_CONVERSATIONS_ERROR_EMPTY_RECIPIENTS","COM_EASYSOCIAL_CONVERSATIONS_ERROR_EMPTY_MESSAGE","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_PUBLIC","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_MEMBER","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_FRIENDS_OF_FRIEND","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_FRIEND","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_ONLY_ME","COM_EASYSOCIAL_PRIVACY_TOOLTIPS_SHARED_WITH_CUSTOM","COM_EASYSOCIAL_AT_LOCATION","COM_EASYSOCIAL_ACTIVITY_APPS_UNHIDE_SUCCESSFULLY","COM_EASYSOCIAL_ACTIVITY_USERS_UNHIDE_SUCCESSFULLY","COM_EASYSOCIAL_ACTIVITY_LOG_LOAD_PREVIOUS_STREAM_ITEMS","COM_EASYSOCIAL_COMMENTS_STATUS_SAVE_ERROR","COM_EASYSOCIAL_COMMENTS_STATUS_LOADING","COM_EASYSOCIAL_COMMENTS_STATUS_LOAD_ERROR","COM_EASYSOCIAL_COMMENTS_STATUS_DELETING","COM_EASYSOCIAL_COMMENTS_STATUS_DELETE_ERROR","COM_EASYSOCIAL_LIKES_LIKE","COM_EASYSOCIAL_LIKES_UNLIKE","COM_EASYSOCIAL_COMMENTS_LOADED_OF_TOTAL","COM_EASYSOCIAL_COMMENTS_STATUS_SAVING","COM_EASYSOCIAL_COMMENTS_STATUS_SAVED","COM_EASYSOCIAL_NO_BUTTON","COM_EASYSOCIAL_CONVERSATION_REPLY_POSTED_SUCCESSFULLY","COM_EASYSOCIAL_CONVERSATION_REPLY_FORM_EMPTY","COM_EASYSOCIAL_STREAM_FILTER_WARNING_TITLE_EMPTY","COM_EASYSOCIAL_STREAM_FILTER_WARNING_HASHTAG_EMPTY","COM_EASYSOCIAL_EVENTS_GUEST_PENDING","COM_EASYSOCIAL_PROJECTS_GUEST_PENDING","COM_EASYSOCIAL_EVENTS_DETECTING_LOCATION","COM_EASYSOCIAL_PROJECTS_DETECTING_LOCATION","COM_EASYSOCIAL_EXPLORER_ENTER_FOLDER_NAME","COM_EASYSOCIAL_EXPLORER_INVALID_FOLDER_NAME","COM_EASYSOCIAL_FRIENDS_REQUEST_SENT_PENDING_APPROVAL","COM_EASYSOCIAL_FRIENDS_REQUEST_DIALOG_TITLE","COM_EASYSOCIAL_FRIENDS_CANCEL_REQUEST_DIALOG_CANCELLED","COM_EASYSOCIAL_FRIENDS_DIALOG_CANCEL_REQUEST","COM_EASYSOCIAL_YES_CANCEL_MY_REQUEST_BUTTON","COM_EASYSOCIAL_REGISTRATION_ERROR_DIALOG_TITLE","COM_EASYSOCIAL_ADVANCED_SEARCH_ADDRESS_DISTANCE_NOTICE","COM_EASYSOCIAL_STREAM_LOAD_PREVIOUS_STREAM_ITEMS","COM_EASYSOCIAL_SEARCH_LOAD_MORE_ITEMS","COM_EASYSOCIAL_FRIENDS_REQUEST_SENT_NOTICE","COM_EASYSOCIAL_SUBSCRIPTION_INFO","COM_EASYSOCIAL_FRIENDS_REQUEST_REJECTED","COM_EASYSOCIAL_STREAM_META_JOINER","COM_EASYSOCIAL_STORY_SUBMIT_ERROR","COM_EASYSOCIAL_STORY_CONTENT_EMPTY","COM_EASYSOCIAL_STORY_NOT_ON_STREAM_FILTER","COM_EASYSOCIAL_STORY_EVENT_INSUFFICIENT_DATA","COM_EASYSOCIAL_STORY_PROJECT_INSUFFICIENT_DATA","COM_EASYSOCIAL_STORY_EVENT_INVALID_START_END_DATETIME","COM_EASYSOCIAL_STORY_PROJECT_INVALID_START_END_DATETIME","COM_EASYSOCIAL_STREAM_STORY_WITH","COM_EASYSOCIAL_STREAM_STORY_WITH_JOINER","COM_EASYSOCIAL_STREAM_STORY_WITH_LAST_JOINER","COM_EASYSOCIAL_AND","COM_EASYSOCIAL_MOOD_FEELING_CUSTOM","COM_EASYSOCIAL_VIDEOS_STORY_SELECT_CATEGORY","COM_EASYSOCIAL_VIDEOS_STORY_ENTER_VIDEO","COM_EASYSOCIAL_VIDEOS_STORY_PROCESSING_VIDEO","COM_EASYSOCIAL_VIDEOS_STORY_CLICK_INSERT_VIDEO","COM_EASYSOCIAL_VIDEOS_STORY_NO_VIDEO_DETECTED","COM_EASYSOCIAL_SUBSCRIPTION_DIALOG_UNSUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_DIALOG_SUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_OK","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_SUBMIT","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_CANCEL","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_UNSUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_ARE_YOU_SURE_UNSUBSCRIBE","COM_EASYSOCIAL_SUBSCRIPTION_BUTTON_SUBSCRIBE","COM_EASYSOCIAL_STREAM_DIALOG_FEED","COM_EASYSOCIAL_STREAM_BUTTON_CLOSE"]);
 (function(){
 var stylesheetNames = ["easysocial/imgareaselect/default"];
 var state = ($.stylesheet({"content":""})) ? "resolve" : "reject";
@@ -46283,6 +46283,234 @@ EasySocial.module('story/event', function($) {
         module.resolve();
     });
 });
+
+	EasySocial.module('story/project', function($) {
+		var module = this;
+
+		var lang = EasySocial.options.momentLang;
+
+		EasySocial.require()
+			.library('datetimepicker', 'moment/' + lang)
+			.view('site/loading/small')
+			.language('COM_EASYSOCIAL_STORY_PROJECT_INSUFFICIENT_DATA', 'COM_EASYSOCIAL_STORY_PROJECT_INVALID_START_END_DATETIME')
+			.done(function() {
+				EasySocial.Controller('Story.Project', {
+					defaultOptions: {
+						'{base}': '[data-story-project-base]',
+
+						'{category}': '[data-story-project-category]',
+						'{form}': '[data-story-project-form]',
+
+						'{timezone}': '[data-project-timezone]',
+
+						'{datetimeForm}': '[data-project-datetime-form]',
+
+						'{datetime}': '[data-project-datetime]',
+
+						'{title}': '[data-project-title]',
+						'{description}': '[data-project-description]',
+
+						view: {
+							loading: 'site/loading/small'
+						}
+					}
+				}, function(self) {
+					return {
+						init: function() {
+						},
+
+						'{category} change': function(el, ev) {
+							if(el.val()) {
+								self.form()
+									.show()
+									.html(self.view.loading());
+
+								self.loadStoryForm(el.val()).done(function(html) {
+									self.form().html(html);
+
+									var data = self.datetimeForm().htmlData();
+
+									var yearto;
+
+									if (!$.isEmpty(data.yearto)) {
+										yearto = parseInt(data.yearto) + 1;
+									} else {
+										yearto = new Date().getFullYear() + 100
+									}
+
+									$.extend(self.options, {
+										yearfrom: data.yearfrom || 1930,
+										yearto: yearto,
+										allowTime: data.allowtime,
+										allowTimezone: data.allowtimezone,
+										dateFormat: data.dateformat,
+										disallowPast: data.disallowpast,
+										minuteStepping: parseInt(data.minutestepping)
+									});
+
+									self.datetime().addController('EasySocial.Controller.Story.Projects.Datetime', {
+										'{parent}': self
+									});
+								});
+							} else {
+								self.form()
+									.hide()
+									.html('');
+							}
+						},
+
+						loadStoryForm: $.memoize(function(id) {
+							return EasySocial.ajax('apps/user/projects/controllers/projects/loadStoryForm', {
+								id: id
+							});
+						}),
+
+						'{story} save': function(element, project, save) {
+
+							if (save.currentPanel != 'project') {
+								return;
+							}
+
+							var data = {
+								title: self.title().val(),
+								description: self.description().val(),
+								category: self.category().val()
+							};
+
+							if (self.options.allowTimezone) {
+								data.timezone = self.timezone().val()
+							}
+
+							self.datetime().trigger('datetimeExport', [data]);
+
+							self.options.name = 'project';
+
+							var task = save.addTask('validateProjectForm');
+
+							self.save(task, data);
+						},
+
+						save: function(task, data) {
+							if ($.isEmpty(data.title)
+								|| $.isEmpty(data.category)
+								|| $.isEmpty(data.start)) {
+
+								return task.reject($.language('COM_EASYSOCIAL_STORY_PROJECT_INSUFFICIENT_DATA'));
+							}
+
+							if (!$.isEmpty(data.start) && !$.isEmpty(data.end) && data.end < data.start) {
+								return task.reject($.language('COM_EASYSOCIAL_STORY_PROJECT_INVALID_START_END_DATETIME'));
+							}
+
+							task.save.addData(self, data);
+
+							task.resolve();
+						}
+					}
+				});
+
+				EasySocial.Controller('Story.Projects.Datetime', {
+					defaultOptions: {
+						type: null,
+
+						'{picker}': '[data-picker]',
+						'{toggle}': '[data-picker-toggle]',
+						'{datetime}': '[data-datetime]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.options.type = self.element.data('project-datetime');
+
+							var minDate = new $.moment();
+
+							if (self.parent.options.disallowPast) {
+								// Minus 1 on the date to allow today
+								minDate.date(minDate.date() - 1);
+							} else {
+								minDate.year(self.parent.options.yearfrom);
+							}
+
+							self.picker()._datetimepicker({
+								component: "es",
+								useCurrent: false,
+								format: self.parent.options.dateFormat,
+								minDate: minDate,
+								maxDate: new $.moment({y: self.parent.options.yearto}),
+								icons: {
+									time: 'glyphicon glyphicon-time',
+									date: 'glyphicon glyphicon-calendar',
+									up: 'glyphicon glyphicon-chevron-up',
+									down: 'glyphicon glyphicon-chevron-down'
+								},
+								sideBySide: false,
+								pickTime: self.parent.options.allowTime == 1,
+								minuteStepping: self.parent.options.minuteStepping,
+								language: lang
+							});
+
+							var dateObj = $.moment();
+
+							dateObj.minute(0);
+							dateObj.second(0);
+
+							// If this is end, manually add 1 hour
+							if (self.options.type == 'end') {
+								dateObj.hour(dateObj.hour() + 1);
+							}
+
+							self.datetimepicker('setDate', dateObj);
+						},
+
+						datetimepicker: function(name, value) {
+							return self.picker().data('DateTimePicker')[name](value);
+						},
+
+						'{toggle} click': function() {
+							self.picker().focus();
+						},
+
+						'{picker} dp.change': function(el, ev) {
+							self.setDateValue(ev.date.toDate());
+
+							self.parent.element.trigger('project' + $.String.capitalize(self.options.type), [ev.date]);
+						},
+
+						setDateValue: function(date) {
+							// Convert the date object into sql format and set it into the input
+							self.datetime().val(date.getFullYear() + '-' +
+								('00' + (date.getMonth()+1)).slice(-2) + '-' +
+								('00' + date.getDate()).slice(-2) + ' ' +
+								('00' + date.getHours()).slice(-2) + ':' +
+								('00' + date.getMinutes()).slice(-2) + ':' +
+								('00' + date.getSeconds()).slice(-2));
+						},
+
+						'{parent} projectStart': function(el, ev, date) {
+							if (self.options.type === 'start') {
+								return;
+							}
+
+							// self.datetimepicker('setMinDate', date ? date : new $.moment({y: self.parent.options.yearfrom}));
+						},
+
+						'{parent} projectEnd': function(el, ev, date) {
+							if (self.options.type === 'end') {
+								return;
+							}
+
+							// self.datetimepicker('setMaxDate', date ? date : new $.moment({y: self.parent.options.yearto}));
+						},
+
+						'{self} datetimeExport': function(el, ev, data) {
+							data[self.options.type] = self.datetime().val();
+						}
+					}
+				})
+
+				module.resolve();
+			});
+	});
 
 EasySocial.module("story/files", function($){
 
