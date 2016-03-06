@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<social type="apps" group="event">
-    <name>Events</name>
-    <element>events</element>
+<social type="apps" group="project">
+    <name>Projects</name>
+    <element>projects</element>
     <author>Stack Ideas Sdn Bhd</author>
     <url>http://stackideas.com</url>
     <created>29/05/2014</created>
@@ -12,13 +12,13 @@
     <system>true</system>
     <core>true</core>
     <widget>false</widget>
-    <description><![CDATA[APP_EVENT_EVENTS_APP_DESCRIPTION]]></description>
+    <description><![CDATA[APP_PROJECT_PROJECTS_APP_DESCRIPTION]]></description>
     <files>
 		<folder>assets</folder>
 		<folder>config</folder>
 		<folder>hooks</folder>
 		<folder>themes</folder>
-		<file>events.php</file>
-		<file>events.xml</file>
+		<file>projects.php</file>
+		<file>projects.xml</file>
 	</files>
 </social>

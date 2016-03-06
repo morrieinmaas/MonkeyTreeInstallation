@@ -12,14 +12,14 @@
 defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 ?>
 <div class="stream-apps-content mt-10 mb-10">
-    <?php if ($project->hasCover()) { ?>
+    <?php if ($event->hasCover()) { ?>
     <div class="media">
         <div class="es-photo es-cover">
             <a class="es-cover-container"
-               href="<?php echo $project->getPermalink();?>">
+               href="<?php echo $event->getPermalink();?>">
                 <u class="es-cover-viewport">
-                    <b><img src="<?php echo $project->getCover(); ?>" /></b>
-                    <em style="background-image: url('<?php echo $project->getCover(); ?>'); background-position: <?php echo $project->getCoverData()->getPosition(); ?>;"></em>
+                    <b><img src="<?php echo $event->getCover(); ?>" /></b>
+                    <em style="background-image: url('<?php echo $event->getCover(); ?>'); background-position: <?php echo $event->getCoverData()->getPosition(); ?>;"></em>
                </u>
             </a>
         </div>
@@ -28,72 +28,72 @@ defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 
     <div class="media">
         <div class="media-object pull-left">
-            <img class="es-avatar es-avatar-md" src="<?php echo $project->getAvatar();?>" />
+            <img class="es-avatar es-avatar-md" src="<?php echo $event->getAvatar();?>" />
         </div>
 
         <div class="media-body">
             <h4 class="es-stream-content-title">
-                <a href="<?php echo $project->getPermalink();?>"><?php echo $project->getName(); ?></a>
+                <a href="<?php echo $event->getPermalink();?>"><?php echo $event->getName(); ?></a>
 
-                <?php if ($project->isOpen()) { ?>
-                <span class="label label-success" data-original-title="<?php echo FD::_('COM_EASYSOCIAL_PROJECTS_OPEN_PROJECT_TOOLTIP', true);?>" data-es-provide="tooltip" data-placement="bottom">
+                <?php if ($event->isOpen()) { ?>
+                <span class="label label-success" data-original-title="<?php echo FD::_('COM_EASYSOCIAL_EVENTS_OPEN_EVENT_TOOLTIP', true);?>" data-es-provide="tooltip" data-placement="bottom">
                     <i class="fa fa-globe"></i>
-                    <?php echo JText::_('COM_EASYSOCIAL_PROJECTS_OPEN_PROJECT'); ?>
+                    <?php echo JText::_('COM_EASYSOCIAL_EVENTS_OPEN_EVENT'); ?>
                 </span>
                 <?php } ?>
 
-                <?php if ($project->isClosed()) { ?>
-                <span class="label label-danger" data-original-title="<?php echo FD::_('COM_EASYSOCIAL_PROJECTS_PRIVATE_PROJECT_TOOLTIP', true);?>" data-es-provide="tooltip" data-placement="bottom">
+                <?php if ($event->isClosed()) { ?>
+                <span class="label label-danger" data-original-title="<?php echo FD::_('COM_EASYSOCIAL_EVENTS_PRIVATE_EVENT_TOOLTIP', true);?>" data-es-provide="tooltip" data-placement="bottom">
                     <i class="fa fa-lock"></i>
-                    <?php echo JText::_('COM_EASYSOCIAL_PROJECTS_PRIVATE_PROJECT'); ?>
+                    <?php echo JText::_('COM_EASYSOCIAL_EVENTS_PRIVATE_EVENT'); ?>
                 </span>
                 <?php } ?>
 
-                <?php if ($project->isInviteOnly()) { ?>
-                <span class="label label-warning" data-original-title="<?php echo FD::_('COM_EASYSOCIAL_PROJECTS_INVITE_PROJECT_TOOLTIP', true);?>" data-es-provide="tooltip" data-placement="bottom">
+                <?php if ($event->isInviteOnly()) { ?>
+                <span class="label label-warning" data-original-title="<?php echo FD::_('COM_EASYSOCIAL_EVENTS_INVITE_EVENT_TOOLTIP', true);?>" data-es-provide="tooltip" data-placement="bottom">
                     <i class="fa fa-lock muted"></i>
-                    <?php echo JText::_('COM_EASYSOCIAL_PROJECTS_INVITE_PROJECT'); ?>
+                    <?php echo JText::_('COM_EASYSOCIAL_EVENTS_INVITE_EVENT'); ?>
                 </span>
                 <?php } ?>
             </h4>
 
             <p class="mb-10 mt-10 blog-description">
-                <?php echo $this->html('string.truncater', $project->getDescription(), 250);?>
+                <?php echo $this->html('string.truncater', $event->getDescription(), 250);?>
             </p>
 
             <div class="stream-apps-meta mt-5">
                 <i class="fa fa-calendar mr-5"></i>
-                <?php echo $project->getStartEndDisplay(); ?>
+                <?php echo $event->getStartEndDisplay(); ?>
             </div>
 
             <ul class="stream-apps-meta ml-0 pl-0">
                 <li>
                     <span>
-                        <a href="<?php echo FRoute::projects(array('layout' => 'category' , 'id' => $project->getCategory()->getAlias()));?>">
-                            <i class="fa fa-database"></i> <?php echo $project->getCategory()->get('title'); ?>
+                        <a href="<?php echo FRoute::events(array('layout' => 'category' , 'id' => $event->getCategory()->getAlias()));?>">
+                            <i class="fa fa-database"></i> <?php echo $event->getCategory()->get('title'); ?>
                         </a>
                     </span>
                 </li>
                 <li>
                     <span>
-                        <a href="<?php echo FRoute::albums(array('uid' => $project->id, 'type' => SOCIAL_TYPE_PROJECT));?>">
-                            <i class="fa fa-photo"></i> <?php echo JText::sprintf(FD::string()->computeNoun('COM_EASYSOCIAL_PROJECTS_TOTAL_ALBUMS', $project->getTotalAlbums()), $project->getTotalAlbums()); ?>
+                        <a href="<?php echo FRoute::albums(array('uid' => $event->id, 'type' => SOCIAL_TYPE_EVENT));?>">
+                            <i class="fa fa-photo"></i> <?php echo JText::sprintf(FD::string()->computeNoun('COM_EASYSOCIAL_EVENTS_TOTAL_ALBUMS', $event->getTotalAlbums()), $event->getTotalAlbums()); ?>
                         </a>
                     </span>
                 </li>
                 <li>
                     <span>
-                        <i class="fa fa-users"></i> <?php echo JText::sprintf(FD::string()->computeNoun('COM_EASYSOCIAL_PROJECTS_TOTAL_GUESTS', $project->getTotalGoing()), $project->getTotalGoing()); ?>
+                        <i class="fa fa-users"></i> <?php echo JText::sprintf(FD::string()->computeNoun('COM_EASYSOCIAL_EVENTS_TOTAL_GUESTS', $event->getTotalGoing()), $event->getTotalGoing()); ?>
                     </span>
                 </li>
                 <li>
                     <span>
-                        <i class="fa fa-eye"></i> <?php echo JText::sprintf(FD::string()->computeNoun('COM_EASYSOCIAL_PROJECTS_TOTAL_VIEWS', $project->hits), $project->hits); ?>
+                        <i class="fa fa-eye"></i> <?php echo JText::sprintf(FD::string()->computeNoun('COM_EASYSOCIAL_EVENTS_TOTAL_VIEWS', $event->hits), $event->hits); ?>
                     </span>
                 </li>
             </ul>
 
-            <a href="<?php echo $project->getPermalink();?>"><?php echo JText::_('APP_USER_PROJECTS_VIEW_PROJECT'); ?> &rarr;</a>
+            <a href="<?php echo $event->getPermalink();?>"><?php echo JText::_('APP_USER_EVENTS_VIEW_EVENT'); ?> &rarr;</a>
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@
 */
 defined('_JEXEC') or die('Unauthorized Access');
 
-class SocialEventAppEventsHookNotificationLikes
+class SocialProjectAppProjectsHookNotificationLikes
 {
     public function execute($item)
     {
@@ -27,7 +27,7 @@ class SocialEventAppEventsHookNotificationLikes
 
         list($element, $group, $verb) = explode('.', $item->context_type);
 
-        $event = FD::event($item->uid);
+        $project = FD::project($item->uid);
 
         $owner = FD::user($item->getParams()->get('owner_id'));
 
@@ -36,26 +36,26 @@ class SocialEventAppEventsHookNotificationLikes
         // feature
         // update
 
-        // APP_USER_EVENTS_USER_LIKES_YOUR_EVENT_CREATE_SINGULAR
-        // APP_USER_EVENTS_USER_LIKES_YOUR_EVENT_CREATE_PLURAL
-        // APP_USER_EVENTS_USER_LIKES_YOUR_EVENT_FEATURE_SINGULAR
-        // APP_USER_EVENTS_USER_LIKES_YOUR_EVENT_FEATURE_PLURAL
-        // APP_USER_EVENTS_USER_LIKES_YOUR_EVENT_UPDATE_SINGULAR
-        // APP_USER_EVENTS_USER_LIKES_YOUR_EVENT_UPDATE_PLURAL
-        // APP_USER_EVENTS_USER_LIKES_USERS_EVENT_CREATE_SINGULAR
-        // APP_USER_EVENTS_USER_LIKES_USERS_EVENT_CREATE_PLURAL
-        // APP_USER_EVENTS_USER_LIKES_USERS_EVENT_FEATURE_SINGULAR
-        // APP_USER_EVENTS_USER_LIKES_USERS_EVENT_FEATURE_PLURAL
-        // APP_USER_EVENTS_USER_LIKES_USERS_EVENT_UPDATE_SINGULAR
-        // APP_USER_EVENTS_USER_LIKES_USERS_EVENT_UPDATE_PLURAL
+        // APP_USER_PROJECTS_USER_LIKES_YOUR_PROJECT_CREATE_SINGULAR
+        // APP_USER_PROJECTS_USER_LIKES_YOUR_PROJECT_CREATE_PLURAL
+        // APP_USER_PROJECTS_USER_LIKES_YOUR_PROJECT_FEATURE_SINGULAR
+        // APP_USER_PROJECTS_USER_LIKES_YOUR_PROJECT_FEATURE_PLURAL
+        // APP_USER_PROJECTS_USER_LIKES_YOUR_PROJECT_UPDATE_SINGULAR
+        // APP_USER_PROJECTS_USER_LIKES_YOUR_PROJECT_UPDATE_PLURAL
+        // APP_USER_PROJECTS_USER_LIKES_USERS_PROJECT_CREATE_SINGULAR
+        // APP_USER_PROJECTS_USER_LIKES_USERS_PROJECT_CREATE_PLURAL
+        // APP_USER_PROJECTS_USER_LIKES_USERS_PROJECT_FEATURE_SINGULAR
+        // APP_USER_PROJECTS_USER_LIKES_USERS_PROJECT_FEATURE_PLURAL
+        // APP_USER_PROJECTS_USER_LIKES_USERS_PROJECT_UPDATE_SINGULAR
+        // APP_USER_PROJECTS_USER_LIKES_USERS_PROJECT_UPDATE_PLURAL
 
         if ($item->target_type === SOCIAL_TYPE_USER && $item->target_id == $owner->id) {
-            $item->title = JText::sprintf(FD::string()->computeNoun('APP_USER_EVENTS_USER_LIKES_YOUR_EVENT_' . strtoupper($verb), count($users)), $names);
+            $item->title = JText::sprintf(FD::string()->computeNoun('APP_USER_PROJECTS_USER_LIKES_YOUR_PROJECT_' . strtoupper($verb), count($users)), $names);
 
             return $item;
         }
 
-        $item->title = JText::sprintf(FD::string()->computeNoun('APP_USER_EVENTS_USER_LIKES_USERS_EVENT_' . strtoupper($verb), count($users)), $names, $owner->getName());
+        $item->title = JText::sprintf(FD::string()->computeNoun('APP_USER_PROJECTS_USER_LIKES_USERS_PROJECT_' . strtoupper($verb), count($users)), $names, $owner->getName());
 
         return $item;
     }

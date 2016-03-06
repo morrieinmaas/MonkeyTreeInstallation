@@ -11,4 +11,4 @@
 */
 defined('_JEXEC') or die('Unauthorized Access');
 ?>
-<?php echo JText::sprintf('APP_PROJECT_PROJECTS_STREAM_USER_UPDATED_PROJECT_META', $this->html('html.user', $actor->id), $this->html('html.project', $project)); ?>
+<?php echo JText::sprintf('APP_EVENT_EVENTS_STREAM_USER_UPDATED_EVENT_META', $this->html('html.user', $actor->id), $this->html('html.event', $event)); ?>
