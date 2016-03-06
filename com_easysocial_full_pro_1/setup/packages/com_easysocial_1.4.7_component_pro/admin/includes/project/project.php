@@ -13,13 +13,13 @@ defined('_JEXEC') or die('Unauthorized Access');
 
 FD::import('admin:/includes/cluster/cluster');
 
-class Socialproject extends SocialCluster
+class SocialProject extends SocialCluster
 {
     /**
      * Defines the cluster type.
      * @var string
      */
-    public $cluster_type = SOCIAL_TYPE_project;
+    public $cluster_type = SOCIAL_TYPE_PROJECT;
 
     /**
      * Stores the instances of projects.
@@ -97,10 +97,10 @@ class Socialproject extends SocialCluster
         // Initialize user's property locally.
         $this->initParams($params);
 
-        $this->table = FD::table('project');
+        $this->table = FD::table('Project');
         $this->table->bind($this);
 
-        $this->meta = FD::Table('projectMeta');
+        $this->meta = FD::Table('ProjectMeta');
         $this->meta->load(array('cluster_id' => $this->id));
     }
 
@@ -115,7 +115,7 @@ class Socialproject extends SocialCluster
      */
     public static function factory($ids = null)
     {
-        $items = self::loadprojects($ids);
+        $items = self::loadProjects($ids);
 
         return $items;
     }
@@ -197,7 +197,7 @@ class Socialproject extends SocialCluster
     public function deleteNotifications()
     {
         $model = FD::model('Clusters');
-        $state = $model->deleteClusterNotifications($this->id, $this->cluster_type, SOCIAL_TYPE_project);
+        $state = $model->deleteClusterNotifications($this->id, $this->cluster_type, SOCIAL_TYPE_PROJECT);
 
         return $state;
     }
@@ -240,9 +240,9 @@ class Socialproject extends SocialCluster
         $args = array(&$this);
 
         // @trigger onBeforeStorySave
-        $dispatcher->trigger(SOCIAL_TYPE_project, 'onBeforeDelete', $args);
+        $dispatcher->trigger(SOCIAL_TYPE_PROJECT, 'onBeforeDelete', $args);
 
-        $dispatcher->trigger(SOCIAL_TYPE_USER, 'onprojectBeforeDelete', $args);
+        $dispatcher->trigger(SOCIAL_TYPE_USER, 'onProjectBeforeDelete', $args);
 
         // Delete any relations from the calendar table
         $this->deleteFromCalendar();
@@ -271,9 +271,9 @@ class Socialproject extends SocialCluster
         $args[] = $state;
 
         // @trigger onAfterDelete
-        $dispatcher->trigger(SOCIAL_TYPE_project, 'onAfterDelete', $args);
+        $dispatcher->trigger(SOCIAL_TYPE_PROJECT, 'onAfterDelete', $args);
 
-        $dispatcher->trigger(SOCIAL_TYPE_USER, 'onprojectAfterDelete', $args);
+        $dispatcher->trigger(SOCIAL_TYPE_USER, 'onProjectAfterDelete', $args);
 
         return $state;
     }
@@ -293,7 +293,7 @@ class Socialproject extends SocialCluster
 
         $sql->delete('#__social_apps_calendar');
         $sql->where('uid', $this->id);
-        $sql->where('type', SOCIAL_TYPE_project);
+        $sql->where('type', SOCIAL_TYPE_PROJECT);
 
         $db->setQuery($sql);
         return $db->Query();
@@ -359,7 +359,7 @@ class Socialproject extends SocialCluster
      * @param   Mixed   $ids    The ids to load.
      * @return  Mixed           The project class or array of project classes.
      */
-    public static function loadprojects($ids = null)
+    public static function loadProjects($ids = null)
     {
         if (is_object($ids)) {
             $obj = new self;
@@ -378,7 +378,7 @@ class Socialproject extends SocialCluster
             return false;
         }
 
-        $model = FD::model('projects');
+        $model = FD::model('Projects');
 
         $projects = $model->getMeta($ids);
 
@@ -562,7 +562,7 @@ class Socialproject extends SocialCluster
      */
     public function isOpen()
     {
-        return $this->type == SOCIAL_project_TYPE_PUBLIC;
+        return $this->type == SOCIAL_PROJECT_TYPE_PUBLIC;
     }
 
     /**
@@ -575,7 +575,7 @@ class Socialproject extends SocialCluster
      */
     public function isClosed()
     {
-        return $this->type == SOCIAL_project_TYPE_PRIVATE;
+        return $this->type == SOCIAL_PROJECT_TYPE_PRIVATE;
     }
 
     /**
@@ -630,7 +630,7 @@ class Socialproject extends SocialCluster
      */
     public function isPrivate()
     {
-        return $this->type == SOCIAL_project_TYPE_PRIVATE;
+        return $this->type == SOCIAL_PROJECT_TYPE_PRIVATE;
     }
 
     /**
@@ -643,7 +643,7 @@ class Socialproject extends SocialCluster
      */
     public function isInviteOnly()
     {
-        return $this->type == SOCIAL_project_TYPE_INVITE;
+        return $this->type == SOCIAL_PROJECT_TYPE_INVITE;
     }
 
     /**
@@ -654,7 +654,7 @@ class Socialproject extends SocialCluster
      * @access  public
      * @return  SocialDate The SocialDate object of the project start datetime.
      */
-    public function getprojectStart()
+    public function getProjectStart()
     {
         return $this->meta->getStart();
     }
@@ -667,7 +667,7 @@ class Socialproject extends SocialCluster
      * @access  public
      * @return  SocialDate The SocialDate object of the project end datetime.
      */
-    public function getprojectEnd()
+    public function getProjectEnd()
     {
         return $this->meta->getEnd();
     }
@@ -680,7 +680,7 @@ class Socialproject extends SocialCluster
      * @access  public
      * @return  SocialDate The SocialDate object of the project timezone.
      */
-    public function getprojectTimezone()
+    public function getProjectTimezone()
     {
         return $this->meta->getTimezone();
     }
@@ -693,7 +693,7 @@ class Socialproject extends SocialCluster
      * @access public
      * @return boolean   True if project has an end date.
      */
-    public function hasprojectEnd()
+    public function hasProjectEnd()
     {
         return $this->meta->hasEnd();
     }
@@ -709,7 +709,7 @@ class Socialproject extends SocialCluster
     public function isOver()
     {
         // Get the project end date
-        $end = $this->getprojectEnd();
+        $end = $this->getProjectEnd();
 
         // Get the current date
         $now = FD::date();
@@ -731,7 +731,7 @@ class Socialproject extends SocialCluster
      */
     public function isUpcoming($daysToCheck = null)
     {
-        $start = $this->getprojectStart();
+        $start = $this->getProjectStart();
 
         $now = FD::date();
 
@@ -742,9 +742,9 @@ class Socialproject extends SocialCluster
             return $upcoming;
         }
 
-        $daysToproject = $this->timeToproject() / (60*60*24);
+        $daysToProject = $this->timeToProject() / (60*60*24);
 
-        return $daysToproject < $daysToCheck;
+        return $daysToProject < $daysToCheck;
     }
 
     /**
@@ -770,9 +770,9 @@ class Socialproject extends SocialCluster
      * @param   string  $format The format of the time to return.
      * @return  integer         The time based on the format to the project.
      */
-    public function timeToproject($format = 'seconds')
+    public function timeToProject($format = 'seconds')
     {
-        $start = $this->getprojectStart();
+        $start = $this->getProjectStart();
 
         $now = FD::date();
 
@@ -802,7 +802,7 @@ class Socialproject extends SocialCluster
      */
     public function getCategory()
     {
-        $table = FD::table('projectCategory');
+        $table = FD::table('ProjectCategory');
         $table->load($this->category_id);
 
         return $table;
@@ -857,7 +857,7 @@ class Socialproject extends SocialCluster
         }
 
         if (!isset($this->guests[$uid])) {
-            $guest = FD::table('projectGuest');
+            $guest = FD::table('ProjectGuest');
             $guest->uid = $uid;
             $guest->type = SOCIAL_TYPE_USER;
 
@@ -890,8 +890,8 @@ class Socialproject extends SocialCluster
         $args = array(&$this);
 
         // @trigger onprojectAfterApproved
-        $dispatcher->trigger(SOCIAL_TYPE_project, 'onAfterApproved', $args);
-        $dispatcher->trigger(SOCIAL_TYPE_USER, 'onprojectAfterApproved', $args);
+        $dispatcher->trigger(SOCIAL_TYPE_PROJECT, 'onAfterApproved', $args);
+        $dispatcher->trigger(SOCIAL_TYPE_USER, 'onProjectAfterApproved', $args);
 
         // Send email.
         FD::language()->loadSite();
@@ -905,7 +905,7 @@ class Socialproject extends SocialCluster
             'discussion' => $this->getParams()->get('discussions', true)
         );
 
-        $title = JText::sprintf('COM_EASYSOCIAL_EMAILS_project_APPROVED', $this->getName());
+        $title = JText::sprintf('COM_EASYSOCIAL_EMAILS_PROJECT_APPROVED', $this->getName());
 
         $mailer = FD::mailer();
 
@@ -965,7 +965,7 @@ class Socialproject extends SocialCluster
             'name' => $this->getCreator()->getName()
         );
 
-        $title = JText::sprintf('COM_EASYSOCIAL_EMAILS_project_REJECTED', $this->getName());
+        $title = JText::sprintf('COM_EASYSOCIAL_EMAILS_PROJECT_REJECTED', $this->getName());
 
         $mailer = FD::mailer();
 
@@ -998,7 +998,7 @@ class Socialproject extends SocialCluster
      */
     public function createStream($action, $actorId = null, $actorType = SOCIAL_TYPE_USER)
     {
-        // To prproject unexpected callees on creating stream.
+        // To project unexpected callees on creating stream.
         $allowed = array('create', 'update', 'feature');
 
         if (!in_array($action, $allowed)) {
@@ -1080,14 +1080,14 @@ class Socialproject extends SocialCluster
      */
     public function notifyMembers($action, $data = array())
     {
-        $model = FD::model('projects');
+        $model = FD::model('Projects');
 
         // Determines if the targets has been provided
         $targets = isset($data['targets']) ? $data['targets'] : false;
 
         if ($targets === false) {
             $exclude = isset($data['userId']) ? $data['userId'] : '';
-            $options = array('exclude' => $exclude, 'state' => SOCIAL_project_GUEST_GOING, 'users' => true);
+            $options = array('exclude' => $exclude, 'state' => SOCIAL_PROJECT_GUEST_GOING, 'users' => true);
             $targets = $model->getGuests($this->id, $options);
         }
 
@@ -1122,7 +1122,7 @@ class Socialproject extends SocialCluster
             $system->actor_id = $actor->id;
             $system->context_ids = $data['id'];
             $system->context_type = 'projects';
-            $system->type = SOCIAL_TYPE_project;
+            $system->type = SOCIAL_TYPE_PROJECT;
             $system->url = $params->videoLink;
             $system->image = $this->getAvatar();
 
