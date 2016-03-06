@@ -1,0 +1,11 @@
+{
+    "privacy": false,
+    "searchable": false,
+    "default": false,
+    "title": {
+        "default": "FIELD_PROJECT_RECURRING_DEFAULT_TITLE"
+    },
+    "description": {
+        "default": "FIELD_PROJECT_RECURRING_DEFAULT_DESCRIPTION"
+    }
+}
