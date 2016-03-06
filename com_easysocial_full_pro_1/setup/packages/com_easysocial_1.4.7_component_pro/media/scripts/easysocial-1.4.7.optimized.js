@@ -9767,6 +9767,7 @@ EasySocial.module('apps/event/guests', function($) {
                 '{demote} click' : function(el)
                 {
                     var item = self.getItem(el),
+
                         guestId = item.data('guestId');
 
                     EasySocial.dialog({

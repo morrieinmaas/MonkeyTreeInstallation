@@ -13,9 +13,11 @@ defined('_JEXEC') or die('Unauthorized Access');
 ?>
 <script type="text/javascript">
 EasySocial.require().script('site/events/browser')
+EasySocial.require().script('site/projects/browser')
 .done(function($) {
 
     $('[data-calendar-module]').implement( EasySocial.Controller.Events.Browser );
+    $('[data-calendar-module]').implement( EasySocial.Controller.Projects.Browser );
     
 });
 </script>
@@ -23,5 +25,7 @@ EasySocial.require().script('site/events/browser')
     <div id="fd" class="eb eb-mod mod-easyblogcalendar">
     	<div class="eb-mod-cal" data-events-calendar>
     	</div>
+        <div class="eb-mod-cal" data-projects-calendar>
+        </div>
     </div>
 </div>
