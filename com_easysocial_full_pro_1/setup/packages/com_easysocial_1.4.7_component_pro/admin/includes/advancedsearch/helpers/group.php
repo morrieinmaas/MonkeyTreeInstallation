@@ -353,6 +353,7 @@ class SocialAdvancedSearchHelperGroup
 			$query .= ' from `#__social_fields` as a';
 			$query .= ' inner join `#__social_fields_steps` as fs on a.`step_id` = fs.`id` and fs.`type` = ' . $db->Quote('clusters');
 			$query .= ' inner join `#__social_clusters_categories` as p on fs.`uid` = p.`id` and p.`type` = ' . $db->Quote('group');
+			$query .= ' inner join `#__social_pclusters_categories` as p on fs.`uid` = p.`id` and p.`type` = ' . $db->Quote('group');
 			$query .= ' inner join `#__social_apps` as b on a.`app_id` = b.`id` and b.`group` = ' . $db->Quote( 'group' );
 			$query .= ' where a.`searchable` = ' . $db->Quote( '1' );
 			$query .= ' and a.`state` = ' . $db->Quote( '1' );
