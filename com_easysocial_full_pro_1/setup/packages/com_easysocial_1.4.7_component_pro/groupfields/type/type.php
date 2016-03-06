@@ -120,6 +120,13 @@ class SocialFieldsGroupType extends SocialFieldItem
 		$sql->on('b.cluster_id', 'a.id');
 		$sql->where('b.group_id', $group->id);
 
+		// Second get all the group projects first
+		$sql->select('#__social_clusters', 'a');
+		$sql->column('a.id');
+		$sql->leftjoin('#__social_projects_meta', 'b');
+		$sql->on('b.cluster_id', 'a.id');
+		$sql->where('b.group_id', $group->id);
+
 		$db->setQuery($sql);
 		$clusterids = $db->loadColumn();
 

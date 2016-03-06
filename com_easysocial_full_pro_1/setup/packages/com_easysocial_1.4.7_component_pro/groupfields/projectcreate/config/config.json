@@ -1,0 +1,13 @@
+{
+    "title": {
+        "default": "FIELDS_GROUP_PROJECTCREATE_DEFAULT_TITLE"
+    },
+
+    "description": {
+        "default": "FIELDS_GROUP_PROJECTCREATE_DEFAULT_DESCRIPTION"
+    },
+
+    "visible_display": false,
+
+    "default": false
+}
