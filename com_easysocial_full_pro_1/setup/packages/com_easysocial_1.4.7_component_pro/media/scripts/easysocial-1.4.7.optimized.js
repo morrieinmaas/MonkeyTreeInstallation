@@ -836,6 +836,283 @@ EasySocial.module('admin/events/users', function($) {
         });
 });
 
+	EasySocial.module('admin/projects/approveRecurring', function($) {
+		var module = this;
+
+		EasySocial.Controller('Projects.ApproveRecurring', {
+			defaultOptions: {
+				postdatas: {},
+				schedules: {},
+				projectids: [],
+
+				'{progress}': '[data-progress-bar]',
+
+				'{form}': '[data-form]'
+			}
+		}, function(self) {
+			return {
+				init: function() {
+					// Calculate the total things to do
+					var length = 0;
+
+					$.each(self.options.schedules, function(i, s) {
+						length += s.length;
+					});
+
+					self.total = length;
+
+					self.startCreate();
+				},
+
+				total: 0,
+				doneCounter: 0,
+				projectCounter: 0,
+				createCounter: 0,
+
+				updateProgressBar: function() {
+					var percentage = Math.ceil((self.doneCounter / self.total) * 100);
+
+					self.progress().css({
+						width: percentage + '%'
+					});
+				},
+
+				startCreate: function() {
+					if (self.options.projectids[self.projectCounter] === undefined) {
+						return self.completed();
+					}
+
+					self.create()
+						.done(function() {
+							self.doneCounter++;
+
+							self.createCounter++;
+
+							if (self.options.schedules[self.options.projectids[self.projectCounter]][self.createCounter] === undefined) {
+								self.projectCounter++;
+								self.createCounter = 0;
+							}
+
+							self.updateProgressBar();
+
+							self.startCreate();
+						})
+						.fail(function(msg, errors) {
+							console.log(msg, errors);
+						});
+				},
+
+				create: function() {
+					var projectId = self.options.projectids[self.projectCounter],
+						datetime = self.options.schedules[projectId][self.createCounter],
+						postdata = self.options.postdatas[projectId];
+
+					return EasySocial.ajax('admin/controllers/projects/createRecurring', {
+						projectId: projectId,
+						datetime: datetime,
+						postdata: postdata
+					});
+				},
+
+				completed: function() {
+					self.progress().parent().removeClass('progress-info').addClass('progress-success');
+					self.form().submit();
+				}
+			}
+		});
+
+		module.resolve();
+	});
+
+	EasySocial.module('admin/projects/store', function($) {
+		var module = this;
+
+		EasySocial.Controller('Projects.Update', {
+			defaultOptions: {
+				postdata: {},
+				updateids: [],
+				schedule: [],
+				projectId: null,
+
+				'{progress}': '[data-progress-bar]',
+
+				'{form}': '[data-form]'
+			}
+		}, function(self) {
+			return {
+				init: function() {
+					self.startUpdate();
+				},
+
+				updateCounter: 0,
+				createCounter: 0,
+
+				updateProgressBar: function() {
+					var percentage = Math.ceil(((self.updateCounter + self.createCounter) / (self.options.updateids.length + self.options.schedule.length)) * 100);
+
+					self.progress().css({
+						width: percentage + '%'
+					});
+				},
+
+				startUpdate: function() {
+					if (self.options.updateids[self.updateCounter] === undefined) {
+						return self.startCreate();
+					}
+
+					self.update(self.options.updateids[self.updateCounter])
+						.done(function() {
+							self.updateCounter++;
+
+							self.updateProgressBar();
+
+							self.startUpdate();
+						})
+						.fail(function(msg, errors) {
+							console.log(msg, errors);
+						});
+				},
+
+				update: function(id) {
+					var post = $.extend({}, self.options.postdata, {
+						id: id,
+						applyRecurring: 1
+					});
+
+					return EasySocial.ajax('admin/controllers/projects/store', post);
+				},
+
+				startCreate: function() {
+					if (self.options.schedule[self.createCounter] === undefined) {
+						return self.completed();
+					}
+
+					self.create(self.options.schedule[self.createCounter])
+						.done(function() {
+							self.createCounter++;
+
+							self.updateProgressBar();
+
+							self.startCreate();
+						})
+						.fail(function(msg, errors) {
+							console.log(msg, errors);
+						});
+				},
+
+				create: function(datetime) {
+					return EasySocial.ajax('admin/controllers/projects/createRecurring', {
+						projectId: self.options.projectId,
+						datetime: datetime,
+						postdata: self.options.postdata
+					});
+				},
+
+				completed: function() {
+					self.progress().parent().removeClass('progress-info').addClass('progress-success');
+					self.form().submit();
+				}
+			}
+		});
+
+		module.resolve();
+	});
+
+	EasySocial.module('admin/projects/users', function($) {
+		var module = this;
+
+		EasySocial
+			.require()
+			.language('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')
+			.done(function($) {
+				EasySocial.Controller('Projects.Users', {
+					defaultOptions: {
+						projectid: null,
+
+						'{inviteGuest}': '[data-project-invite-guest]',
+						'{removeGuest}': '[data-project-remove-guest]',
+						'{approveGuest}': '[data-project-approve-guest]',
+						'{promoteGuest}': '[data-project-promote-guest]',
+						'{demoteGuest}': '[data-project-demote-guest]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+						},
+
+						'{inviteGuest} click': function(el, ev) {
+							var guests = {};
+
+							window.inviteGuests = function(guest) {
+								if (guest.state) {
+									guests[guest.id] = guest
+								} else {
+									delete guests[guest.id];
+								}
+							};
+
+							var confirmInviteGuests = function() {
+								EasySocial.dialog({
+									content: EasySocial.ajax('admin/views/projects/confirmInviteGuests', {
+										guests: guests,
+										projectid: self.options.projectid
+									}),
+									bindings: {
+										'{submitButton} click': function() {
+											this.inviteGuestsForm().submit();
+										}
+									}
+								});
+							};
+
+							EasySocial.dialog({
+								content: EasySocial.ajax('admin/views/projects/inviteGuests'),
+								bindings: {
+									'{submitButton} click': function() {
+										confirmInviteGuests();
+									}
+								}
+							});
+						},
+
+						'{removeGuest} click': function(el, ev) {
+							if(document.adminForm.boxchecked.value == 0) {
+								alert($.language('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+							} else {
+								$.Joomla('submitform', ['removeGuests']);
+							}
+						},
+
+						'{approveGuest} click': function(el, ev) {
+							if(document.adminForm.boxchecked.value == 0) {
+								alert($.language('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+							} else {
+								$.Joomla('submitform', ['approveGuests']);
+							}
+						},
+
+						'{promoteGuest} click': function(el, ev) {
+							if(document.adminForm.boxchecked.value == 0) {
+								alert($.language('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+							} else {
+								$.Joomla('submitform', ['promoteGuests']);
+							}
+						},
+
+						'{demoteGuest} click': function(el, ev) {
+							if(document.adminForm.boxchecked.value == 0) {
+								alert($.language('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+							} else {
+								$.Joomla('submitform', ['demoteGuests']);
+							}
+						}
+					}
+				});
+
+				module.resolve();
+			});
+	});
+
 EasySocial.module( 'admin/grid/grid' , function($) {
 
 	var module = this;
@@ -10691,6 +10968,1722 @@ EasySocial.module('apps/fields/event/startend/display', function($) {
 
         module.resolve();
     });
+
+	EasySocial.module('apps/project/discussions', function($) {
+
+		var module  = this;
+
+		EasySocial.Controller(
+			'Projects.Item.Discussions',
+			{
+				defaultOptions:
+				{
+					"{filter}"  : "[data-project-discussions-filter]",
+					"{contents}": "[data-project-discussion-contents]"
+				}
+			},
+			function(self)
+			{
+				return {
+					init: function()
+					{
+						self.options.id     = self.element.data( 'id' );
+					},
+
+					setContent: function( html )
+					{
+						// Remove loading class since we already have the content.
+						self.contents().removeClass( 'is-loading' );
+
+						self.contents().html( html );
+					},
+
+					setActiveFilter: function( el )
+					{
+						// Remove active class.
+						self.filter().removeClass( 'active' );
+
+						// Add active class to the current element
+						el.addClass( 'active' );
+					},
+
+					"{filter} click" : function( el , event )
+					{
+						var filter = el.data( 'filter' );
+
+						// Add loader for the contents area
+						self.contents().html( '&nbsp;' ).addClass( 'is-loading' );
+
+						// Set active filter
+						self.setActiveFilter( el );
+
+						// Run the ajax call now
+						EasySocial.ajax( 'apps/project/discussions/controllers/discussion/getDiscussions' ,
+							{
+								"id"        : self.options.id,
+								"filter"    : filter
+							})
+							.done(function( contents , empty )
+							{
+								if( empty )
+								{
+									self.contents().addClass( 'is-empty' );
+								}
+								else
+								{
+									self.contents().removeClass( 'is-empty' );
+								}
+								// Set the contents
+								self.setContent( contents );
+							});
+					}
+				}
+			}
+		);
+		EasySocial.Controller(
+			'Projects.Item.Discussion',
+			{
+				defaultOptions:
+				{
+					"{form}"        : "[data-reply-form]",
+					"{list}"        : "[data-reply-list]",
+					"{replies}"     : "[data-reply-item]",
+					"{repliesWrap}" : "[data-replies-wrapper]",
+
+					"{replyCounter}": "[data-reply-count]",
+
+					"{lock}"        : "[data-discussion-lock]",
+					"{unlock}"      : "[data-discussion-unlock]",
+					"{delete}"      : "[data-discussion-delete]"
+				}
+			},
+			function( self )
+			{
+				return {
+					init: function()
+					{
+						self.options.id = self.element.data('id');
+						self.options.projectId = self.element.data('projectid');
+
+						self.implementReply(self.replies());
+
+						self.form().implement(EasySocial.Controller.Projects.Item.Discussion.Form,{
+							"{parent}": self
+						});
+					},
+
+					implementReply: function()
+					{
+						self.replies().implement(EasySocial.Controller.Projects.Item.Discussion.Reply, {
+							"{parent}": self
+						});
+					},
+
+					insertReply: function(html)
+					{
+						// Since we know that we need to append the reply item, we need to remove is-unanswered
+						self.element.removeClass( 'is-unanswered' );
+
+						// Since an item is added, we want to remove the empty class.
+						self.repliesWrap().removeClass( 'is-empty' );
+
+						// Append the new item
+						self.list().append( html );
+
+						// Implement the controller again
+						self.implementReply();
+					},
+
+					updateReplyCounter: function( total )
+					{
+						if( total == 0 )
+						{
+							self.repliesWrap().addClass( 'is-empty' );
+						}
+						self.replyCounter().html( total );
+					},
+
+					setResolved: function()
+					{
+						self.element.addClass( 'is-resolved' );
+					},
+
+					"{unlock} click" : function( el , event )
+					{
+						EasySocial.ajax('apps/project/discussions/controllers/discussion/unlock', {
+							"id" : self.options.id
+						}).done(function() {
+							// Add lock element
+							self.element.removeClass('is-locked');
+						});
+					},
+
+					"{delete} click" : function(el, event)
+					{
+						EasySocial.dialog({
+							content : EasySocial.ajax( 'apps/project/discussions/controllers/discussion/confirmDelete' , { "id" : self.options.id , "projectId" : self.options.projectId })
+						});
+					},
+
+					"{lock} click" : function( el , event )
+					{
+						EasySocial.dialog(
+							{
+								content : EasySocial.ajax( 'apps/project/discussions/controllers/discussion/confirmLock' ),
+								bindings:
+								{
+									"{lockButton} click" : function()
+									{
+										EasySocial.ajax( 'apps/project/discussions/controllers/discussion/lock' ,
+											{
+												"id" : self.options.id
+											})
+											.done(function()
+											{
+												// Hide the dialog
+												EasySocial.dialog().close();
+
+												// Add lock element
+												self.element.addClass( 'is-locked' );
+											});
+									}
+								}
+							});
+					}
+				}
+			}
+		);
+
+		EasySocial.Controller(
+			'Projects.Item.Discussion.Reply',
+			{
+				defaultOptions:
+				{
+					"{acceptAnswer}"    : "[data-reply-accept-answer]",
+					"{delete}"          : "[data-reply-delete]",
+					"{edit}"            : "[data-reply-edit]",
+					"{cancelEdit}"      : "[data-reply-edit-cancel]",
+					"{update}"          : "[data-reply-edit-update]",
+					"{textarea}"        : "[data-reply-content]",
+					"{content}"         : "[data-reply-display-content]",
+					"{alertDiv}"        : "div.alert-error"
+				}
+			},
+			function( self )
+			{
+				return {
+					init: function()
+					{
+						console.log(self.element)
+						self.options.id     = self.element.data( 'id' );
+					},
+					"{acceptAnswer} click" : function()
+					{
+						EasySocial.ajax( 'apps/project/discussions/controllers/reply/accept' ,
+							{
+								"id" : self.options.id
+							})
+							.done(function() {
+								self.parent.setResolved();
+							});
+					},
+
+					cancelEditing : function()
+					{
+						self.element.removeClass( 'is-editing' );
+					},
+
+					"{cancelEdit} click" : function()
+					{
+						self.cancelEditing();
+					},
+
+					"{edit} click" : function()
+					{
+						self.element.addClass( 'is-editing' );
+					},
+
+					"{update} click" : function()
+					{
+						var content     = self.textarea().val();
+
+						// console.log( self.element);
+
+						// If content is empty, throw some errors
+						if (content == '') {
+							self.element.addClass('is-empty');
+							self.alertDiv().show();
+							return false;
+						}
+
+						EasySocial.ajax( 'apps/project/discussions/controllers/reply/update' , {
+								"id": self.options.id,
+								"projectId": self.parent.options.projectId,
+								"content": content
+							})
+							.done(function(content) {
+								// Update the content
+								self.content().html( content );
+
+								self.element.removeClass('is-empty');
+								self.alertDiv().hide();
+
+
+								// Hide the textarea
+								self.cancelEditing();
+							});
+					},
+
+					"{delete} click" : function()
+					{
+						EasySocial.dialog(
+							{
+								content     : EasySocial.ajax( 'apps/project/discussions/controllers/reply/confirmDelete' , { "id"    : self.options.id } ),
+								bindings    :
+								{
+									"{deleteButton} click" : function()
+									{
+										EasySocial.ajax( 'apps/project/discussions/controllers/reply/delete',
+											{
+												"id"    : self.options.id
+											})
+											.done(function(discussion) {
+
+												// Update the counter
+												self.parent.updateReplyCounter( discussion.total_replies );
+
+												// Hide the dialog
+												EasySocial.dialog().close();
+
+												// Remove the element
+												self.element.remove();
+											});
+									}
+								}
+							});
+					}
+				}
+			}
+		);
+
+		EasySocial.Controller(
+			'Projects.Item.Discussion.Form',
+			{
+				defaultOptions:
+				{
+					"{textarea}"    : "[data-reply-content]",
+					"{submitReply}" : "[data-reply-submit]"
+				}
+			},
+			function( self )
+			{
+				return {
+					init: function()
+					{
+					},
+
+					"{submitReply} click" : function( el , event )
+					{
+						var content     = self.textarea().val();
+
+						// If content is empty, throw some errors
+						if ( content == '' ) {
+							self.element.addClass( 'is-empty' );
+							return false;
+						}
+
+						EasySocial.ajax('apps/project/discussions/controllers/reply/submit', {
+								"id"        : self.parent.options.id,
+								"projectId"   : self.parent.options.projectId,
+								"content"   : content
+							})
+							.done(function(html) {
+								// Inser the new node back.
+								self.parent.insertReply(html);
+
+								// Update the textarea
+								self.textarea().val('');
+							});
+
+					}
+				}
+			}
+		);
+
+		module.resolve();
+	});
+
+
+	EasySocial.module('apps/project/guests', function($) {
+
+		var module  = this;
+
+
+		EasySocial.Controller('Projects.Item.Guests', {
+			defaultOptions: {
+				'{filters}': '[data-project-guests-filter]',
+				'{content}': '[data-project-guests-content]'
+			}
+		}, function(self) {
+			return {
+				init : function()
+				{
+					self.options.id = self.element.data('id');
+
+					self.items = self.addPlugin('Item');
+				},
+
+				'{filters} click': function(el, event)
+				{
+					event.preventDefault();
+
+					el.route();
+
+					// Remove active
+					self.filters().removeClass('active');
+
+					// Set current to active
+					el.addClass('active');
+
+					// Get the filter
+					var filter  = el.data('filter');
+
+					// Set the loading class
+					self.content().html('&nbsp;');
+					self.content().addClass('is-loading');
+
+					EasySocial.ajax('apps/project/guests/controllers/projects/filterGuests', {
+						'id': self.options.id,
+						'filter': filter
+					}).done(function(contents, total) {
+						self.content().removeClass('is-loading');
+
+						if (total == 0) {
+							self.content().addClass('is-empty');
+						} else {
+							self.content().removeClass('is-empty');
+						}
+						self.content().html(contents);
+					});
+				},
+
+				'{self} emptyGuest': function() {
+					self.content().addClass('is-empty');
+				}
+			}
+		});
+
+		EasySocial.Controller(
+			'Projects.Item.Guests.Item',
+			{
+				defaultOptions:
+				{
+					'{item}': '[data-project-guest-item]',
+					'{promote}': '[data-guest-promote]',
+					'{demote}': '[data-guest-demote]',
+					'{approve}': '[data-guest-approve]',
+					'{reject}': '[data-guest-reject]',
+					'{remove}': '[data-guest-remove]'
+				}
+			},
+			function( self )
+			{
+				return {
+					init : function()
+					{
+					},
+
+					getItem: function(el)
+					{
+						var item = self.item.of(el);
+
+						return item;
+					},
+
+					'{approve} click' : function(el)
+					{
+						var item = self.getItem(el),
+							guestId = item.data('guestId');
+
+						EasySocial.dialog({
+							content: EasySocial.ajax('site/views/projects/confirmApproveGuest', {
+								'id': guestId
+							}),
+							bindings: {
+								'{approveButton} click': function() {
+									EasySocial.ajax('site/controllers/projects/approveGuest', {
+											'id': guestId
+										})
+										.done(function() {
+											EasySocial.dialog().close();
+
+											// Remove guest from the pending list
+											item.remove();
+
+											self.item().length === 0 && self.element.trigger('emptyGuest');
+										});
+								}
+							}
+						});
+					},
+
+					'{reject} click' : function(el)
+					{
+						var item = self.getItem(el),
+							guestId = item.data('guestId');
+
+						EasySocial.dialog({
+							content: EasySocial.ajax('site/views/projects/confirmRejectGuest', {
+								'id': guestId
+							}),
+							bindings: {
+								'{rejectButton} click': function() {
+									EasySocial.ajax('site/controllers/projects/rejectGuest', {
+											'id': guestId
+										})
+										.done(function() {
+											EasySocial.dialog().close();
+
+											// Remove guest from the pending list
+											item.remove();
+
+											self.item().length === 0 && self.element.trigger('emptyGuest');
+										});
+								}
+							}
+						});
+					},
+
+					'{promote} click' : function(el)
+					{
+						var item = self.getItem(el),
+							guestId = item.data('guestId');
+
+
+						EasySocial.dialog({
+							content: EasySocial.ajax('site/views/projects/confirmPromoteGuest', {
+								'id': guestId
+							}),
+							bindings: {
+								'{promoteButton} click': function() {
+									EasySocial.ajax('site/controllers/projects/promoteGuest', {
+										'id': guestId
+									}).done(function() {
+										EasySocial.dialog().close();
+
+										// Add the admin label
+										item.removeClass('is-member')
+											.addClass('is-admin');
+									});
+								}
+							}
+						})
+					},
+
+					'{demote} click' : function(el)
+					{
+						var item = self.getItem(el),
+							guestId = item.data('guestId');
+
+						EasySocial.dialog({
+							content: EasySocial.ajax('site/views/projects/confirmDemoteGuest', {
+								'id': guestId
+							}),
+							bindings: {
+								'{demoteButton} click' : function() {
+									EasySocial.ajax('site/controllers/projects/demoteGuest', {
+											'id': guestId
+										})
+										.done(function() {
+											EasySocial.dialog().close();
+
+											// If the current tab is admin, then we remove instead
+											if (self.parent.filters('.active').data('filter') == 'admin') {
+												item.remove();
+
+												self.item().length === 0 && self.element.trigger('emptyGuest');
+											} else {
+												// Remove the admin label
+												item.removeClass('is-admin').addClass('is-member');
+											}
+										});
+
+								}
+							}
+						});
+					},
+
+					'{remove} click' : function(el, event)
+					{
+						var item = self.getItem(el),
+							guestId = item.data('guestId');
+
+						EasySocial.dialog({
+							content: EasySocial.ajax('site/views/projects/confirmRemoveGuest', {
+								'id': guestId
+							}),
+							bindings: {
+								'{removeButton} click': function() {
+									EasySocial.ajax('site/controllers.projects/removeGuest', {
+											'id': guestId
+										})
+										.done(function() {
+											EasySocial.dialog().close();
+
+											// Remove guest from the list
+											item.remove();
+
+											self.item().length === 0 && self.element.trigger('emptyGuest');
+										});
+								}
+							}
+						});
+					}
+				}
+			}
+		);
+
+
+		module.resolve();
+	});
+
+
+	EasySocial.module('apps/project/tasks', function($)
+	{
+		var module = this;
+
+		EasySocial.Controller('Projects.Apps.Tasks.Milestones.Browse', {
+			defaultOptions: {
+				projectId: null,
+
+				"{milestone}": "[data-tasks-milestone-item]"
+			}
+		}, function(self) {
+			return {
+				init: function()
+				{
+					self.options.projectId = self.element.data('projectid');
+
+					self.milestone().addController(EasySocial.Controller.Projects.Apps.Tasks.Milestones.Item, {
+						"{parent}"  : self
+					});
+				}
+			}
+		});
+
+		EasySocial.Controller('Projects.Apps.Tasks.Milestones.Item', {
+			defaultOptions: {
+				"{complete}": "[data-milestone-mark-complete]",
+				"{incomplete}": "[data-milestone-mark-incomplete]",
+				"{delete}": "[data-milestone-delete]",
+				"{milestone}": "[data-project-tasks-milestone-item]"
+			}
+		}, function(self) {
+			return {
+				init: function()
+				{
+					self.options.id = self.element.data('id');
+				},
+
+				"{incomplete} click" : function(el)
+				{
+					EasySocial.ajax('apps/project/tasks/controllers/milestone/unresolve',
+						{
+							id: self.options.id,
+							projectId: self.parent.options.projectId
+						})
+						.done(function() {
+							self.element.removeClass('is-due').removeClass('is-completed');
+
+							el.hide();
+
+							self.complete().show();
+						});
+				},
+
+				"{complete} click" : function(el)
+				{
+					EasySocial.ajax('apps/project/tasks/controllers/milestone/resolve', {
+							id: self.options.id,
+							projectId: self.parent.options.projectId
+						})
+						.done(function() {
+							self.element.removeClass('is-due').addClass('is-completed');
+
+							el.hide();
+
+							self.incomplete().show();
+						});
+				},
+
+				"{delete} click" : function()
+				{
+					EasySocial.dialog( {
+						content : EasySocial.ajax('apps/project/tasks/controllers/milestone/confirmDelete', {
+							id: self.options.id,
+							projectId: self.parent.options.projectId
+						}),
+						bindings: {
+							'{deleteButton} click' : function() {
+								EasySocial.ajax('apps/project/tasks/controllers/milestone/delete', {
+										id: self.options.id,
+										projectId: self.parent.options.projectId
+									})
+									.done(function() {
+										EasySocial.dialog().close();
+
+										self.element.remove();
+									});
+							}
+						}
+					});
+				}
+			}
+		});
+
+		EasySocial.Controller('Projects.Apps.Tasks', {
+			defaultOptions: {
+				'{form}': '[data-tasks-form]',
+				'{formWrapper}': '[data-tasks-form-wrapper]',
+				'{taskList}': '[data-tasks-list]',
+				'{item}': '[data-tasks-list-item]',
+				'{completedList}': '[data-tasks-completed]',
+				'{openCounter}': '[data-tasks-open-counter]',
+				'{closedCounter}': '[data-tasks-closed-counter]',
+				"{completeMilestone}": "[data-milestone-mark-complete]",
+				"{incompleteMilestone}": "[data-milestone-mark-incomplete]",
+				"{deleteMilestone}": "[data-milestone-delete]",
+				"{wrapper}": "[data-tasks-wrapper]"
+			}
+		}, function(self) {
+			return {
+				init: function()
+				{
+					self.options.id = self.element.data('id');
+					self.options.projectId = self.element.data('projectid');
+					self.options.milestoneId = self.element.data('milestoneid');
+
+					// Implement form controller
+					self.form().addController(EasySocial.Controller.Projects.Apps.Tasks.Form, {
+						"{parent}": self
+					});
+
+					self.implementItemController();
+				},
+				implementItemController: function()
+				{
+					// Implement task item controller
+					self.item().addController(EasySocial.Controller.Projects.Apps.Tasks.Item, {
+						"{parent}": self
+					});
+				},
+				updateOpenCounter: function(total)
+				{
+					self.openCounter().html(total);
+				},
+				updateClosedCounter: function(total)
+				{
+					self.closedCounter().html(total);
+				},
+				insertCompleted: function(taskItem)
+				{
+					$(taskItem).appendTo(self.completedList());
+				},
+				insertTask: function(taskItem)
+				{
+					self.formWrapper().after(taskItem);
+
+					// Implement item controller on the tasks
+					self.implementItemController();
+				},
+				"{uncompleteMilestone} click" : function()
+				{
+					EasySocial.ajax('apps/project/tasks/controllers/milestone/unresolve',
+						{
+							id: self.options.milestoneId,
+							projectId: self.options.projectId
+						})
+						.done(function()
+						{
+							self.wrapper().removeClass('is-due').removeClass('is-completed');
+						});
+				},
+				"{completeMilestone} click" : function()
+				{
+					EasySocial.ajax('apps/project/tasks/controllers/milestone/resolve', {
+							id: self.options.milestoneId,
+							projectId: self.options.projectId
+						})
+						.done(function() {
+							self.wrapper().removeClass('is-due').addClass('is-completed');
+						});
+				},
+
+				"{deleteMilestone} click" : function()
+				{
+					EasySocial.dialog( {
+						content : EasySocial.ajax('apps/project/tasks/controllers/milestone/confirmDelete', {
+							id: self.options.milestoneId,
+							projectId: self.options.projectId
+						}),
+						bindings: {
+							'{deleteButton} click' : function() {
+								EasySocial.ajax('apps/project/tasks/controllers/milestone/delete', {
+										id: self.options.id,
+										projectId: self.options.projectId
+									})
+									.done(function() {
+										EasySocial.dialog().close();
+
+										window.location = self.options.redirect;
+									});
+							}
+						}
+					});
+				}
+			}
+		});
+
+		EasySocial.Controller('Projects.Apps.Tasks.Item', {
+			defaultOptions: {
+				'{checkbox}': '[data-item-checkbox]',
+				'{delete}': '[data-tasks-item-remove]'
+			}
+		}, function(self) {
+			return {
+				init: function()
+				{
+					self.options.id = self.element.data('id');
+				},
+				'{delete} click' : function()
+				{
+					EasySocial.dialog({
+						content: EasySocial.ajax('apps/project/tasks/controllers/tasks/confirmDelete', {
+							'projectId': self.parent.options.projectId
+						}),
+						bindings: {
+							'{deleteButton} click' : function() {
+								EasySocial.ajax('apps/project/tasks/controllers/tasks/delete', {
+										id: self.options.id,
+										projectId: self.parent.options.projectId
+									})
+									.done(function() {
+										EasySocial.dialog().close();
+
+										var total = parseInt(self.parent.openCounter().html());
+
+										self.parent.updateOpenCounter(total - 1);
+
+										self.element.remove();
+									});
+							}
+						}
+					});
+				},
+				'{checkbox} change': function(el, event)
+				{
+					var checked = $(el).is(':checked');
+
+					if (checked) {
+						EasySocial.ajax('apps/project/tasks/controllers/tasks/resolve', {
+								id: self.options.id,
+								projectId: self.parent.options.projectId
+							})
+							.done(function() {
+								// Decrease the open counter
+								var total = parseInt(self.parent.openCounter().html());
+
+								self.parent.updateOpenCounter(total - 1);
+
+								var total = parseInt(self.parent.closedCounter().html());
+
+								self.parent.updateClosedCounter(total + 1);
+
+								self.parent.insertCompleted(self.element);
+							});
+
+					} else {
+						EasySocial.ajax('apps/project/tasks/controllers/tasks/unresolve', {
+								id: self.options.id,
+								projectId: self.parent.options.projectId
+							})
+							.done(function($) {
+								// Decrease the open counter
+								var total = parseInt(self.parent.openCounter().html());
+
+								self.parent.updateOpenCounter(total + 1);
+
+								var total = parseInt(self.parent.closedCounter().html());
+
+								self.parent.updateClosedCounter(total - 1);
+
+								self.parent.insertTask(self.element);
+							});
+					}
+				}
+			}
+		});
+
+		EasySocial.Controller('Projects.Apps.Tasks.Form', {
+			defaultOptions: {
+				'{title}': "[data-form-tasks-title]",
+				'{create}': "[data-form-tasks-create]",
+				'{assignee}': "[data-form-tasks-assignee]",
+				'{due}': "[data-form-tasks-due]",
+				'{error}': "[data-tasks-form-error]"
+			}
+		}, function(self) {
+			return {
+				init: function()
+				{
+
+				},
+
+				resetForm: function()
+				{
+					self.element[0].reset();
+				},
+
+				"{title} keyup" : function(el, event)
+				{
+					// Enter key
+					if(event.keyCode == 13) {
+						self.create().click();
+					}
+				},
+
+				"{create} click" : function()
+				{
+					if(self.title().val() == '') {
+						self.error().removeClass('hide');
+
+						return false;
+					}
+
+					self.error().addClass('hide');
+
+					EasySocial.ajax('apps/project/tasks/controllers/tasks/save', {
+							title: self.title().val(),
+							assignee: self.assignee().val(),
+							due: self.due().val(),
+							projectId: self.parent.options.projectId,
+							milestoneId: self.parent.options.milestoneId
+						})
+						.done(function(content) {
+
+							// Reset the form
+							self.resetForm();
+
+							// Increment the counter
+							var total = parseInt(self.parent.openCounter().html());
+
+							self.parent.updateOpenCounter(total + 1);
+
+							self.parent.insertTask(content);
+						});
+				}
+			}
+		});
+
+		module.resolve();
+	});
+
+
+	EasySocial.module('apps/fields/project/permalink/content', function($) {
+		var module = this;
+
+		EasySocial
+			.require()
+			.language(
+				'FIELDS_PROJECT_PERMALINK_EXCEEDED_MAX_LENGTH',
+				'FIELDS_PROJECT_PERMALINK_REQUIRED')
+			.done(function($) {
+
+				EasySocial.Controller(
+					'Field.Project.Permalink',
+					{
+						defaultOptions:
+						{
+							required: false,
+
+							max     : 0,
+
+							id      : null,
+							clusterid   : null,
+							userid  : null,
+
+							'{field}'           : '[data-field-permalink]',
+
+							'{checkButton}'     : '[data-permalink-check]',
+							'{input}'           : '[data-permalink-input]',
+							'{available}'       : '[data-permalink-available]'
+						}
+					},
+					function(self)
+					{
+						return {
+							state: false,
+
+							init: function()
+							{
+								self.options.max = self.field().data('max');
+							},
+
+							"{checkButton} click" : function()
+							{
+								self.delayedCheck();
+							},
+
+							"{input} keyup" : function()
+							{
+								self.delayedCheck();
+							},
+
+							delayedCheck: $.debounce(function()
+							{
+								self.checkPermalink();
+							}, 250),
+
+							checkPermalink: function()
+							{
+								self.clearError();
+
+								var permalink   = self.input().val();
+
+								self.available().hide();
+
+								if (self.options.max > 0 && permalink.length > self.options.max) {
+									self.raiseError($.language('FIELDS_PROJECT_PERMALINK_EXCEEDED_MAX_LENGTH'));
+									return false;
+								}
+
+								if (!$.isEmpty(permalink)) {
+									self.checkButton().addClass('btn-loading');
+
+									var state = $.Deferred();
+
+									EasySocial.ajax('fields/project/permalink/isValid', {
+											"id"        : self.options.id,
+											"clusterid" : self.options.clusterid,
+											"permalink" : permalink
+										})
+										.done(function(msg) {
+											self.clearError();
+
+											self.checkButton().removeClass('btn-loading');
+
+											self.available().show();
+
+											state.resolve();
+										})
+										.fail(function(msg) {
+											self.raiseError(msg);
+
+											self.checkButton().removeClass('btn-loading');
+
+											self.available().hide();
+
+											state.reject();
+										});
+
+									return state;
+								}
+
+								if (self.options.required && $.isEmpty(permalink)) {
+									self.available().hide();
+
+									self.raiseError($.language('FIELDS_PROJECT_PERMALINK_REQUIRED'));
+									return false;
+								}
+
+								return true;
+							},
+
+							raiseError: function(msg)
+							{
+								self.trigger('error', [msg]);
+							},
+
+							clearError: function()
+							{
+								self.trigger('clear');
+							},
+
+							'{self} onSubmit': function(el, ev, register)
+							{
+								register.push(self.checkPermalink());
+							}
+						}
+					}
+				);
+
+				module.resolve();
+			});
+	});
+
+	EasySocial.module('apps/fields/project/permalink/sample_content', function($) {
+		var module = this;
+
+		EasySocial.Controller('Field.Permalink.Sample', {
+			defaultOptions: {
+				'{checkPermalink}'      : '[data-check-permalink]'
+			}
+		}, function(self) {
+			return {
+				init: function() {
+
+				},
+
+				'{self} onConfigChange': function(el, event, name, value) {
+					switch(name) {
+						case 'check_permalink':
+							self.checkPermalink().toggle(!!value);
+							break;
+					}
+				}
+			}
+		});
+
+		module.resolve();
+	});
+
+	EasySocial.module('apps/fields/project/recurring/content', function($) {
+		var module = this;
+
+		EasySocial.require().library('datetimepicker').done(function() {
+
+			EasySocial.Controller('Field.Project.Recurring', {
+				defaultOptions: {
+					id: null,
+
+					value: {},
+
+					allday: 0,
+
+					showWarningMessages: 0,
+
+					projectId: null,
+
+					'{type}': '[data-recurring-type]',
+
+					'{endBlock}': '[data-recurring-end-block]',
+
+					'{picker}': '[data-recurring-end-picker]',
+
+					'{toggle}': '[data-recurring-end-toggle]',
+
+					'{result}': '[data-recurring-end-result]',
+
+					'{dailyBlock}': '[data-recurring-daily-block]',
+
+					'{dailyInput}': '[data-recurring-daily-block] input',
+
+					'{summaryBlock}': '[data-recurring-summary-block]',
+
+					'{scheduleToggle}': '[data-recurring-schedule-toggle]',
+
+					'{scheduleBlock}': '[data-recurring-schedule-block]',
+
+					'{scheduleLoadingBlock}': '[data-recurring-schedule-loading-block]',
+
+					'{deleteRecurringButton}': '[data-recurring-delete]'
+				}
+			}, function(self) {
+				return {
+					init: function() {
+						self.picker()._datetimepicker({
+							pickTime: false,
+							component: "es",
+							useCurrent: false
+						});
+
+						var value = self.result().val();
+
+						if (!$.isEmpty(value)) {
+							var dateObj = $.moment(value);
+
+							self.datetimepicker('setDate', dateObj);
+						}
+
+						self.calculateTotalRecur();
+					},
+
+					changed: 0,
+
+					'{window} easysocial.fields.allday.change': function(el, ev, value) {
+						self.options.allday = value;
+
+						self.calculateTotalRecur();
+					},
+
+					'{window} easysocial.fields.startend.start.change': function(el, ev, date) {
+						self.calculateTotalRecur();
+					},
+
+					'{toggle} click': function() {
+						self.picker().focus();
+					},
+
+					'{picker} dp.change': function(el, ev) {
+						self.setDateValue(ev.date.toDate());
+
+						self.detectChanges();
+
+						self.calculateTotalRecur();
+					},
+
+					'{type} change': function(el, ev) {
+						var value = el.val();
+
+						self.endBlock()[value === 'none' ? 'hide' : 'show']();
+
+						self.dailyBlock()[value === 'daily' ? 'show': 'hide']();
+
+						self.detectChanges();
+
+						self.calculateTotalRecur();
+					},
+
+					'{dailyInput} change': function(el, ev) {
+						self.detectChanges();
+
+						self.calculateTotalRecur();
+					},
+
+					calculateTotalRecur: function() {
+						self.summaryBlock().hide();
+
+						self.clearError();
+
+						var start = $('[data-project-start]').find('[data-datetime]').val(),
+							timezone = $('[data-project-timezone]').val(),
+							end = self.result().val(),
+							type = self.type().val(),
+							daily = [];
+
+						if (type == 'none' && !self.options.showWarningMessages) {
+							return;
+						}
+
+						if ($.isEmpty(start) || $.isEmpty(end) || $.isEmpty(type)) {
+							return;
+						}
+
+						$.each(self.dailyBlock().find('input'), function(i, input) {
+							el = $(input);
+							if (el.is(':checked')) {
+								daily.push(el.val());
+							}
+						});
+
+						self.scheduleLoadingBlock().show();
+
+						self.getTotalRecur({
+							start: start,
+							timezone: timezone,
+							end: end,
+							type: type,
+							daily: daily
+						});
+					},
+
+					getTotalRecur: $.debounce(function(options) {
+						self.clearError();
+
+						EasySocial.ajax('fields/project/recurring/calculateTotalRecur', {
+							id: self.options.id,
+							start: options.start,
+							timezone: options.timezone,
+							allday: self.options.allday,
+							end: options.end,
+							type: options.type,
+							daily: options.daily,
+							projectId: self.options.projectId,
+							changed: self.changed,
+							showWarningMessages: self.options.showWarningMessages
+						}).done(function(html) {
+							self.summaryBlock().html(html).show();
+						}).fail(function(msg) {
+							self.raiseError(msg);
+						}).always(function() {
+							self.scheduleLoadingBlock().hide();
+						});
+					}, 500),
+
+					detectChanges: function() {
+						var end = self.result().val(),
+							type = self.type().val(),
+							daily = [],
+							changed = false;
+
+						$.each(self.dailyBlock().find('input'), function(i, input) {
+							el = $(input);
+							if (el.is(':checked')) {
+								daily.push(el.val());
+							}
+						});
+
+						if (type != self.options.value.type || end != self.options.value.end || daily.length != self.options.value.daily.length) {
+							changed = true;
+						}
+
+						$.each(daily, function(i, d) {
+							if ($.inArray(d, self.options.value.daily) == -1) {
+								changed = true;
+								return false;
+							}
+						});
+
+						$.each(self.options.value.daily, function(i, d) {
+							if ($.inArray(d, daily) == -1) {
+								changed = true;
+								return false;
+							}
+						});
+
+						self.changed = changed ? 1 : 0;
+
+						$(window).trigger('easysocial.fields.recurring.changed', [changed]);
+					},
+
+					'{scheduleToggle} click': function(el, ev) {
+						self.scheduleBlock().toggle();
+					},
+
+					'{deleteRecurringButton} click': function(el, ev) {
+						EasySocial.dialog({
+							content: EasySocial.ajax('site/views/projects/deleteRecurringDialog', {
+								id: self.options.projectId
+							}),
+							bindings: {
+								"{submitButton} click": function()
+								{
+									var dialog = this.parent;
+
+									dialog.loading(true);
+
+									self.deleteRecurring()
+										.done(function() {
+											dialog.loading(false);
+
+											dialog.close();
+
+											self.calculateTotalRecur();
+										});
+								}
+							}
+						})
+					},
+
+					deleteRecurring: function() {
+						return EasySocial.ajax('site/controllers/projects/deleteRecurring', {
+							projectId: self.options.projectId
+						})
+					},
+
+					datetimepicker: function(name, value) {
+						return self.picker().data('DateTimePicker')[name](value);
+					},
+
+					setDateValue: function(date) {
+						// Convert the date object into sql format and set it into the input
+						self.result().val(date.getFullYear() + '-' +
+							('00' + (date.getMonth()+1)).slice(-2) + '-' +
+							('00' + date.getDate()).slice(-2) + ' ' +
+							('00' + date.getHours()).slice(-2) + ':' +
+							('00' + date.getMinutes()).slice(-2) + ':' +
+							('00' + date.getSeconds()).slice(-2));
+					},
+
+					'{self} onSubmit': function(el, ev, register) {
+						register.push(true);
+					},
+
+					raiseError: function(msg) {
+						self.trigger('error', [msg]);
+					},
+
+					clearError: function() {
+						self.trigger('clear');
+					}
+				}
+			});
+
+			module.resolve();
+		});
+	});
+
+	EasySocial.module('apps/fields/project/startend/content', function($) {
+
+		var module = this;
+		var lang = EasySocial.options.momentLang;
+
+		EasySocial
+			.require()
+			.library('datetimepicker', 'moment/' + lang)
+			.language('FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_START_REQUIRED', 'FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_END_REQUIRED')
+			.done(function($) {
+
+				EasySocial.Controller('Field.Project.Startend', {
+					defaultOptions: {
+						dateFormat: '',
+						allowTime: true,
+						allowTimezone: true,
+						disallowPast: false,
+						minuteStepping: 15,
+						yearfrom: '',
+						yearto: '',
+						requiredEnd: false,
+						allday: false,
+						calendarLanguage: 'english',
+						dow: 0,
+
+						'{startForm}': '[data-project-start]',
+						'{endForm}': '[data-project-end]',
+
+						'{timezone}': '[data-project-timezone]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+
+							// There is an issue with yearto where if I set yearto = 2014, I won't be able to select 2014 dates.
+							// This is a bug in datetimepicker. Currently, temporarily, we manually add 1 to the value if there are value set.
+							if (!$.isEmpty(self.options.yearto)) {
+								self.options.yearto = parseInt(self.options.yearto) + 1;
+							} else {
+								self.options.yearto = new Date().getFullYear() + 100
+							}
+
+							self.options.yearfrom = self.options.yearfrom || 1930;
+
+							// Add controller on the start date
+							self.startDatetime = self.startForm().addController('EasySocial.Controller.Field.Project.Startend.Form', {
+								'{parent}': self,
+								"type": 'start'
+							});
+
+							// Add controller on the end date
+							self.endDatetime = self.endForm().addController('EasySocial.Controller.Field.Project.Startend.Form', {
+								'{parent}': self,
+								"type": 'end'
+							});
+						},
+
+						'{self} onSubmit': function(el, ev, register) {
+							register.push(self.validateInput());
+						},
+
+						validateInput: function() {
+							self.clearError();
+
+							if ($.isEmpty(self.startDatetime.datetime().val())) {
+								self.raiseError($.language('FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_START_REQUIRED'));
+
+								return false;
+							}
+
+							if (self.options.requireEnd && $.isEmpty(self.endDatetime.datetime().val())) {
+								self.raiseError($.language('FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_END_REQUIRED'));
+
+								return false;
+							}
+
+							return true;
+						},
+
+						raiseError: function(msg) {
+							self.trigger('error', [msg]);
+						},
+
+						clearError: function() {
+							self.trigger('clear');
+						}
+					}
+				});
+
+				EasySocial.Controller('Field.Project.Startend.Form', {
+					defaultOptions: {
+						type: null,
+
+						'{picker}': '[data-picker]',
+						'{toggle}': '[data-picker-toggle]',
+						'{datetime}': '[data-datetime]'
+					}
+				}, function(self, options) {
+
+					return {
+						init: function() {
+							self.load();
+						},
+
+						"{window} easysocial.fields.startend.start.change": function() {
+
+							// When the start date is changed, set the minimum date on the end date
+							if (options.type == 'start' && self.parent.endDatetime) {
+								self.parent.endDatetime.datetimepicker('destroy');
+
+								self.parent.endDatetime.load();
+							}
+						},
+
+
+						'{window} easysocial.fields.allday.change': function(el, ev, value) {
+							self.datetimepicker('destroy');
+
+							self.parent.options.allday = value == 1 ? true : false;
+
+							self.load();
+						},
+
+						// We move this here because there is a possibility that we want to "reinit"
+						load: function() {
+
+							// Generate a minimum date from momentjs
+							var minDate = new $.moment();
+
+							// If configured to disallow past dates, we need to minus 1 on the date as we need to allow today.
+							if (self.parent.options.disallowPast) {
+								minDate.date(minDate.date() - 1);
+							} else {
+								minDate.year(self.parent.options.yearfrom);
+							}
+
+							// If this type is end date, we need to set the minimum date based on the start date
+							if (options.type == 'end') {
+								var startDatetimeValue = self.parent.startDatetime.datetime().val();
+
+								if (startDatetimeValue) {
+									var minDate = $.moment(startDatetimeValue);
+
+									// minus 1 on the date as we need to allow today.
+									var minDate = minDate.date(minDate.date() - 1);
+								}
+							}
+
+							var allowTime = self.parent.options.allowTime && !self.parent.options.allday;
+							var dateFormat = self.parent.options.dateFormat;
+
+							// If time is not allowed, then we remove the time part
+							// Since the format is always (10 chars) (remaining chars)
+							// We just substr by 10 chars
+							if (!allowTime) {
+								dateFormat = dateFormat.substr(0, 10);
+							}
+
+							self.picker()._datetimepicker({
+								component: "es",
+								useCurrent: false,
+								format: dateFormat,
+								minDate: minDate,
+								maxDate: new $.moment({y: self.parent.options.yearto}),
+								icons: {
+									time: 'glyphicon glyphicon-time',
+									date: 'glyphicon glyphicon-calendar',
+									up: 'glyphicon glyphicon-chevron-up',
+									down: 'glyphicon glyphicon-chevron-down'
+								},
+								sideBySide: false,
+								pickTime: allowTime,
+								minuteStepping: parseInt(self.parent.options.minuteStepping),
+								language: self.parent.options.calendarLanguage == 'english' ? 'en-gb' : lang,
+								dow: self.parent.options.dow
+							});
+
+							var date = self.datetime().val();
+
+							// Datetimepicker is using moment.js, hence here we manually create a moment object to pass in instead of passing in date time string
+							// This is because datetimepicker.setDate function passes along the format from self.options.calendarDateFormat to generate the date object, which will render moment.js to generate an invalid dateobject
+							// self.options.calendarDateFormat is only for display purposes
+							// Raw date object is always in SQL format
+							if (!$.isEmpty(date)) {
+								var dateObj = $.moment(date);
+
+								self.datetimepicker('setDate', dateObj);
+							}
+						},
+
+						datetimepicker: function(name, value) {
+							return self.picker().data('DateTimePicker')[name](value);
+						},
+
+						'{toggle} click': function() {
+							self.picker().focus();
+						},
+
+						'{picker} dp.change': function(el, ev) {
+
+							self.setDateValue(ev.date.toDate());
+
+							// easysocial.fields.startend.start.change
+							// easysocial.fields.startend.end.change
+							$(window).trigger('easysocial.fields.startend.' + options.type + '.change', [ev.date]);
+						},
+
+						'{picker} change': function(el, ev) {
+							if ($.isEmpty(el.val())) {
+								self.datetime().val('');
+							}
+						},
+
+						setDateValue: function(date) {
+							// Convert the date object into sql format and set it into the input
+							self.datetime().val(date.getFullYear() + '-' +
+								('00' + (date.getMonth()+1)).slice(-2) + '-' +
+								('00' + date.getDate()).slice(-2) + ' ' +
+								('00' + date.getHours()).slice(-2) + ':' +
+								('00' + date.getMinutes()).slice(-2) + ':' +
+								('00' + date.getSeconds()).slice(-2));
+						}
+
+						/*'{clear} click': function(el, ev) {
+						 // Brute force way to clear the datetimepicker
+						 self.datetimepicker('setValue', new $.moment());
+
+						 self.picker().val('');
+
+						 self.datetime().val('');
+
+						 el.hide();
+
+						 self.parent.element.trigger('project' + $.String.capitalize(self.options.type), [null]);
+						 },*/
+					}
+				});
+
+				module.resolve();
+			});
+	});
+
+	EasySocial.module('apps/fields/project/startend/display', function($) {
+		var module = this;
+
+		EasySocial
+			.require()
+			.library('chosen', 'popbox')
+			.language('FIELDS_USER_DATETIME_LOCAL_TIMEZONE', 'FIELDS_USER_DATETIME_TIMEZONE_CHECKING')
+			.done(function($) {
+				EasySocial.Controller('Field.Project.Startend.Display', {
+					defaultOptions: {
+						id: null,
+
+						userid: null,
+
+						'{box}': '[data-startend-box]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.box().addController('EasySocial.Controller.Field.Project.Startend.Display.Box', {
+								'{parent}': self
+							});
+						}
+					}
+				});
+
+				EasySocial.Controller('Field.Project.Startend.Display.Box', {
+					defaultOptions: {
+						date: null,
+
+						timezone: null,
+
+						local: null,
+
+						'{toggle}': '[data-popbox]',
+
+						'{content}': '[data-popbox-content]',
+
+						'{date}': '[data-date]',
+
+						'{timezone}': '[data-timezone]',
+
+						'{loading}': '[data-loading]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.options.timezone = self.timezone().data('timezone');
+
+							self.options.date = self.date().data('date-utc');
+
+							// Get the local timezone first through client browser
+							self.options.local = -new Date().getTimezoneOffset()/60;
+
+							var content = self.content().html(),
+								position = self.toggle().data('popbox-position');
+
+							self.toggle().popbox({
+								content: content,
+								id: 'fd',
+								component: 'es',
+								type: 'timezone',
+								toggle: 'click',
+								position: position
+							}).attr('data-popbox', '');
+						},
+
+						'{toggle} popboxActivate': function(el, event, popbox) {
+							popbox.tooltip.addController('EasySocial.Controller.Field.Project.Startend.Display.Timezone', {
+								'{parent}': self
+							});
+						},
+
+						datetime: $.memoize(function(tz) {
+							return EasySocial.ajax('fields/project/startend/getDatetime', {
+								id: self.parent.options.id,
+								userid: self.parent.options.userid,
+								tz: tz,
+								local: self.options.local,
+								datetime: self.options.date
+							});
+						})
+					}
+				});
+
+				EasySocial.Controller('Field.Project.Startend.Display.Timezone', {
+					defaultOptions: {
+						'{timezones}': '[data-timezone-select]',
+						'{reset}': '[data-timezone-reset]',
+						'{local}': '[data-timezone-local]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.timezones().chosen({
+								search_contains: true
+							});
+						},
+
+						'{timezones} change': function(el, event) {
+							var key = el.val();
+
+							self.parent.date().html($.language('FIELDS_USER_DATETIME_TIMEZONE_CHECKING'));
+							self.parent.timezone().html(key === 'local' ? $.language('FIELDS_USER_DATETIME_LOCAL_TIMEZONE') : key);
+
+							self.parent.datetime(key).done(function(value) {
+								self.parent.date().html(value);
+							});
+						},
+
+						'{reset} click': function() {
+							self.setTimezone(self.parent.options.timezone);
+						},
+
+						'{local} click': function() {
+							self.setTimezone('local')
+						},
+
+						setTimezone: function(tz) {
+							self.timezones()
+								.val(tz)
+								.trigger('liszt:updated')
+								.trigger('change');
+						}
+					}
+				});
+
+				module.resolve();
+			});
 });
 
 EasySocial.module('apps/fields/group/permalink/content', function($) {
@@ -28136,8 +30129,13 @@ EasySocial.module( 'site/dashboard/dashboard' , function($){
 						"{parent}"	: self
 					});
 
-					// Implement groups navigation on dashboard
+					// Implement events navigation on dashboard
 					self.events().implement(EasySocial.Controller.Dashboard.Events, {
+						"{parent}"	: self
+					});
+
+					// Implement events navigation on dashboard
+					self.projects().implement(EasySocial.Controller.Dashboard.Projects, {
 						"{parent}"	: self
 					});
 				},
@@ -28152,6 +30150,12 @@ EasySocial.module( 'site/dashboard/dashboard' , function($){
 					$(el).hide();
 
 					self.eventItems().removeClass('hide');
+				},
+
+				"{showAllProjects} click": function(el, event) {
+					$(el).hide();
+
+					self.projectItems().removeClass('hide');
 				},
 
 				"{showAllFilters} click" : function( el , event )
@@ -30587,6 +32591,1831 @@ EasySocial.module('site/events/update', function($) {
 
     module.resolve();
 });
+
+	EasySocial.module('site/dashboard/projects', function($){
+
+		var module 				= this;
+
+		EasySocial.require()
+			.library('history')
+			.done(function($){
+
+				EasySocial.Controller(
+					'Dashboard.Projects',
+					{
+						defaultOptions:
+						{
+							"{item}"	: "[data-dashboard-project-item]",
+							"{itemLink}": "[data-dashboard-project-item] > a"
+						}
+					},
+					function(self)
+					{
+
+						return{
+
+							init : function()
+							{
+							},
+
+							/**
+							 * Fires when a feed link is clicked.
+							 */
+							"{item} click" : function(el, event)
+							{
+								event.preventDefault();
+
+								$('.es-streams').removeClass('no-stream');
+
+								var type 	= $(el).data('type'),
+									id		= $(el).data('id'),
+									desc 	= $(el).data('description');
+
+								// clear new feed counter
+								self.element.removeClass('has-notice');
+
+								// If this is an embedded layout, we need to play around with the push state.
+								$( el ).find('a').route();
+
+								// Notify the dashboard that it's starting to fetch the contents.
+								self.parent.content().html("");
+								self.parent.updatingContents();
+
+								self.element.addClass('loading');
+
+								EasySocial.ajax('site/controllers/dashboard/getStream',
+									{
+										"type"	: type,
+										"id"	: id,
+										"view" 	: "dashboard"
+									})
+									.done(function(contents) {
+										self.parent.updateContents(contents);
+									});
+							}
+						}
+					});
+				module.resolve();
+			});
+
+	});
+
+	EasySocial.module('site/projects/browser', function($) {
+		var module = this;
+
+		EasySocial
+			.require()
+			.library('popbox')
+			.script('site/projects/guestState')
+			.language('COM_EASYSOCIAL_PROJECTS_DETECTING_LOCATION')
+			.view('site/loading/small')
+			.done(function() {
+				EasySocial.Controller('Projects.Browser', {
+					defaultOptions: {
+						'{filters}': '[data-projects-filters] > li',
+						'{content}': '[data-projects-content]',
+						'{list}': '[data-projects-list]',
+
+						'{items}': '[data-projects-item]',
+
+						'{sort}': '[data-projects-sorting] a',
+						'{calendar}': '[data-projects-calendar]',
+
+						'{pastFilter}': '[data-projects-past]',
+						'{pastLink}': '[data-projects-past-link]',
+
+						'{prevDate}': '[data-projects-nav-prevdate]',
+
+						'{nextDate}': '[data-projects-nav-nextdate]',
+
+						'{radius}': '[data-projects-radius]',
+
+						'{nearbyTitle}': '[data-projects-nearby-title]',
+
+						filter: null,
+						categoryid: 0,
+
+						delayed: false,
+
+						includePast: false,
+						ordering: 'start',
+
+						hasLocation: false,
+						userLatitude: '',
+						userLongitude: '',
+
+						distance: 10,
+
+						group: null,
+
+						view: {
+							loadingContent: 'site/loading/small'
+						}
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.options.filter = self.element.data('filter');
+							self.options.categoryid = self.element.data('categoryid');
+
+							// Render the calendar
+							self.renderCalendar();
+
+							self.initItems();
+
+							if (self.options.delayed) {
+								self.delayedInit();
+							}
+						},
+
+						delayedInit: function() {
+							// It is possible that view is flagging it as "delayed" in order for javascript to make an ajax call to retrieve the data instead
+
+							// delayed init will have some preset parameter coming from url, hence we don't use the filterbynearby method
+
+							if (self.options.filter === 'nearby') {
+								var getProjects = function() {
+									EasySocial.ajax('site/controllers/projects/getProjects', {
+										filter: self.options.filter,
+										latitude: self.options.userLatitude,
+										longitude: self.options.userLongitude,
+										distance: self.options.distance,
+										ordering: self.options.ordering,
+										includePast: self.options.includePast
+									}).done(function(contents) {
+										self.element.removeClass('loading');
+
+										self.content().html(contents);
+
+										self.initItems();
+									});
+								}
+
+								if (self.options.hasLocation && self.options.userLatitude && self.options.userLongitude) {
+									return getProjects();
+								}
+
+								// If no location, then we need to resolve a location first
+
+								// Show the image of "detecting location"
+
+								EasySocial.require().library('gmaps').done(function() {
+									$.GMaps.geolocate({
+										success: function(position) {
+											self.options.userLatitude = position.coords.latitude;
+
+											self.options.userLongitude = position.coords.longitude;
+
+											return getProjects();
+										}
+									});
+								});
+							}
+						},
+
+						renderCalendar: function() {
+							EasySocial.ajax('site/views/projects/renderCalendar', {})
+								.done(function(html) {
+									self.calendar()
+										.html(html)
+										.addController('EasySocial.Controller.Projects.Browser.Calendar', {
+											'{parent}': self
+										});
+
+									self.calendar().trigger('calendarLoaded');
+								});
+						},
+
+						initItems: function() {
+							self.items().addController('EasySocial.Controller.Projects.Browser.Item', {
+								'{parent}': self
+							});
+						},
+
+						'{filters} click': function(el, event) {
+							event.preventDefault();
+
+							self.filters().removeClass('active');
+
+							el.addClass('active');
+
+							self.content().html('&nbsp;');
+
+							// Update the url in the address bar
+							el.find('a').route();
+
+							self.options.filter = el.data('projects-filters-type'),
+								self.options.categoryid = el.data('projects-filters-categoryid');
+
+							// Nearby requires separate processing
+							if (self.options.filter == 'nearby') {
+								return self.filterByNearby();
+							}
+
+							// Add loading class on container
+							self.element.addClass('loading');
+
+							EasySocial.ajax('site/controllers/projects/getProjects', {
+								filter: self.options.filter,
+								categoryid: self.options.categoryid
+							}).done(function(contents) {
+
+								// Remove the loading from the container
+								self.element.removeClass('loading');
+
+								self.content().html(contents);
+
+								self.initItems();
+							});
+						},
+
+						filterByNearby: function() {
+							var getProjects = function() {
+								EasySocial.ajax('site/controllers/projects/getProjects', {
+									filter: self.options.filter,
+									latitude: self.options.userLatitude,
+									longitude: self.options.userLongitude
+								}).done(function(contents) {
+									self.element.removeClass('loading');
+
+									self.content().html(contents);
+
+									self.initItems();
+								});
+							}
+
+							if (self.options.hasLocation && self.options.userLatitude && self.options.userLongitude) {
+								self.element.addClass('loading');
+
+								return getProjects();
+							}
+
+							// If no location, then we need to resolve a location first
+
+							// Show a detecting location
+							self.content().html('<div class="es-detecting-location"><i class="fa fa-globe es-muted"></i> ' + $.language('COM_EASYSOCIAL_PROJECTS_DETECTING_LOCATION') + ' <i class="icon-loader"></i></div>');
+
+							// Show the image of "detecting location"
+
+							EasySocial.require().library('gmaps').done(function() {
+								$.GMaps.geolocate({
+									success: function(position) {
+										self.options.userLatitude = position.coords.latitude;
+
+										self.options.userLongitude = position.coords.longitude;
+
+										self.options.hasLocation = true;
+
+										return getProjects();
+									}
+								});
+							});
+						},
+
+						'{sort} click': function(el, event) {
+							event.preventDefault();
+
+							self.sort().removeClass('active');
+
+							el.addClass('active');
+
+							// self.element.addClass('loading');
+
+							self.list().html(self.view.loadingContent());
+
+							var ordering = el.data('ordering'),
+								filter = el.data('filter'),
+								categoryid = el.data('categoryid'),
+								includePast = self.pastFilter().is(':checked') ? 1 : 0;
+
+							self.setPastLink();
+
+							self.setSortLink();
+
+							el.route();
+
+							if (filter === 'nearby') {
+								EasySocial.ajax('site/controllers/projects/getProjects', {
+									filter: self.options.filter,
+									latitude: self.options.userLatitude,
+									longitude: self.options.userLongitude,
+									distance: self.options.distance,
+									ordering: ordering,
+									sort: 1,
+									includePast: includePast
+								}).done(function(contents) {
+									self.list().html(contents);
+
+									self.initItems();
+								});
+
+								return;
+							}
+
+							EasySocial.ajax('site/controllers/projects/getProjects', {
+								filter: filter,
+								categoryid: categoryid,
+								ordering: ordering,
+								sort: 1,
+								includePast: includePast,
+								group: self.options.group
+							}).done(function(contents) {
+								self.list().html(contents);
+
+								self.initItems();
+							});
+						},
+
+						'{pastFilter} change': function(el) {
+							var activeSort = self.sort('.active'),
+								includePast = el.is(':checked') ? 1 : 0,
+								ordering = activeSort.data('ordering'),
+								filter = activeSort.data('filter'),
+								categoryid = activeSort.data('categoryid');
+
+							self.list().html(self.view.loadingContent());
+
+							self.pastLink().route();
+
+							self.setPastLink();
+
+							self.setSortLink();
+
+							if (filter === 'nearby') {
+								EasySocial.ajax('site/controllers/projects/getProjects', {
+									filter: self.options.filter,
+									latitude: self.options.userLatitude,
+									longitude: self.options.userLongitude,
+									distance: self.options.distance,
+									ordering: ordering,
+									sort: 1,
+									includePast: includePast
+								}).done(function(contents) {
+									self.list().html(contents);
+
+									self.initItems();
+								});
+
+								return;
+							}
+
+							EasySocial.ajax('site/controllers/projects/getProjects', {
+								filter: filter,
+								categoryid: categoryid,
+								ordering: ordering,
+								sort: 1,
+								includePast: includePast,
+								group: self.options.group
+							}).done(function(contents) {
+								self.list().html(contents);
+
+								self.initItems();
+							});
+						},
+
+						'{pastLink} click': function(el, ev) {
+							ev.preventDefault();
+
+							self.pastFilter().trigger('click');
+						},
+
+						setPastLink: function() {
+							var pastLink = self.pastLink(),
+								includePast = self.pastFilter().is(':checked') ? 1 : 0,
+								ordering = self.sort('.active').data('ordering');
+
+							var link = pastLink.data(ordering + '-' + (includePast ? 'nopast' : 'past'));
+
+							pastLink.attr('href', link);
+						},
+
+						setSortLink: function() {
+							var includePast = self.pastFilter().is(':checked') ? 1 : 0;
+
+							$.each(self.sort(), function(i, el) {
+								var el = $(el);
+								el.attr('href', self.pastLink().data(el.data('ordering') + '-' + (includePast ? 'past' : 'nopast')));
+							});
+						},
+
+						'{prevDate} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.filters().removeClass('active');
+
+							self.element.addClass('loading');
+
+							self.content().html('&nbsp;');
+
+							EasySocial.ajax('site/controllers/projects/getProjects', {
+								filter: 'date',
+								date: el.data('projects-nav-prevdate')
+							}).done(function(contents, options) {
+
+								// Remove the loading from the container
+								self.element.removeClass('loading');
+
+								self.content().html(contents);
+
+								self.initItems();
+
+								if (options.isToday) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="date"]').addClass('active');
+								}
+
+								if (options.isTomorrow) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="tomorrow"]').addClass('active');
+								}
+
+								if (options.isCurrentMonth) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="month"]').addClass('active');
+								}
+
+								if (options.isCurrentYear) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="year"]').addClass('active');
+								}
+							});
+						},
+
+						'{nextDate} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.filters().removeClass('active');
+
+							self.element.addClass('loading');
+
+							self.content().html('&nbsp;');
+
+							EasySocial.ajax('site/controllers/projects/getProjects', {
+								filter: 'date',
+								date: el.data('projects-nav-nextdate')
+							}).done(function(contents, options) {
+
+								// Remove the loading from the container
+								self.element.removeClass('loading');
+
+								self.content().html(contents);
+
+								self.initItems();
+
+								if (options.isToday) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="date"]').addClass('active');
+								}
+
+								if (options.isTomorrow) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="tomorrow"]').addClass('active');
+								}
+
+								if (options.isCurrentMonth) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="month"]').addClass('active');
+								}
+
+								if (options.isCurrentYear) {
+									self.filters().removeClass('active');
+
+									self.filters('[data-projects-filters-type="year"]').addClass('active');
+								}
+							});
+						},
+
+						'{radius} change': function(el, ev) {
+							var activeSort = self.sort('.active'),
+								includePast = self.pastFilter().is(':checked') ? 1 : 0,
+								ordering = activeSort.data('ordering'),
+								filter = activeSort.data('filter'),
+								categoryid = activeSort.data('categoryid'),
+								distance = el.val();
+
+							self.options.distance = distance;
+
+							self.list().html(self.view.loadingContent());
+
+							// self.pastLink().route();
+
+							// self.setPastLink();
+
+							// self.setSortLink();
+
+							EasySocial.ajax('site/controllers/projects/getProjects', {
+								filter: 'nearby',
+								latitude: self.options.userLatitude,
+								longitude: self.options.userLongitude,
+								distance: self.options.distance,
+								ordering: ordering,
+								includePast: includePast,
+								sort: 1
+							}).done(function(contents, options) {
+								self.list().html(contents);
+
+								self.initItems();
+
+								History.pushState({state:1}, document.title, options.hrefs[ordering][includePast ? 'past' : 'nopast']);
+
+								self.pastLink().attr('href', options.hrefs[ordering][includePast ? 'nopast' : 'past']);
+
+								$.each(self.sort(), function(i, el) {
+									var el = $(el);
+									el.attr('href', options.hrefs[el.data('ordering')][includePast ? 'past' : 'nopast']);
+
+									self.pastLink().attr('data-' + el.data('ordering') + '-past', options.hrefs[el.data('ordering')]['past']);
+									self.pastLink().attr('data-' + el.data('ordering') + '-nopast', options.hrefs[el.data('ordering')]['nopast']);
+								});
+
+								self.nearbyTitle().text(options.title);
+							});
+						}
+					}
+				});
+
+				EasySocial.Controller('Projects.Browser.Item', {
+					defaultOptions: {
+						id: null,
+
+						'{action}': '[data-item-action]',
+
+						'{unfeature}': '[data-item-unfeature]',
+						'{feature}': '[data-item-feature]',
+						'{unpublish}': '[data-item-unpublish]',
+						'{delete}': '[data-item-delete]',
+
+						'{guestStateWrap}': '[data-guest-state-wrap]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.options.id = self.element.data('id');
+
+							self.initGuestStates();
+						},
+
+						initGuestStates: function() {
+							self.guestStateWrap().addController('EasySocial.Controller.Projects.GuestState');
+						},
+
+						'{action} click': function(el) {
+							EasySocial.dialog({
+								content: EasySocial.ajax('site/views/projects/itemActionDialog', {
+									id: self.options.id,
+									action: el.data('item-action'),
+									from: 'list'
+								})
+							});
+						},
+
+						'{delete} click': function() {
+							EasySocial.dialog({
+								content: EasySocial.ajax('site/views/projects/deleteProjectDialog', {
+									id: self.options.id
+								})
+							});
+						}
+					}
+				});
+
+				EasySocial.Controller('Projects.Browser.Calendar', {
+					defaultOptions: {
+						'{nav}': '[data-calendar-nav]',
+
+						'{day}': '.day',
+
+						'{month}': '[data-month]',
+
+						view: {
+							loading: 'site/loading/small'
+						}
+					}
+				}, function(self) {
+					return {
+						init: function() {
+
+						},
+
+						'{self} calendarLoaded': function() {
+							self.day('.has-projects').each(function(index, el) {
+								el = $(el);
+
+								var content = el.find('.project-details').html();
+
+								el.popbox({
+									content: content,
+									id: 'fd',
+									component: 'es',
+									type: 'projects-calendar-filter',
+									position: 'bottom-left',
+									toggle: 'hover'
+								});
+							});
+
+							var month = self.month('.has-projects');
+
+							if (month.length > 0) {
+								var content = month.find('.project-details').html();
+								month.popbox({
+									content: content,
+									id: 'fd',
+									component: 'es',
+									type: 'projects-calendar-filter',
+									position: 'bottom-left',
+									toggle: 'hover'
+								});
+							}
+						},
+
+						'{nav} click': function(el, ev) {
+							var date = el.data('calendar-nav');
+
+							self.element.html(self.view.loading());
+
+							EasySocial.ajax('site/views/projects/renderCalendar', {
+								date: date
+							}).done(function(html) {
+								self.element
+									.html(html)
+									.trigger('calendarLoaded');
+							});
+						},
+
+						'{day} click': function(el, ev) {
+							ev.preventDefault();
+
+							// Update the url in the address bar
+							el.find('a[data-route]:first').route();
+
+							self.loadProjects(el.data('date'));
+						},
+
+						'{day} popboxActivate': function(el, ev, popbox) {
+							popbox.tooltip.find('a[data-route]').on('click', function(event) {
+								event.preventDefault();
+
+								$(this).route();
+
+								self.loadProjects($(this).data('date'));
+							});
+						},
+
+						'{month} click': function(el, ev) {
+							ev.preventDefault();
+
+							// Update the url in the address bar
+							el.find('a[data-route]:first').route();
+
+							self.loadProjects(el.data('month'));
+						},
+
+						'{month} popboxActivate': function(el, ev, popbox) {
+							popbox.tooltip.find('a[data-route]').on('click', function(event) {
+								event.preventDefault();
+
+								$(this).route();
+
+								self.loadProjects($(this).data('month'));
+							});
+						},
+
+						loadProjects: function(date) {
+							self.parent.filters().removeClass('active');
+
+							// Add loading class on container
+							self.parent.element.addClass('loading');
+							self.parent.content().html('&nbsp;');
+
+							EasySocial.ajax('site/controllers/projects/getProjects', {
+								filter: 'date',
+								date: date
+							}).done(function(contents, options) {
+
+								// Remove the loading from the container
+								self.parent.element.removeClass('loading');
+
+								self.parent.content().html(contents);
+
+								self.parent.initItems();
+
+								if (options.isToday) {
+									self.parent.filters().removeClass('active');
+
+									self.parent.filters('[data-projects-filters-type="date"]').addClass('active');
+								}
+
+								if (options.isTomorrow) {
+									self.parent.filters().removeClass('active');
+
+									self.parent.filters('[data-projects-filters-type="tomorrow"]').addClass('active');
+								}
+
+								if (options.isCurrentMonth) {
+									self.parent.filters().removeClass('active');
+
+									self.parent.filters('[data-projects-filters-type="month"]').addClass('active');
+								}
+
+								if (options.isCurrentYear) {
+									self.parent.filters().removeClass('active');
+
+									self.parent.filters('[data-projects-filters-type="year"]').addClass('active');
+								}
+							});
+						}
+					}
+				});
+
+				module.resolve();
+			});
+	});
+
+	EasySocial.module('site/projects/guestState', function($) {
+		var module = this;
+
+		EasySocial
+			.require()
+			.language('COM_EASYSOCIAL_PROJECTS_GUEST_PENDING')
+			.done(function($) {
+
+				EasySocial.Controller('Projects.GuestState', {
+					defaultOptions: {
+						id: null,
+
+						allowMaybe: 1,
+
+						allowNotGoingGuest: 1,
+
+						hidetext: 1,
+
+						refresh: false,
+
+						'{guestAction}': '[data-guest-action]',
+
+						'{guestState}': '[data-guest-state]',
+
+						'{request}': '[data-guest-request]',
+
+						'{withdraw}': '[data-guest-withdraw]',
+
+						'{respond}': '[data-guest-respond]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.options.id = self.element.data('id');
+
+							self.options.allowMaybe = self.element.data('allowmaybe');
+							self.options.allowNotGoingGuest = self.element.data('allownotgoingguest');
+							self.options.hidetext = self.element.data('hidetext');
+
+							// Determines if the page requires a refresh
+							// If this is a item page, then the element will have a data-refresh flag
+							// If this is a listing page, then no refresh is required
+							self.options.refresh = self.element.is('[data-refresh]');
+
+							// self.initPopbox();
+						},
+
+						showError: function(msg) {
+							EasySocial.dialog({
+								content: msg
+							});
+						},
+
+						stateClasses: {
+							'going': 'btn-es-success',
+							'maybe': 'btn-es-info',
+							'notgoing': 'btn-es-danger'
+						},
+
+						'{guestAction} click': function(el) {
+							// Depending on the action
+
+							var action = el.data('guestAction');
+
+							if (action === 'state') {
+								var state = el.data('guestState');
+
+								self.guestAction().removeClass('btn-es-success btn-es-info btn-es-danger');
+
+								el.addClass(self.stateClasses[state]);
+
+								if (state === 'notgoing' && !self.options.allowNotGoingGuest) {
+									EasySocial.dialog({
+										content: EasySocial.ajax('site/views/projects/notGoingDialog', {
+											id: self.options.id
+										}),
+										bindings: {
+											'{closeButton} click': function() {
+												EasySocial.ajax('site/views/projects/refreshGuestState', {
+													id: self.options.id,
+													hidetext: self.options.hidetext
+												}).done(function(html) {
+													self.element.html(html);
+
+													EasySocial.dialog().close();
+												});
+											},
+											'{submitButton} click': function() {
+												self.response('notgoing')
+													.done(function() {
+														if (self.options.refresh) {
+															return location.reload();
+														}
+
+														EasySocial.ajax('site/views/projects/refreshGuestState', {
+															id: self.options.id,
+															hidetext: self.options.hidetext
+														}).done(function(html) {
+															self.element.html(html);
+
+															EasySocial.dialog().close();
+														});
+													});
+											}
+										}
+									});
+								} else {
+									self.response(state)
+										.done(function() {
+											if (self.options.refresh) {
+												return location.reload();
+											}
+										})
+										.fail(function(msg) {
+											el.removeClass(self.stateClasses[action]);
+
+											self.showError(msg);
+										});
+								}
+							}
+
+							if (action === 'request') {
+								EasySocial.dialog({
+									content: EasySocial.ajax('site/views/projects/requestDialog', {
+										id: self.options.id
+									}),
+									bindings: {
+										'{submitButton} click': function() {
+											el
+												.attr('data-guest-action', 'withdraw')
+												.data('guestAction', 'withdraw')
+												.removeAttr('data-guest-request')
+												.attr('data-guest-withdraw', '')
+												.text($.language('COM_EASYSOCIAL_PROJECTS_GUEST_PENDING'));
+
+											self.response(action);
+
+											EasySocial.dialog().close();
+										}
+									}
+								});
+							}
+
+							if (action === 'withdraw') {
+								EasySocial.dialog({
+									content: EasySocial.ajax('site/views/projects/withdrawDialog', {
+										id: self.options.id
+									}),
+									bindings: {
+										'{submitButton} click': function() {
+											self.response('withdraw')
+												.done(function() {
+													EasySocial.ajax('site/views/projects/refreshGuestState', {
+														id: self.options.id,
+														hidetext: self.options.hidetext
+													}).done(function(html) {
+														self.element.html(html);
+
+														EasySocial.dialog().close();
+													});
+												});
+										}
+									}
+								});
+							}
+
+							if (action === 'attend') {
+								self.response('going').done(function() {
+									EasySocial.ajax('site/views/projects/refreshGuestState', {
+										id: self.options.id,
+										hidetext: self.options.hidetext
+									}).done(function(html) {
+										if (self.options.refresh) {
+											return location.reload();
+										}
+
+										if (html !== undefined) {
+											self.element.html(html);
+
+											EasySocial.dialog().close();
+										}
+									});
+								});
+							}
+						},
+
+						response: function(action) {
+							return EasySocial.ajax('site/controllers/projects/guestResponse', {
+								id: self.options.id,
+								state: action
+							});
+						}
+					}
+				});
+
+				module.resolve();
+			});
+	});
+
+	EasySocial.module('site/projects/buttonState', function($) {
+		var module = this;
+
+		EasySocial
+			.require()
+			.language('COM_EASYSOCIAL_PROJECTS_GUEST_PENDING')
+			.done(function($) {
+
+				EasySocial.Controller('Projects.ButtonState', {
+					defaultOptions: {
+						id: null,
+
+						allowMaybe: 1,
+
+						allowNotGoingGuest: 1,
+
+						hidetext: 1,
+
+						refresh: false,
+
+						isPopbox: 0,
+
+						'{guestAction}': '[data-guest-action]',
+
+						'{guestState}': '[data-guest-state]',
+
+						'{request}': '[data-guest-request]',
+
+						'{withdraw}': '[data-guest-withdraw]',
+
+						'{respond}': '[data-guest-respond]',
+
+
+						"{rsvpButton}" : "[data-project-rsvp-button]",
+
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							// project id
+							self.options.id = self.element.data('id');
+
+							self.options.allowMaybe = self.element.data('allowmaybe');
+							self.options.allowNotGoingGuest = self.element.data('allownotgoingguest');
+							self.options.hidetext = self.element.data('hidetext');
+							self.options.isPopbox = self.element.data('ispopbox');
+							// Determines if the page requires a refresh
+							// If this is a item page, then the element will have a data-refresh flag
+							// If this is a listing page, then no refresh is required
+							// self.options.refresh = self.element.is('[data-refresh]');
+
+							// self.initPopbox();
+						},
+
+						showError: function(msg) {
+							EasySocial.dialog({
+								content: msg.message
+							});
+						},
+
+						stateClasses: {
+							'going': 'btn-es-success',
+							'maybe': 'btn-es-info',
+							'notgoing': 'btn-es-danger'
+						},
+
+						refreshButton: function() {
+
+							EasySocial.ajax('site/views/projects/refreshButtonState', {
+								id: self.options.id,
+								hidetext: self.options.hidetext,
+								isPopbox: self.options.isPopbox
+							}).done(function(html) {
+								self.element.replaceWith(html);
+							});
+						},
+
+						"{rsvpButton} popboxActivate": function(el, event, popbox) {
+							// popbox.content  or console.dir(popbox) to see what is inside
+
+							var selector = 'div#' + popbox.id  + '.popbox-' + popbox.type + ' [data-project-button-container]';
+							$(selector).addController('EasySocial.Controller.Projects.ButtonState.Popbox', {
+								"{parent}": self
+							});
+
+						},
+
+						'{guestAction} click': function(el) {
+							self.doAction(el);
+						},
+
+						doAction: function(el) {
+
+							// Depending on the action
+							var action = el.data('guestAction');
+
+							if (action === 'state') {
+
+								var state = el.data('guestState');
+
+								if (state === 'notgoing' && !self.options.allowNotGoingGuest) {
+
+									EasySocial.dialog({
+										content: EasySocial.ajax('site/views/projects/notGoingDialog', {
+											id: self.options.id
+										}),
+										bindings: {
+											'{closeButton} click': function() {
+												self.refreshButton();
+												EasySocial.dialog().close();
+											},
+											'{submitButton} click': function() {
+												self.response('notgoing')
+													.done(function() {
+														self.refreshButton();
+														EasySocial.dialog().close();
+													});
+											}
+										}
+									});
+								} else {
+
+									self.response(state)
+										.done(function() {
+											self.refreshButton();
+										})
+										.fail(function(msg) {
+											el.removeClass(self.stateClasses[action]);
+											self.showError(msg);
+										});
+
+								}
+							}
+
+							if (action === 'request') {
+								EasySocial.dialog({
+									content: EasySocial.ajax('site/views/projects/requestDialog', {
+										id: self.options.id
+									}),
+									bindings: {
+										'{submitButton} click': function() {
+											el
+												.attr('data-guest-action', 'withdraw')
+												.data('guestAction', 'withdraw')
+												.removeAttr('data-guest-request')
+												.attr('data-guest-withdraw', '')
+												.text($.language('COM_EASYSOCIAL_PROJECTS_GUEST_PENDING'));
+
+											self.response(action);
+
+											EasySocial.dialog().close();
+										}
+									}
+								});
+							}
+
+							if (action === 'withdraw') {
+								EasySocial.dialog({
+									content: EasySocial.ajax('site/views/projects/withdrawDialog', {
+										id: self.options.id
+									}),
+									bindings: {
+										'{submitButton} click': function() {
+											self.response('withdraw')
+												.done(function() {
+													self.refreshButton();
+													EasySocial.dialog().close();
+												});
+										}
+									}
+								});
+							}
+
+							if (action === 'attend') {
+								self.response('going').done(function() {
+									self.refreshButton();
+									EasySocial.dialog().close();
+								});
+							}
+						},
+
+						response: function(action) {
+							return EasySocial.ajax('site/controllers/projects/guestResponse', {
+								id: self.options.id,
+								state: action
+							});
+						}
+					}
+				});
+
+
+				EasySocial.Controller("Projects.ButtonState.Popbox",
+					{
+						defaultOptions: {
+							'{guestAction}': '[data-guest-action]'
+						}
+					}, function(self) {
+						return {
+							init: function() {
+								console.log('Projects.ButtonState.Popbox');
+							},
+
+							"{guestAction} click": function(el) {
+								self.parent.doAction(el);
+							},
+
+						}
+					});
+
+
+				module.resolve();
+			});
+	});
+
+	EasySocial.module('site/projects/create', function($) {
+		var module = this;
+
+		EasySocial.require().script('validate', 'field').done(function() {
+			EasySocial.Controller('Projects.Create', {
+				defaultOptions: {
+					'previousLink': null,
+
+					'{fields}': '[data-create-field]',
+
+					'{previous}': '[data-create-previous]',
+
+					'{next}': '[data-create-submit]'
+				}
+			}, function(self) {
+				return {
+					init: function() {
+						self.fields().addController('EasySocial.Controller.Field.Base');
+					},
+
+					'{previous} click': function() {
+						window.location = self.options.previousLink;
+					},
+
+					'{next} click': function(el) {
+						if (el.enabled()) {
+							el.disabled(true);
+
+							el.addClass('btn-loading');
+
+							self.element.validate()
+								.done(function() {
+									el.removeClass('btn-loading');
+									el.enabled(true);
+
+									self.element.submit();
+								})
+								.fail(function() {
+									el.removeClass('btn-loading');
+									el.enabled(true);
+
+									EasySocial.dialog({
+										content: EasySocial.ajax('site/views/profile/showFormError')
+									});
+								});
+						}
+					}
+				}
+			});
+
+			module.resolve();
+		});
+	});
+
+	EasySocial.module('site/projects/createRecurring', function($) {
+		var module = this;
+
+		EasySocial.Controller('Projects.CreateRecurring', {
+			defaultOptions: {
+				schedule: [],
+
+				projectId: null,
+
+				'{progress}': '[data-progress-bar]',
+
+				'{form}': '[data-form]'
+			}
+		}, function(self) {
+			return {
+				init: function() {
+					self.start();
+				},
+
+				counter: 0,
+
+				start: function() {
+					if (self.options.schedule[self.counter] === undefined) {
+						return self.completed();
+					}
+
+					self.create(self.options.schedule[self.counter])
+						.done(function() {
+							self.counter++;
+
+							var percentage = Math.ceil((self.counter / self.options.schedule.length) * 100);
+
+							self.progress().css({
+								width: percentage + '%'
+							});
+
+							self.start();
+						})
+						.fail(function(msg) {
+							console.log(msg);
+						});
+				},
+
+				create: function(datetime) {
+					return EasySocial.ajax('site/controllers/projects/createRecurring', {
+						projectId: self.options.projectId,
+						datetime: datetime
+					});
+				},
+
+				completed: function() {
+					self.progress().parent().removeClass('progress-info').addClass('progress-success');
+					self.form().submit();
+				}
+			}
+		})
+
+		module.resolve();
+	});
+
+	EasySocial.module('site/projects/edit', function($) {
+		var module = this;
+
+		EasySocial.require()
+			.script('validate', 'field')
+			.done(function() {
+				EasySocial.Controller('Projects.Edit', {
+					defaultOptions: {
+						id: null,
+
+						isRecurring: 0,
+						hasRecurring: 0,
+
+						'{form}': '[data-form]',
+
+						'{nav}': '[data-step-nav]',
+						'{content}': '[data-step-content]',
+						'{fields}': '[data-edit-field]',
+						'{saveButton}': '[data-edit-save]',
+
+						'{saveApply}': 'input[name="applyRecurring"]'
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.fields().addController('EasySocial.Controller.Field.Base', {
+								mode: 'edit'
+							});
+						},
+
+						errorFields: [],
+
+						'{nav} click': function(el, ev) {
+							var id = $(el).data('for');
+
+							self.content().hide();
+
+							self.nav().removeClass('active');
+
+							el.addClass('active');
+
+							self.content().filterBy('id', id)
+								.show()
+								.find(self.fields.selector).trigger('show');
+						},
+
+						'{nav} error': function(el) {
+							el.addClass('error');
+						},
+
+						'{nav} clear': function(el) {
+							if (self.errorFields.length < 1) {
+								el.removeClass('error');
+							}
+						},
+
+						'{fields} error': function(el, ev) {
+							self.triggerStepError(el);
+						},
+
+						'{fields} clear': function(el, ev) {
+							self.clearStepError(el);
+						},
+
+						'{fieldItem} onError': function(el, ev) {
+							self.triggerStepError(el);
+						},
+
+						triggerStepError: function(el) {
+							var fieldid = el.data('id'),
+								stepid = el.parents(self.content.selector).data('id');
+
+							if ($.inArray(fieldid, self.errorFields) < 0) {
+								self.errorFields.push(fieldid);
+							}
+
+							self.nav().filterBy('for', stepid).trigger('error');
+						},
+
+						clearStepError: function(el) {
+							var fieldid = el.data('id'),
+								stepid = el.parents(self.content.selector).data('id');
+
+							self.errorFields = $.without(self.errorFields, fieldid);
+
+							self.nav().filterBy('for', stepid).trigger('clear');
+						},
+
+						'{saveButton} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.addClass('btn-loading');
+
+							self.form().validate()
+								.done(function() {
+									// Check if this buttons has a value for data-edit-save to indicate if recurring should save all
+									if (el.data('editSave') === 'all') {
+										self.saveApply().val(1);
+									}
+
+									self.form().submit();
+								})
+								.fail(function() {
+									el.removeClass('btn-loading');
+									EasySocial.dialog({
+										content: EasySocial.ajax('site/views/profile/showFormError')
+									});
+								});
+						}
+					}
+				});
+
+				module.resolve();
+			});
+	});
+
+	EasySocial.module('site/projects/item', function($) {
+		var module = this;
+
+		EasySocial.template('info/item', '<li data-sidebar-item><a class="ml-20" href="[%= url %]" title="[%= title %]" data-info-item data-info-index="[%= index %]"><i class="fa fa-info-circle mr-5"></i> [%= title %]</a></li>');
+
+		EasySocial
+			.require()
+			.script('site/friends/suggest', 'site/projects/guestState')
+			.view('site/loading/small')
+			.library('history')
+			.done(function($) {
+				EasySocial.Controller('Projects.Item', {
+					defaultOptions: {
+						id: null,
+
+						'{filterStreamList}': '[data-filter-stream-list]',
+
+						'{sidebarItem}': '[data-sidebar-item]',
+
+						'{addFilter}': '[data-filter-add]',
+
+						'{editFilter}': '[data-filter-edit]',
+
+						'{filterStream}': '[data-filter-stream]',
+
+						'{filterApp}': '[data-filter-app]',
+
+						'{showAllFilters}': '[data-filter-showall]',
+
+						'{apps}': '[data-app-item]',
+
+						'{content}': '[data-content]',
+
+						'{saveHashtag}': '[data-hashtag-filter-save]',
+
+						'{invite}': '[data-action-invite]',
+
+						'{unpublish}': '[data-action-unpublish]',
+
+						'{delete}': '[data-action-delete]',
+
+						'{guestStateWrap}': '[data-guest-state-wrap]',
+
+						'{info}': '[data-info]',
+
+						'{infoItem}': '[data-info-item]',
+
+						"{menuItem}"    : "[data-dashboardSidebar-menu]",
+
+						view: {
+							infoItem: 'info/item',
+							loading: 'site/loading/small'
+						}
+					}
+				}, function(self) {
+					return {
+						init: function() {
+							self.initGuestStates();
+						},
+
+						initGuestStates: function() {
+							self.guestStateWrap().addController('EasySocial.Controller.Projects.GuestState');
+						},
+
+						setActive: function(el) {
+							self.sidebarItem().removeClass('active');
+
+							el.parents(self.sidebarItem.selector).addClass('active');
+						},
+
+						setLoading: function(el) {
+							self.content().html('');
+
+							self.element.addClass('loading');
+						},
+
+						updateContents: function(html) {
+							self.element.removeClass('loading');
+
+							self.content().html(html);
+						},
+
+						'{showAllFilters} click': function(el, ev) {
+							el.hide();
+
+							self.sidebarItem().show();
+						},
+
+						'{editFilter} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.setLoading();
+
+							self.getFilter(el.data('id'));
+
+							self.setActive(el.parents('[data-sidebar-item]'));
+						},
+
+						'{addFilter} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.setActive(el);
+
+							self.setLoading();
+
+							self.getFilter(0);
+						},
+
+						getFilter: function(id) {
+							EasySocial.ajax('site/controllers/projects/getFilter', {
+								filterId: id,
+								projectId: self.options.id
+							}).always(function(contents) {
+								self.updateContents(contents);
+							});
+						},
+
+						'{filterApp} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.setActive(el);
+
+							self.setLoading();
+
+							self.getStream(el.data('id'), 'apps');
+						},
+
+						'{filterStream} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.setActive(el);
+
+							self.setLoading();
+
+							self.getStream(el.data('id'), el.data('type'));
+						},
+
+						"{menuItem} click" : function( el , event )
+						{
+							// Remove all active class.
+							self.menuItem().removeClass( 'active' );
+
+							// Add active class on this item.
+							$( el ).addClass( 'active' );
+						},
+
+						getStream: function(id, type) {
+							EasySocial.ajax('site/controllers/projects/getStream', {
+								id: id,
+								type: type,
+								view: "projects",
+								projectId: self.options.id
+							}).always(function(contents) {
+								self.updateContents(contents);
+							});
+						},
+
+						'{saveHashtag} click': function(el) {
+							var tag = el.data('tag');
+
+							EasySocial.dialog({
+								content: EasySocial.ajax('site/views/stream/confirmSaveFilter', {
+									tag: tag
+								}),
+								bindings: {
+									'{saveButton} click': function() {
+										this.inputWarning().hide();
+
+										var filterName = this.inputTitle().val();
+
+										if (filterName == '') {
+											this.inputWarning().show();
+											return;
+										}
+
+										EasySocial.ajax('site/controllers/projects/addFilter', {
+											title: filterName,
+											tag: tag,
+											id: self.options.id
+										}).done(function(html, msg) {
+											var item = $.buildHTML(html);
+
+											self.filterStreamList().append(item);
+
+											EasySocial.dialog(msg);
+
+											setTimeout(function() {
+												EasySocial.dialog().close();
+											}, 2000);
+										});
+									}
+								}
+							});
+						},
+
+						'{apps} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.setActive(el);
+
+							self.setLoading();
+
+							EasySocial.ajax('site/controllers/projects/getAppContents', {
+								appId: el.data('app-id'),
+								projectId: self.options.id
+							}).always(function(contents) {
+								self.updateContents(contents);
+							});
+						},
+
+						'{info} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.setActive(el);
+
+							self.setLoading();
+
+							var loaded = el.data('loaded');
+
+							if (loaded) {
+								self.infoItem().eq(0).trigger('click');
+								return;
+							}
+
+							if (el.enabled()) {
+								el.disabled(true);
+
+								EasySocial.ajax('site/controllers/projects/initInfo', {
+									projectId: self.options.id
+								}).done(function(steps) {
+									el.data('loaded', 1);
+
+									var parent = el.parent('[data-sidebar-item]');
+
+									// Append all the steps
+									$.each(steps.reverse(), function(index, step) {
+										if (!step.hide) {
+											parent.after(self.view.infoItem({
+												url: step.url,
+												title: step.title,
+												index: step.index
+											}));
+										}
+
+										if (step.html) {
+											self.updateContents(step.html);
+											self.content().find('[data-field]').trigger('onShow');
+										}
+									});
+
+									var item = self.infoItem().eq(0);
+
+									self.setActive(item);
+
+									// Have to set the title
+									$(document).prop('title', item.attr('title'));
+
+									el.enabled(true);
+								}).fail(function(error) {
+									el.enabled(true);
+									self.updateContents(error.message);
+								});
+							}
+						},
+
+						'{infoItem} click': function(el, ev) {
+							ev.preventDefault();
+
+							el.route();
+
+							self.setActive(el);
+
+							self.setLoading();
+
+							var index = el.data('info-index');
+
+							EasySocial.ajax('site/controllers/projects/getInfo', {
+								projectId: self.options.id,
+								index: index
+							}).done(function(contents) {
+								self.updateContents(contents);
+
+								self.content().find('[data-field]').trigger('onShow');
+							}).fail(function(error) {
+								self.updateContents(error.message);
+							});
+						},
+
+						'{invite} click': function(el, ev) {
+							EasySocial.dialog({
+								content: self.view.loading(),
+								width: 400,
+								heigth: 150
+							});
+
+							EasySocial.ajax('site/views/projects/inviteFriendsDialog', {
+								'id' : self.options.id
+							}).done(function(content) {
+								EasySocial.dialog({
+									content: content
+								});
+							});
+						},
+
+						'{unpublish} click': function(el, ev) {
+							EasySocial.dialog({
+								content: EasySocial.ajax('site/views/projects/unpublishProjectDialog', {
+									id: self.options.id
+								})
+							});
+						},
+
+						'{delete} click': function(el, ev) {
+							EasySocial.dialog({
+								content: EasySocial.ajax('site/views/projects/deleteProjectDialog', {
+									id: self.options.id
+								})
+							});
+						}
+					}
+				});
+
+				module.resolve();
+			});
+	});
+
+	EasySocial.module('site/projects/update', function($) {
+		var module = this;
+
+		EasySocial.Controller('Projects.Update', {
+			defaultOptions: {
+				postdata: {},
+				updateids: [],
+				schedule: [],
+
+				projectId: null,
+
+				'{progress}': '[data-progress-bar]',
+
+				'{form}': '[data-form]'
+			}
+		}, function(self) {
+			return {
+				init: function() {
+					self.startUpdate();
+				},
+
+				updateCounter: 0,
+				createCounter: 0,
+
+				updateProgressBar: function() {
+					var percentage = Math.ceil(((self.updateCounter + self.createCounter) / (self.options.updateids.length + self.options.schedule.length)) * 100);
+
+					self.progress().css({
+						width: percentage + '%'
+					});
+				},
+
+				startUpdate: function() {
+					if (self.options.updateids[self.updateCounter] === undefined) {
+						return self.startCreate();
+					}
+
+					self.update(self.options.updateids[self.updateCounter])
+						.done(function() {
+							self.updateCounter++;
+
+							self.updateProgressBar();
+
+							self.startUpdate();
+						})
+						.fail(function(msg, errors) {
+							console.log(msg, errors);
+						});
+				},
+
+				update: function(id) {
+					var post = $.extend({}, self.options.postdata, {
+						id: id,
+						applyRecurring: 1
+					});
+
+					return EasySocial.ajax('site/controllers/projects/update', post);
+				},
+
+				startCreate: function() {
+					if (self.options.schedule[self.createCounter] === undefined) {
+						return self.completed();
+					}
+
+					self.create(self.options.schedule[self.createCounter])
+						.done(function() {
+							self.createCounter++;
+
+							self.updateProgressBar();
+
+							self.startCreate();
+						})
+						.fail(function(msg, errors) {
+							console.log(msg, errors);
+						});
+				},
+
+				create: function(datetime) {
+					return EasySocial.ajax('site/controllers/projects/createRecurring', {
+						projectId: self.options.projectId,
+						datetime: datetime
+					});
+				},
+
+				completed: function() {
+					self.progress().parent().removeClass('progress-info').addClass('progress-success');
+					self.form().submit();
+				}
+			}
+		});
+
+		module.resolve();
+	});
 
 EasySocial.module("site/explorer", function($) {
 
