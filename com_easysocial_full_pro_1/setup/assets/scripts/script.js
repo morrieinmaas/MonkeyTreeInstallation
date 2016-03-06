@@ -252,7 +252,7 @@ var es =
 					return false;
 				}
 
-				es.installation.installProjectApps();
+				es.installation.installUserFields();
 			});
 		},
 
@@ -564,7 +564,7 @@ var es =
 					return false;
 				}
 
-				es.installation.postInstall();
+				es.installation.installProjectApps();
 			});
 		},
 
@@ -582,7 +582,7 @@ var es =
 					return false;
 				}
 
-				es.installation.installUserFields();
+				es.installation.postInstall();
 			});
 		},
 
