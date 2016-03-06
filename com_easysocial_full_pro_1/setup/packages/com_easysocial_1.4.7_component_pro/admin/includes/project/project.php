@@ -1147,7 +1147,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_TASK_COMPLETED_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_TASK_COMPLETED_SUBJECT';
             $options->template  = 'site/project/task.completed';
             $options->params    = $params;
 
@@ -1183,7 +1183,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_NEW_TASK_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_NEW_TASK_SUBJECT';
             $options->template  = 'site/group/task.create';
             $options->params    = $params;
 
@@ -1218,7 +1218,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_NEW_MILESTONE_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_NEW_MILESTONE_SUBJECT';
             $options->template  = 'site/project/milestone.create';
             $options->params    = $params;
 
@@ -1253,7 +1253,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_NEW_REPLY_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_NEW_REPLY_SUBJECT';
             $options->template  = 'site/project/discussion.reply';
             $options->params    = $params;
 
@@ -1288,7 +1288,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_DISCUSSION_ANSWERED_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_DISCUSSION_ANSWERED_SUBJECT';
             $options->template  = 'site/project/discussion.answered';
             $options->params    = $params;
 
@@ -1323,7 +1323,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_NEW_DISCUSSION_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_NEW_DISCUSSION_SUBJECT';
             $options->template  = 'site/project/discussion.create';
             $options->params    = $params;
 
@@ -1364,7 +1364,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_NEW_FILE_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_NEW_FILE_SUBJECT';
             $options->template  = 'site/project/file.uploaded';
             $options->params    = $params;
 
@@ -1400,7 +1400,7 @@ class SocialProject extends SocialCluster
 
             // Send notification e-mail to the target
             $options            = new stdClass();
-            $options->title     = 'COM_EASYSOCIAL_EMAILS_project_NEW_ANNOUNCEMENT_SUBJECT';
+            $options->title     = 'COM_EASYSOCIAL_EMAILS_PROJECT_NEW_ANNOUNCEMENT_SUBJECT';
             $options->template  = 'site/project/news';
             $options->params    = $params;
 
@@ -1429,7 +1429,7 @@ class SocialProject extends SocialCluster
      */
     public function getFilters($userId)
     {
-        return FD::model('projects')->getFilters($this->id, $userId);
+        return FD::model('Projects')->getFilters($this->id, $userId);
     }
 
     /**
@@ -1447,12 +1447,12 @@ class SocialProject extends SocialCluster
         $actor = FD::user($actor);
         $target = FD::user($target);
 
-        $guest = FD::table('projectGuest');
+        $guest = FD::table('ProjectGuest');
 
         $guest->cluster_id = $this->id;
         $guest->uid = $target->id;
         $guest->type = SOCIAL_TYPE_USER;
-        $guest->state = SOCIAL_project_GUEST_INVITED;
+        $guest->state = SOCIAL_PROJECT_GUEST_INVITED;
         $guest->invited_by = $actor->id;
 
         $guest->store();
@@ -1460,7 +1460,7 @@ class SocialProject extends SocialCluster
         FD::points()->assign('projects.guest.invite', 'com_easysocial', $actor->id);
 
         $emailOptions = (object) array(
-            'title' => 'COM_EASYSOCIAL_EMAILS_project_GUEST_INVITED_SUBJECT',
+            'title' => 'COM_EASYSOCIAL_EMAILS_PROJECT_GUEST_INVITED_SUBJECT',
             'template' => 'site/project/guest.invited',
             'project' => $this->getName(),
             'projectName' => $this->getName(),
@@ -1558,7 +1558,7 @@ class SocialProject extends SocialCluster
 
         $guest = $this->getGuest($userid);
 
-        if (! $this->isGroupproject()) {
+        if (! $this->isGroupProject()) {
             if (!FD::user()->isSiteAdmin() && !$this->isOpen() && !$guest->isGuest()) {
                 return false;
             }
@@ -1596,7 +1596,7 @@ class SocialProject extends SocialCluster
         if( !$apps )
         {
             $model  = FD::model( 'Apps' );
-            $data   = $model->getprojectApps( $this->id );
+            $data   = $model->getProjectApps( $this->id );
 
             $apps   = $data;
         }
@@ -1619,7 +1619,7 @@ class SocialProject extends SocialCluster
             $userId = FD::user()->id;
         }
 
-        $guest = FD::table('projectGuest');
+        $guest = FD::table('ProjectGuest');
 
         $state = $guest->load(array('cluster_id' => $this->id, 'uid' => $userId, 'type' => SOCIAL_TYPE_USER));
 
@@ -1680,9 +1680,9 @@ class SocialProject extends SocialCluster
         // Get the 12h/24h settings
         $timeformat = FD::config()->get('projects.timeformat', '12h');
 
-        $start = $this->getprojectStart();
-        $end = $this->getprojectEnd();
-        $timezone = $this->getprojectTimezone();
+        $start = $this->getProjectStart();
+        $end = $this->getProjectEnd();
+        $timezone = $this->getProjectTimezone();
 
         $startString = $start->toSql(true);
         $endString = $end->toSql(true);
@@ -1786,9 +1786,9 @@ class SocialProject extends SocialCluster
      * @access public
      * @return boolean   True if this project is a group project.
      */
-    public function isGroupproject()
+    public function isGroupProject()
     {
-        return $this->meta->isGroupproject();
+        return $this->meta->isGroupProject();
     }
 
     /**
@@ -1801,24 +1801,24 @@ class SocialProject extends SocialCluster
      */
     public function getGroup()
     {
-        if (!$this->isGroupproject()) {
+        if (!$this->isGroupProject()) {
             return false;
         }
 
         return FD::group($this->getMeta('group_id'));
     }
 
-    public function isRecurringproject()
+    public function isRecurringProject()
     {
         return !empty($this->parent_id) && $this->parent_type == SOCIAL_TYPE_project;
     }
 
-    public function hasRecurringprojects()
+    public function hasRecurringProjects()
     {
         static $data = array();
 
         if (!isset($data[$this->id])) {
-            $data[$this->id] = FD::model('projects')->getTotalprojects(array(
+            $data[$this->id] = FD::model('Projects')->getTotalProjects(array(
                 'state' => SOCIAL_STATE_PUBLISHED,
                 'parent_id' => $this->id
             )) > 0;
@@ -1827,9 +1827,9 @@ class SocialProject extends SocialCluster
         return $data[$this->id];
     }
 
-    public function getRecurringprojects()
+    public function getRecurringProjects()
     {
-        return FD::model('projects')->getprojects(array(
+        return FD::model('Projects')->getProjects(array(
             'state' => SOCIAL_STATE_PUBLISHED,
             'parent_id' => $this->id
         ));
@@ -1853,17 +1853,17 @@ class SocialProject extends SocialCluster
         $guest = $this->getGuest();
 
         $defaultBtn = ' btn-default';
-        $defaultBtnLabel = JText::_('COM_EASYSOCIAL_projectS_RSVP_TO_THIS_project');
+        $defaultBtnLabel = JText::_('COM_EASYSOCIAL_PROJECTS_RSVP_TO_THIS_PROJECT');
 
         if ($guest->isGoing()) {
             $defaultBtn = ' btn-es-success';
-            $defaultBtnLabel = JText::_('COM_EASYSOCIAL_projectS_GUEST_GOING');
+            $defaultBtnLabel = JText::_('COM_EASYSOCIAL_PROJECTS_GUEST_GOING');
         } else if ($guest->isMaybe()) {
             $defaultBtn = ' btn-es-info';
-            $defaultBtnLabel = JText::_('COM_EASYSOCIAL_projectS_GUEST_MAYBE');
+            $defaultBtnLabel = JText::_('COM_EASYSOCIAL_PROJECTS_GUEST_MAYBE');
         } else if ($guest->isNotGoing()) {
             $defaultBtn = ' btn-es-danger';
-            $defaultBtnLabel = JText::_('COM_EASYSOCIAL_projectS_GUEST_NOTGOING');
+            $defaultBtnLabel = JText::_('COM_EASYSOCIAL_PROJECTS_GUEST_NOTGOING');
         }
 
         $theme = ES::themes();
