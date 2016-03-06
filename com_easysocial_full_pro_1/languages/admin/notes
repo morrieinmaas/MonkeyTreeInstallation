@@ -1,6 +1,7 @@
-COM_EASYSOCIAL_PROJECTS_SORTING_PROJECT_DATE="Project Date"
-COM_EASYSOCIAL_PROJECTS_SORTING_PROJECT_CREATED_DATE="Created Date"
-COM_EASYSOCIAL_PROJECTS_SORTING_PROJECT_DISTANCE="Distance"
-COM_EASYSOCIAL_PROJECTS_SORTING_PROJECT_DATE="Project Date"
-COM_EASYSOCIAL_PROJECTS_SORTING_PROJECT_CREATED_DATE="Created Date"
-COM_EASYSOCIAL_PROJECTS_SORTING_PROJECT_DISTANCE="Distance"
+$settings->renderSetting('Enable Projects', 'projects.enabled', 'boolean', array('help' => true)),
+			$settings->renderSetting('Recurring Limit', 'projects.recurringlimit', 'input', array('help' => true, 'default' => 0, 'class' => 'input-sm')),
+			$settings->renderSetting('Enable iCal Export', 'projects.ical', 'boolean', array('help' => true)),
+			$settings->renderSetting('Allow Invite Non Friends', 'projects.invite.nonfriends', 'boolean', array('help' => true)),
+			$settings->renderSetting('Display Time Format', 'projects.timeformat', 'list', $timeformatOptions),
+			$settings->renderSetting('Include Featured Project', 'projects.listing.includefeatured', 'boolean', array('help' => true)),
+			$settings->renderSetting('Default Display', 'projects.item.display', 'list', $defaultDisplay)
