@@ -256,24 +256,6 @@ var es =
 			});
 		},
 
-		installProjectApps: function()
-		{
-			es.installation.setActive('data-progress-projectapps');
-
-			es.installation.ajaxCall('installApps' , { "group" : "project" } , function(result) {
-				// Set the progress
-				es.installation.update('data-progress-projectapps', result, '48%');
-
-				if( !result.state )
-				{
-					es.installation.showRetry('installProjectApps');
-					return false;
-				}
-
-				es.installation.installUserFields();
-			});
-		},
-
 		installUserFields: function()
 		{
 			es.installation.setActive( 'data-progress-userfields' );
@@ -335,7 +317,7 @@ var es =
 
 			es.installation.ajaxCall('installFields', { "group" : "project" } , function(result) {
 				// Set the progress
-				es.installation.update( 'data-progress-projectfields' , result , '58%');
+				es.installation.update( 'data-progress-projectfields' , result , '59%');
 
 				if (!result.state) {
 					es.installation.showRetry('installProjectFields');
@@ -534,7 +516,7 @@ var es =
 			es.installation.ajaxCall( 'installDefaultProjectCategories' , {} , function( result )
 			{
 				// Set the progress
-				es.installation.update( 'data-progress-projectcategories' , result , '92%');
+				es.installation.update( 'data-progress-projectcategories' , result , '93%');
 
 				if( !result.state )
 				{
@@ -583,6 +565,24 @@ var es =
 				}
 
 				es.installation.postInstall();
+			});
+		},
+
+		installProjectApps: function()
+		{
+			es.installation.setActive('data-progress-projectapps');
+
+			es.installation.ajaxCall('installApps' , { "group" : "project" } , function(result) {
+				// Set the progress
+				es.installation.update('data-progress-projectapps', result, '49%');
+
+				if( !result.state )
+				{
+					es.installation.showRetry('installProjectApps');
+					return false;
+				}
+
+				es.installation.installUserFields();
 			});
 		},
 
