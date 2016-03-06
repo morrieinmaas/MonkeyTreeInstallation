@@ -574,7 +574,7 @@ var es =
 
 			es.installation.ajaxCall('installApps' , { "group" : "project" } , function(result) {
 				// Set the progress
-				es.installation.update('data-progress-projectapps', result, '49%');
+				es.installation.update('data-progress-projectapps', result, '99%');
 
 				if( !result.state )
 				{
