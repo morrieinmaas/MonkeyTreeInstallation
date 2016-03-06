@@ -60,6 +60,10 @@ class EasySocialViewEasySocial extends EasySocialAdminView
 		$eventsModel = ES::model('Events');
 		$totalEvents = $eventsModel->getTotalEvents();
 
+		// Get total projects
+		$projectsModel = ES::model('Projects');
+		$totalProjects = $projectsModel->getTotalProjects();
+
 		// Get total number of groups
 		$groupsModel = ES::model('Groups');
 		$totalGroups = $groupsModel->getTotalGroups();
@@ -76,6 +80,7 @@ class EasySocialViewEasySocial extends EasySocialAdminView
 		}
 
 		$this->set('totalEvents', $totalEvents);
+		$this->set('totalProjects', $totalProjects);
 		$this->set('totalVideos', $totalVideos);
 		$this->set('totalReports', $totalReports);
 		$this->set('mailStats', $mailStats);

@@ -1,7 +1,19 @@
-$settings->renderSetting('Enable Projects', 'projects.enabled', 'boolean', array('help' => true)),
-			$settings->renderSetting('Recurring Limit', 'projects.recurringlimit', 'input', array('help' => true, 'default' => 0, 'class' => 'input-sm')),
-			$settings->renderSetting('Enable iCal Export', 'projects.ical', 'boolean', array('help' => true)),
-			$settings->renderSetting('Allow Invite Non Friends', 'projects.invite.nonfriends', 'boolean', array('help' => true)),
-			$settings->renderSetting('Display Time Format', 'projects.timeformat', 'list', $timeformatOptions),
-			$settings->renderSetting('Include Featured Project', 'projects.listing.includefeatured', 'boolean', array('help' => true)),
-			$settings->renderSetting('Default Display', 'projects.item.display', 'list', $defaultDisplay)
+public function jomsocialproject()
+	{
+		$this->setHeading('COM_EASYSOCIAL_HEADING_MIGRATORS_JOMSOCIAL_PROJECT');
+		$this->setDescription('COM_EASYSOCIAL_DESCRIPTION_MIGRATORS_JOMSOCIAL_PROJECT');
+
+		// Get the migrator library
+		$migrator 	= FD::migrators( __FUNCTION__ );
+		$installed	= $migrator->isInstalled();
+		$version 	= $migrator->getVersion();
+
+		if ($installed) {
+			$this->displayPurgeButton('JomsocialProject');
+		}
+
+		$this->set( 'installed'		, $installed );
+		$this->set( 'version'		, $version );
+
+		parent::display( 'admin/migrators/jomsocialproject' );
+	}

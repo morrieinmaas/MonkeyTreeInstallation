@@ -268,6 +268,26 @@ class EasySocialViewMigrators extends EasySocialAdminView
 		parent::display( 'admin/migrators/jomsocialevent' );
 	}
 
+	public function jomsocialproject()
+	{
+		$this->setHeading('COM_EASYSOCIAL_HEADING_MIGRATORS_JOMSOCIAL_PROJECT');
+		$this->setDescription('COM_EASYSOCIAL_DESCRIPTION_MIGRATORS_JOMSOCIAL_PROJECT');
+
+		// Get the migrator library
+		$migrator 	= FD::migrators( __FUNCTION__ );
+		$installed	= $migrator->isInstalled();
+		$version 	= $migrator->getVersion();
+
+		if ($installed) {
+			$this->displayPurgeButton('JomsocialProject');
+		}
+
+		$this->set( 'installed'		, $installed );
+		$this->set( 'version'		, $version );
+
+		parent::display( 'admin/migrators/jomsocialproject' );
+	}
+
 	/**
 	 * Displays the EasyBlog migration form
 	 *
