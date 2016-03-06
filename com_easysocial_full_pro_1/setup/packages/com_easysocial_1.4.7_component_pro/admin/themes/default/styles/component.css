@@ -5656,6 +5656,9 @@ div#fd.es .icon-es-empty-group,
 div#fd.es .icon-es-empty-event {
   background-position: -240px -112px;
 }
+div#fd.es .icon-es-empty-project {
+  background-position: -240px -112px;
+}
 div#fd.es .icon-es-empty-photo {
   background-position: -288px -112px;
 }

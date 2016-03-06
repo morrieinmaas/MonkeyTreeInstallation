@@ -572,6 +572,12 @@ div#fd.es .es-event-labels .label {
   margin-bottom: 3px;
   text-shadow: none;
 }
+div#fd.es .es-project-labels .label {
+  display: inline-block;
+  font-size: 10px;
+  margin-bottom: 3px;
+  text-shadow: none;
+}
 div#fd.es .widget-box {
   background: #fff;
   border: 1px solid #BFCAD2;
