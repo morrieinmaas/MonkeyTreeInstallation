@@ -1,0 +1,93 @@
+EasySocial.module('site/projects/update', function($) {
+    var module = this;
+
+    EasySocial.Controller('Projects.Update', {
+        defaultOptions: {
+            postdata: {},
+            updateids: [],
+            schedule: [],
+
+            projectId: null,
+
+            '{progress}': '[data-progress-bar]',
+
+            '{form}': '[data-form]'
+        }
+    }, function(self) {
+        return {
+            init: function() {
+                self.startUpdate();
+            },
+
+            updateCounter: 0,
+            createCounter: 0,
+
+            updateProgressBar: function() {
+                var percentage = Math.ceil(((self.updateCounter + self.createCounter) / (self.options.updateids.length + self.options.schedule.length)) * 100);
+
+                self.progress().css({
+                    width: percentage + '%'
+                });
+            },
+
+            startUpdate: function() {
+                if (self.options.updateids[self.updateCounter] === undefined) {
+                    return self.startCreate();
+                }
+
+                self.update(self.options.updateids[self.updateCounter])
+                    .done(function() {
+                        self.updateCounter++;
+
+                        self.updateProgressBar();
+
+                        self.startUpdate();
+                    })
+                    .fail(function(msg, errors) {
+                        console.log(msg, errors);
+                    });
+            },
+
+            update: function(id) {
+                var post = $.extend({}, self.options.postdata, {
+                    id: id,
+                    applyRecurring: 1
+                });
+
+                return EasySocial.ajax('site/controllers/projects/update', post);
+            },
+
+            startCreate: function() {
+                if (self.options.schedule[self.createCounter] === undefined) {
+                    return self.completed();
+                }
+
+                self.create(self.options.schedule[self.createCounter])
+                    .done(function() {
+                        self.createCounter++;
+
+                        self.updateProgressBar();
+
+                        self.startCreate();
+                    })
+                    .fail(function(msg, errors) {
+                        console.log(msg, errors);
+                    });
+            },
+
+            create: function(datetime) {
+                return EasySocial.ajax('site/controllers/projects/createRecurring', {
+                    projectId: self.options.projectId,
+                    datetime: datetime
+                });
+            },
+
+            completed: function() {
+                self.progress().parent().removeClass('progress-info').addClass('progress-success');
+                self.form().submit();
+            }
+        }
+    });
+
+    module.resolve();
+});

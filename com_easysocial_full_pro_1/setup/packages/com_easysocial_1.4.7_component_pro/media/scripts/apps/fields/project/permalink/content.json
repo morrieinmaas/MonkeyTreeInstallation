@@ -1,0 +1,9 @@
+[
+    {
+        "language": [
+            "FIELDS_PROJECT_PERMALINK_EXCEEDED_MAX_LENGTH",
+            "FIELDS_PROJECT_PERMALINK_REQUIRED"
+        ],
+        "adapter": "EasySocial"
+    }
+]

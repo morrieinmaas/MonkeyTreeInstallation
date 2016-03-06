@@ -1,0 +1,13 @@
+[
+    {
+        "library": [
+            "datetimepicker",
+            null
+        ],
+        "language": [
+            "FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_START_REQUIRED",
+            "FIELDS_PROJECT_STARTEND_VALIDATION_DATETIME_END_REQUIRED"
+        ],
+        "adapter": "EasySocial"
+    }
+]
