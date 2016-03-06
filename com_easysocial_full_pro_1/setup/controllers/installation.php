@@ -126,7 +126,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	}
 
 	/**
-	 * Creates default group categories
+	 * Creates default event categories
 	 *
 	 * @since	1.3
 	 * @access	public

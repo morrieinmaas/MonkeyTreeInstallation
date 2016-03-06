@@ -28,6 +28,7 @@ defined('_JEXEC') or die('Unauthorized Access');
 					<option value="group"<?php echo $group == 'group' ? ' selected="selected"' : '';?>><?php echo JText::_( 'COM_EASYSOCIAL_GRID_FILTER_TYPE_GROUPS' );?></option>
 					<option value="user"<?php echo $group == 'user' ? ' selected="selected"' : '';?>><?php echo JText::_( 'COM_EASYSOCIAL_GRID_FILTER_TYPE_USERS' );?></option>
 					<option value="event"<?php echo $group == 'event' ? ' selected="selected"' : '';?>><?php echo JText::_( 'COM_EASYSOCIAL_GRID_FILTER_TYPE_EVENT' );?></option>
+                    <option value="project"<?php echo $group == 'project' ? ' selected="selected"' : '';?>><?php echo JText::_( 'COM_EASYSOCIAL_GRID_FILTER_TYPE_PROJECT' );?></option>
 				</select>
 			</div>
 		</div>
