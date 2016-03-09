@@ -1484,7 +1484,7 @@ class ES
 			return new SocialProject();
 		}
 
-		$state = SocialProjet::factory($ids, $debug);
+		$state = SocialProject::factory($ids, $debug);
 
 		if( $state === false )
 		{
