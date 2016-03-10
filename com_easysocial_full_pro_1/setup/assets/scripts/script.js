@@ -307,10 +307,10 @@ var es =
 					return false;
 				}
 
-				es.installation.installProjectFields();
+				es.installation.installPlugins();
 			});
 		},
-
+		//currently not CALLED! @MARK
 		installProjectFields: function()
 		{
 			es.installation.setActive('data-progress-projectfields');
@@ -504,10 +504,10 @@ var es =
 					return false;
 				}
 
-				es.installation.installProjectCategories();
+				es.installation.installVideoCategories();
 			});
 		},
-
+		//currently not CALLED! @MARK
 		installProjectCategories : function()
 		{
 			// Install the admin stuffs
@@ -564,10 +564,10 @@ var es =
 					return false;
 				}
 
-				es.installation.installProjectApps();
+				es.installation.postInstall();
 			});
 		},
-
+		//Currently NOT Called! @MARK
 		installProjectApps: function()
 		{
 			es.installation.setActive('data-progress-projectapps');

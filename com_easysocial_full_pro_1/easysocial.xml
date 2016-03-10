@@ -20,7 +20,7 @@
 			<menu view="profiles" img="components/com_easysocial/themes/default/images/icons/16/easysocial-profiles.png">COM_EASYSOCIAL_MENU_PROFILES</menu>
 			<menu view="groups" img="components/com_easysocial/themes/default/images/icons/16/easysocial-groups.png">COM_EASYSOCIAL_MENU_GROUPS</menu>
 			<menu view="events" img="components/com_easysocial/themes/default/images/icons/16/easysocial-events.png">COM_EASYSOCIAL_MENU_EVENTS</menu>
-			<menu view="projects" img="components/com_easysocial/themes/default/images/icons/16/easysocial-projects.png">COM_EASYSOCIAL_MENU_PROJECTS</menu>
+			<menu view="projects" img="components/com_easysocial/themes/default/images/icons/16/easysocial-events.png">COM_EASYSOCIAL_MENU_PROJECTS</menu>
 			<menu view="albums" img="components/com_easysocial/themes/default/images/icons/16/easysocial-albums.png">COM_EASYSOCIAL_MENU_ALBUMS</menu>
 			<menu view="videos" img="components/com_easysocial/themes/default/images/icons/16/easysocial-videos.png">COM_EASYSOCIAL_MENU_VIDEOS</menu>
 			<menu view="privacy" img="components/com_easysocial/themes/default/images/icons/16/easysocial-privacy.png">COM_EASYSOCIAL_MENU_PRIVACY</menu>

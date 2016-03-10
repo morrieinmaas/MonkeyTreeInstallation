@@ -179,7 +179,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$db = FD::db();
 		$sql = $db->sql();
 
-		$sql->select('#__social_pclusters_categories');
+		$sql->select('#__social_clusters_categories');
 		$sql->column('COUNT(1)');
 		$sql->where('type', SOCIAL_TYPE_PROJECT);
 

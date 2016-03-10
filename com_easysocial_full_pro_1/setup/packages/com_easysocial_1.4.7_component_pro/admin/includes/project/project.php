@@ -234,7 +234,7 @@ class SocialProject extends SocialCluster
         FD::points()->assign('projects.remove', 'com_easysocial', $this->getCreator()->id);
 
         // remove the access log for this action
-        FD::access()->removeLog('projects.limit', $this->getCreator()->id, $this->id, SOCIAL_TYPE_project);
+        FD::access()->removeLog('projects.limit', $this->getCreator()->id, $this->id, SOCIAL_TYPE_PROJECT);
 
         // Set the arguments
         $args = array(&$this);
@@ -419,7 +419,7 @@ class SocialProject extends SocialCluster
                 $project->{self::$guestStates[$guest->state]}[] = $guest->uid;
             }
 
-            $obj = new Socialproject($project);
+            $obj = new SocialProject($project);
 
             self::$instances[$project->id] = $obj;
 
@@ -979,7 +979,7 @@ class SocialProject extends SocialCluster
 
         $tpl->setTemplate('site/project/rejected', $params);
 
-        $tpl->setPriority(SOCIAL_MAILER_PRIORITy_IMMEDIATE);
+        $tpl->setPriority(SOCIAL_MAILER_PRIORITY_IMMEDIATE);
 
         $mailer->create($tpl);
 
@@ -995,7 +995,7 @@ class SocialProject extends SocialCluster
      * @param   string  $action     The action associated with the stream.
      * @param   integer $actorId    The actor id.
      * @param   string  $actorType  The actor type.
-     */
+     **/
     public function createStream($action, $actorId = null, $actorType = SOCIAL_TYPE_USER)
     {
         // To project unexpected callees on creating stream.
@@ -1048,7 +1048,7 @@ class SocialProject extends SocialCluster
      */
     public function removeStream($action)
     {
-        // To prproject unexpected callees deleting stream.
+        // To project unexpected callees deleting stream.
         $allowed = array('feature');
 
         if (!in_array($action, $allowed)) {
@@ -1810,7 +1810,7 @@ class SocialProject extends SocialCluster
 
     public function isRecurringProject()
     {
-        return !empty($this->parent_id) && $this->parent_type == SOCIAL_TYPE_project;
+        return !empty($this->parent_id) && $this->parent_type == SOCIAL_TYPE_PROJECT;
     }
 
     public function hasRecurringProjects()

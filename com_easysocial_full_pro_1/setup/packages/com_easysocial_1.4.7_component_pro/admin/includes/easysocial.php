@@ -1473,7 +1473,7 @@ class ES
 	 * @since	1.0
 	 * @access	public
 	 * @param	Mixed		$ids	The id to load.
-	 * @return	SocialProject			The event object
+	 * @return	SocialProject			The project object
 	 */
 	public static function project($ids = null, $debug = false)
 	{
