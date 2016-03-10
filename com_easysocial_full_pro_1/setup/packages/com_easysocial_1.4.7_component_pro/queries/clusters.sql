@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `#__social_clusters` (
   KEY `idx_state` (`state`),
   KEY `idx_clustertype` (`cluster_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+/*
 CREATE TABLE IF NOT EXISTS `#__social_pclusters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `#__social_pclusters` (
   KEY `idx_state` (`state`),
   KEY `idx_clustertype` (`cluster_type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+*/
 CREATE TABLE IF NOT EXISTS `#__social_clusters_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `#__social_clusters_categories` (
   PRIMARY KEY (`id`),
   KEY `type` (`type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
+/*
 CREATE TABLE IF NOT EXISTS `#__social_pclusters_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `#__social_pclusters_categories` (
   PRIMARY KEY (`id`),
   KEY `type` (`type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
+*/
 CREATE TABLE IF NOT EXISTS `#__social_clusters_news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cluster_id` int(11) NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `#__social_clusters_news` (
   PRIMARY KEY (`id`),
   KEY `cluster_id` (`cluster_id`,`created_by`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
+/*
 CREATE TABLE IF NOT EXISTS `#__social_pclusters_news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cluster_id` int(11) NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `#__social_pclusters_news` (
   PRIMARY KEY (`id`),
   KEY `cluster_id` (`cluster_id`,`created_by`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
+*/
 CREATE TABLE IF NOT EXISTS `#__social_clusters_nodes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cluster_id` int(11) NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `#__social_clusters_nodes` (
   KEY `idx_members` (`cluster_id`, `type`, `state` ),
   KEY `idx_reminder_sent` (`reminder_sent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+/*
 CREATE TABLE IF NOT EXISTS `#__social_pclusters_nodes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cluster_id` int(11) NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `#__social_pclusters_nodes` (
   KEY `idx_members` (`cluster_id`, `type`, `state` ),
   KEY `idx_reminder_sent` (`reminder_sent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+*/
 CREATE TABLE IF NOT EXISTS `#__social_step_sessions` (
   `session_id` varchar(200) NOT NULL,
   `uid` bigint(20) NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `#__social_step_sessions` (
   KEY `step` (`step`),
   KEY `type` (`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+/*
 CREATE TABLE IF NOT EXISTS `#__social_pstep_sessions` (
   `session_id` varchar(200) NOT NULL,
   `uid` bigint(20) NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `#__social_pstep_sessions` (
   KEY `step` (`step`),
   KEY `type` (`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+*/
 CREATE TABLE IF NOT EXISTS `#__social_clusters_categories_access` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `#__social_clusters_categories_access` (
   KEY `category_id` (`category_id`,`profile_id`),
   KEY `category_id_2` (`category_id`,`profile_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
+/*
 CREATE TABLE IF NOT EXISTS `#__social_pclusters_categories_access` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `#__social_pclusters_categories_access` (
   KEY `category_id` (`category_id`,`profile_id`),
   KEY `category_id_2` (`category_id`,`profile_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
+*/
 CREATE TABLE IF NOT EXISTS `#__social_events_meta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cluster_id` int(11) NOT NULL COMMENT 'The event cluster id',
@@ -226,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `#__social_events_meta` (
   KEY `idx_upcoming_reminder` (`reminder`,`start`),
   KEY `idx_start` (`start`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+/*
 CREATE TABLE IF NOT EXISTS `#__social_projects_meta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cluster_id` int(11) NOT NULL COMMENT 'The project cluster id',
@@ -242,3 +242,4 @@ CREATE TABLE IF NOT EXISTS `#__social_projects_meta` (
   KEY `idx_upcoming_reminder` (`reminder`,`start`),
   KEY `idx_start` (`start`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+*/
