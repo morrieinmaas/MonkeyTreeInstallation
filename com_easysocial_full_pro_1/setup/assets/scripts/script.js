@@ -307,7 +307,7 @@ var es =
 					return false;
 				}
 
-				es.installation.installPlugins();
+				es.installation.installProjectFields();
 			});
 		},
 		//currently not CALLED! @MARK
@@ -504,7 +504,7 @@ var es =
 					return false;
 				}
 
-				es.installation.installVideoCategories();
+				es.installation.installProjectCategories();
 			});
 		},
 		//currently not CALLED! @MARK
@@ -564,7 +564,7 @@ var es =
 					return false;
 				}
 
-				es.installation.postInstall();
+				es.installation.installProjectApps();
 			});
 		},
 		//Currently NOT Called! @MARK
