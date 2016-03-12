@@ -252,7 +252,7 @@ var es =
 					return false;
 				}
 
-				es.installation.installUserFields();
+				es.installation.installProjectApps();
 			});
 		},
 
@@ -564,7 +564,7 @@ var es =
 					return false;
 				}
 
-				es.installation.installProjectApps();
+				es.installation.postInstall();
 			});
 		},
 		//Currently NOT Called! @MARK
@@ -582,7 +582,7 @@ var es =
 					return false;
 				}
 
-				es.installation.postInstall();
+				es.installation.installUserFields();
 			});
 		},
 
