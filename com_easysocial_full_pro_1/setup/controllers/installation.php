@@ -1920,6 +1920,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 		// Try to extract the files
 		chmod($tmp2, 0755);
+		chmod($storage, 0755); chmod($tmp, 0755);
 		$state = JArchive::extract($storage, $tmp);
 
 		// Regardless of the extraction state, delete the zip file otherwise anyone can download the zip file.
