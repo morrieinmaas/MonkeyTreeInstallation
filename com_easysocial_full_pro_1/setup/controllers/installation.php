@@ -1911,6 +1911,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 		// Extract files here.
 		$tmp = ES_TMP . '/' . $folderName;
+		$tmp2 = ES_TMP . '/' . $folderName . '.zip';
 
 		// Ensure that there is no such folders exists on the site
 		if (JFolder::exists($tmp)) {
@@ -1918,10 +1919,11 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		}
 
 		// Try to extract the files
+		chmod($tmp2, 0755);
 		$state = JArchive::extract($storage, $tmp);
 
 		// Regardless of the extraction state, delete the zip file otherwise anyone can download the zip file.
-		@JFile::delete($storage);
+		//@JFile::delete($storage);
 
 		if (!$state) {
 			$result = new stdClass();
