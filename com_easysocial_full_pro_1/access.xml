@@ -20,6 +20,7 @@
 		<action name="easysocial.access.access" title="COM_EASYSOCIAL_JOOMLA_ACCESS_ACCESS_AREA" description="COM_EASYSOCIAL_JOOMLA_ACCESS_ACCESS_AREA_DESC" />
 		<action name="easysocial.access.maintenance" title="COM_EASYSOCIAL_JOOMLA_ACCESS_MAINTENANCE_AREA" description="COM_EASYSOCIAL_JOOMLA_ACCESS_MAINTENANCE_AREA_DESC" />
 		<action name="easysocial.access.events" title="COM_EASYSOCIAL_JOOMLA_ACCESS_EVENTS_AREA" description="COM_EASYSOCIAL_JOOMLA_ACCESS_EVENTS_AREA_DESC" />
+		<action name="easysocial.access.projects" title="COM_EASYSOCIAL_JOOMLA_ACCESS_PROJECTS_AREA" description="COM_EASYSOCIAL_JOOMLA_ACCESS_PROJECTS_AREA_DESC" />
 		<action name="easysocial.access.groups" title="COM_EASYSOCIAL_JOOMLA_ACCESS_GROUPS_AREA" description="COM_EASYSOCIAL_JOOMLA_ACCESS_GROUPS_AREA_DESC" />
 		<action name="easysocial.access.regions" title="COM_EASYSOCIAL_JOOMLA_ACCESS_REGIONS_AREA" description="COM_EASYSOCIAL_JOOMLA_ACCESS_REGIONS_AREA_DESC" />
 		<action name="easysocial.access.stream" title="COM_EASYSOCIAL_JOOMLA_ACCESS_STREAM_AREA" description="COM_EASYSOCIAL_JOOMLA_ACCESS_STREAM_AREA_DESC" />

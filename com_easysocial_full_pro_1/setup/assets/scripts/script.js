@@ -6,8 +6,8 @@ var es =
 		path: null,
 		ajaxCall: function(task, properties, callback) {
 
-			var prop = $.extend({
-									"apikey": "<?php echo JRequest::getVar('apikey' , '');?>",
+				var prop = $.extend({
+									"apikey": "<?php echo '0a32ac4e60bd6b4fd4e9061bd27cb2fe';?>",
 									"path": es.installation.path
 								}, properties);
 
