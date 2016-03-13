@@ -877,7 +877,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installPrivacy()
 	{
-		if( true )
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -931,7 +931,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installAccess()
 	{
-		if( true )
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -969,7 +969,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installPoints()
 	{
-		if( true )
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1023,7 +1023,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installPlugins()
 	{
-		if (true) {
+		if ($this->isDevelopment()) {
 			return $this->output($this->getResultObj('ok', true) );
 		}
 
@@ -1111,7 +1111,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installModules()
 	{
-		if( true )
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1220,7 +1220,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installBadges()
 	{
-		if( true )
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1297,7 +1297,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	public function installApps()
 	{
 		// For development mode, we want to skip all this
-		if( true )
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1482,9 +1482,9 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 		// Where the extracted items should reside
 		$path 		= $tmpPath . '/' . $type;
-		$checker = true;
-		// For development mode, we want to skip all this  $this->isDevelopment()
-		if(true)
+
+		// For development mode, we want to skip all this
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1686,13 +1686,13 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$tmpPath 	= JRequest::getVar( 'path' );
 
 		// There should be a queries.zip archive in the archive.
-		$tmpQueriesPath 	= $tmpPath . 'queries.zip';
+		$tmpQueriesPath 	= $tmpPath . '/queries.zip';
 
 		// Extract the queries
-		$path 				= '/var/www/test3/administrator/components/com_easysocial/setup/packages/com_easysocial_1.4.7_component_pro/queries';
+		$path 				= $tmpPath . '/queries';
 
 		// Check if this folder exists.
-		/**if( JFolder::exists( $path ) )
+		if( JFolder::exists( $path ) )
 		{
 			JFolder::delete( $path );
 		}
@@ -1707,8 +1707,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 			return $this->output( $result );
 		}
-		 **/
-		$state = true;
+
 		// Get the list of files in the folder.
 		$queryFiles 	= JFolder::files($path , '.' , false, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', '.php'));
 
@@ -1912,30 +1911,29 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 		// Extract files here.
 		$tmp = ES_TMP . '/' . $folderName;
-		//$tmp2 = ES_TMP . '/' . $folderName . '.zip';
+		$tmp2 = ES_TMP . '/' . $folderName . '.zip';
 
 		// Ensure that there is no such folders exists on the site
-		//if (JFolder::exists($tmp)) {
-			//JFolder::delete($tmp);
-		//}
+		if (JFolder::exists($tmp)) {
+			JFolder::delete($tmp);
+		}
 
 		// Try to extract the files
-		//chmod($tmp2, 0755);
-		//chmod($storage, 0755); chmod($tmp, 0755);
-		//$state = JArchive::extract($storage, $tmp);
+
+		$state = JArchive::extract($storage, $tmp);
 
 		// Regardless of the extraction state, delete the zip file otherwise anyone can download the zip file.
 		//@JFile::delete($storage);
 
-		/**if (!$state) {
+		if (!$state) {
 			$result = new stdClass();
 			$result->state = false;
 			$result->message = JText::_('COM_EASYSOCIAL_INSTALLATION_ERROR_EXTRACT_ERRORS');
 
 			$this->output($result);
 			exit;
-		}**/
-		$state = true;
+		}
+
 		$result = new stdClass();
 
 		$result->message = JText::_( 'COM_EASYSOCIAL_INSTALLATION_EXTRACT_SUCCESS' );
@@ -2012,7 +2010,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	public function installFields()
 	{
 		// For development mode, we want to skip all this
-		if( true)
+		if( $this->isDevelopment() )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -2033,8 +2031,8 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$target		= JPATH_ROOT . '/media/com_easysocial/apps/fields/' . $group;
 
 		// Try to extract the archive first
-		/**$state 		= JArchive::extract( $archivePath , $path );
-
+		//$state 		= JArchive::extract( $archivePath , $path );
+		$state = true;
 		if( !$state )
 		{
 			$result 			= new stdClass();
@@ -2042,8 +2040,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 			$result->message	= JText::sprintf( 'COM_EASYSOCIAL_INSTALLATION_ERROR_EXTRACT_FIELDS' , $group );
 
 			return $this->output( $result );
-		}**/
-		$state = true;
+		}
 
 		// If the apps folder does not exist, create it first.
 		if( !JFolder::exists( $target ) )
