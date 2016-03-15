@@ -179,7 +179,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$db = FD::db();
 		$sql = $db->sql();
 
-		$sql->select('#__social_pclusters_categories');
+		$sql->select('#__social_clusters_categories');
 		$sql->column('COUNT(1)');
 		$sql->where('type', SOCIAL_TYPE_PROJECT);
 
@@ -187,13 +187,13 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$total = $db->loadResult();
 
 		// There are categories already, we shouldn't be doing anything here.
-		if ($total) {
+		/**if ($total) {
 			$result = $this->getResultObj(JText::_('COM_EASYSOCIAL_INSTALLATION_ERROR_CREATE_DEFAULT_PROJECT_CATEGORIES_EXISTS'), true);
 
 			return $this->output($result);
-		}
+		}**/
 
-		$categories = array('general', 'meeting');
+		$categories = array('test1', 'test2');
 
 		foreach ($categories as $categoryKey) {
 			$results[] = $this->createProjectCategory($categoryKey);
@@ -877,7 +877,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installPrivacy()
 	{
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -931,7 +931,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installAccess()
 	{
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -969,7 +969,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installPoints()
 	{
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1023,7 +1023,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installPlugins()
 	{
-		if ($this->isDevelopment()) {
+		if (true) {
 			return $this->output($this->getResultObj('ok', true) );
 		}
 
@@ -1111,7 +1111,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installModules()
 	{
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1220,7 +1220,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	 */
 	public function installBadges()
 	{
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1297,7 +1297,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	public function installApps()
 	{
 		// For development mode, we want to skip all this
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1484,7 +1484,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$path 		= $tmpPath . '/' . $type;
 
 		// For development mode, we want to skip all this
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -2010,7 +2010,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	public function installFields()
 	{
 		// For development mode, we want to skip all this
-		if( $this->isDevelopment() )
+		if( true )
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}

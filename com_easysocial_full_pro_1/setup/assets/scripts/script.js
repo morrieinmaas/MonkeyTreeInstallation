@@ -504,7 +504,7 @@ var es =
 					return false;
 				}
 
-				es.installation.installProjectCategories();
+				es.installation.installVideoCategories();
 			});
 		},
 		//currently not CALLED! @MARK
