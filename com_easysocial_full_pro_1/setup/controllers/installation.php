@@ -1,14 +1,14 @@
 <?php
 /**
-* @package      EasySocial
-* @copyright    Copyright (C) 2010 - 2014 Stack Ideas Sdn Bhd. All rights reserved.
-* @license      GNU/GPL, see LICENSE.php
-* EasySocial is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @package      EasySocial
+ * @copyright    Copyright (C) 2010 - 2014 Stack Ideas Sdn Bhd. All rights reserved.
+ * @license      GNU/GPL, see LICENSE.php
+ * EasySocial is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 defined( '_JEXEC' ) or die( 'Unauthorized Access' );
 
 
@@ -179,7 +179,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$db = FD::db();
 		$sql = $db->sql();
 
-		$sql->select('#__social_clusters_categories');
+		$sql->select('#__social_pclusters_categories');
 		$sql->column('COUNT(1)');
 		$sql->where('type', SOCIAL_TYPE_PROJECT);
 
@@ -187,13 +187,13 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$total = $db->loadResult();
 
 		// There are categories already, we shouldn't be doing anything here.
-		/**if ($total) {
+		if ($total) {
 			$result = $this->getResultObj(JText::_('COM_EASYSOCIAL_INSTALLATION_ERROR_CREATE_DEFAULT_PROJECT_CATEGORIES_EXISTS'), true);
 
 			return $this->output($result);
-		}**/
+		}
 
-		$categories = array('test1', 'test2');
+		$categories = array('general', 'meeting');
 
 		foreach ($categories as $categoryKey) {
 			$results[] = $this->createProjectCategory($categoryKey);
@@ -226,12 +226,12 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$db = FD::db();
 		$sql = $db->sql();
 
-        // Check if there are any video categories already exists on the site
-        $sql->select('#__social_videos_categories');
-        $sql->column('COUNT(1)');
+		// Check if there are any video categories already exists on the site
+		$sql->select('#__social_videos_categories');
+		$sql->column('COUNT(1)');
 
-        $db->setQuery($sql);
-        $total = $db->loadResult();
+		$db->setQuery($sql);
+		$total = $db->loadResult();
 
 		// There are categories already, we shouldn't be doing anything here.
 		if ($total) {
@@ -240,12 +240,12 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 			return $this->output($result);
 		}
 
-        $categories = array('General', 'Music', 'Sports', 'News', 'Gaming', 'Movies', 'Documentary', 'Fashion', 'Travel', 'Technology');
-        $i = 0;
+		$categories = array('General', 'Music', 'Sports', 'News', 'Gaming', 'Movies', 'Documentary', 'Fashion', 'Travel', 'Technology');
+		$i = 0;
 
 		foreach ($categories as $categoryKey) {
 			$results[] = $this->createVideoCategory($categoryKey, $i);
-            $i++;
+			$i++;
 
 		}
 
@@ -387,20 +387,20 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$title = JText::_('COM_EASYSOCIAL_INSTALLATION_DEFAULT_VIDEO_CATEGORY_' . $key);
 		$desc = JText::_('COM_EASYSOCIAL_INSTALLATION_DEFAULT_VIDEO_CATEGORY_' . $key . '_DESC');
 
-        $category = ES::table('VideoCategory');
-        $category->title = ucfirst($title);
-        $category->alias = strtolower($title);
-        $category->description = $desc;
+		$category = ES::table('VideoCategory');
+		$category->title = ucfirst($title);
+		$category->alias = strtolower($title);
+		$category->description = $desc;
 
-        if ($i == 0) {
-            $category->default = true;
-        }
+		if ($i == 0) {
+			$category->default = true;
+		}
 
-        // Get the current user's id
-        $category->user_id = ES::user()->id;
+		// Get the current user's id
+		$category->user_id = ES::user()->id;
 
-        $category->state = true;
-        $category->store();
+		$category->state = true;
+		$category->store();
 
 
 		$result = new stdClass();
@@ -680,9 +680,9 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$modSetting->name 		= 'mod_easysocial_users';
 		$modSetting->position 	= 'es-dashboard-sidebar-bottom';
 		$modSetting->config 	= array('filter' 	=> 'online',
-										'total' 	=> '5',
-										'ordering' 	=> 'name',
-										'direction' => 'asc' );
+			'total' 	=> '5',
+			'ordering' 	=> 'name',
+			'direction' => 'asc' );
 		$modulesToInstall[] 	= $modSetting;
 
 		// Recent user
@@ -691,9 +691,9 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$modSetting->name 		= 'mod_easysocial_users';
 		$modSetting->position 	= 'es-dashboard-sidebar-bottom';
 		$modSetting->config 	= array('filter' 	=> 'recent',
-										'total' 	=> '5',
-										'ordering' 	=> 'registerDate',
-										'direction' => 'desc' );
+			'total' 	=> '5',
+			'ordering' 	=> 'registerDate',
+			'direction' => 'desc' );
 		$modulesToInstall[] 	= $modSetting;
 
 		// Recent albums
@@ -718,9 +718,9 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$modSetting->name 		= 'mod_easysocial_dating_search';
 		$modSetting->position 	= 'es-users-sidebar-bottom';
 		$modSetting->config 	= array('searchname' 	=> '1',
-										'searchgender' 	=> '1',
-										'searchage' 	=> '1',
-										'searchdistance' => '1' );
+			'searchgender' 	=> '1',
+			'searchage' 	=> '1',
+			'searchdistance' => '1' );
 		$modulesToInstall[] 	= $modSetting;
 
 
@@ -1482,9 +1482,9 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 		// Where the extracted items should reside
 		$path 		= $tmpPath . '/' . $type;
-
-		// For development mode, we want to skip all this
-		if( true )
+		$checker = true;
+		// For development mode, we want to skip all this  $this->isDevelopment()
+		if(true)
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -1523,26 +1523,26 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 			case 'languages':
 
-					$adminPath 	= JPATH_ADMINISTRATOR . '/language/en-GB';
-					$sitePath 	= JPATH_ROOT . '/language/en-GB';
+				$adminPath 	= JPATH_ADMINISTRATOR . '/language/en-GB';
+				$sitePath 	= JPATH_ROOT . '/language/en-GB';
 
-					// Copy admin files over
-					$adminSource 	= $path . '/admin/en-GB.com_easysocial.ini';
-					$adminSysSource	= $path . '/admin/en-GB.com_easysocial.sys.ini';
+				// Copy admin files over
+				$adminSource 	= $path . '/admin/en-GB.com_easysocial.ini';
+				$adminSysSource	= $path . '/admin/en-GB.com_easysocial.sys.ini';
 
-					JFile::copy($adminSource, $adminPath . '/en-GB.com_easysocial.ini');
-					JFile::copy($adminSysSource, $adminPath . '/en-GB.com_easysocial.sys.ini');
+				JFile::copy($adminSource, $adminPath . '/en-GB.com_easysocial.ini');
+				JFile::copy($adminSysSource, $adminPath . '/en-GB.com_easysocial.sys.ini');
 
-					// Copy site files over
-					$siteSource 	= $path . '/site/en-GB.com_easysocial.ini';
+				// Copy site files over
+				$siteSource 	= $path . '/site/en-GB.com_easysocial.ini';
 
-					$state			= JFile::copy($siteSource, $sitePath . '/en-GB.com_easysocial.ini');
+				$state			= JFile::copy($siteSource, $sitePath . '/en-GB.com_easysocial.ini');
 
-					$result 		= new stdClass();
-					$result->state	= true;
+				$result 		= new stdClass();
+				$result->state	= true;
 
-					$result->message	= JText::_( 'COM_EASYSOCIAL_INSTALLATION_LANGUAGES_UPDATED' );
-					return $this->output( $result );
+				$result->message	= JText::_( 'COM_EASYSOCIAL_INSTALLATION_LANGUAGES_UPDATED' );
+				return $this->output( $result );
 
 				break;
 
@@ -1686,28 +1686,29 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$tmpPath 	= JRequest::getVar( 'path' );
 
 		// There should be a queries.zip archive in the archive.
-		$tmpQueriesPath 	= $tmpPath . '/queries.zip';
+		$tmpQueriesPath 	= $tmpPath . 'queries.zip';
 
 		// Extract the queries
-		$path 				= $tmpPath . '/queries';
+		$path 				= '/var/www/test3/administrator/components/com_easysocial/setup/packages/com_easysocial_1.4.7_component_pro/queries';
 
 		// Check if this folder exists.
-		if( JFolder::exists( $path ) )
+		/**if( JFolder::exists( $path ) )
 		{
-			JFolder::delete( $path );
+		JFolder::delete( $path );
 		}
 
 		$state 	= JArchive::extract( $tmpQueriesPath , $path );
 
 		if( !$state )
 		{
-			$result 			= new stdClass();
-			$result->state 		= false;
-			$result->message	= JText::_( 'COM_EASYSOCIAL_INSTALLATION_ERROR_UNABLE_EXTRACT_QUERIES' );
+		$result 			= new stdClass();
+		$result->state 		= false;
+		$result->message	= JText::_( 'COM_EASYSOCIAL_INSTALLATION_ERROR_UNABLE_EXTRACT_QUERIES' );
 
-			return $this->output( $result );
+		return $this->output( $result );
 		}
-
+		 **/
+		$state = true;
 		// Get the list of files in the folder.
 		$queryFiles 	= JFolder::files($path , '.' , false, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', '.php'));
 
@@ -1911,29 +1912,30 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 
 		// Extract files here.
 		$tmp = ES_TMP . '/' . $folderName;
-		$tmp2 = ES_TMP . '/' . $folderName . '.zip';
+		//$tmp2 = ES_TMP . '/' . $folderName . '.zip';
 
 		// Ensure that there is no such folders exists on the site
-		if (JFolder::exists($tmp)) {
-			JFolder::delete($tmp);
-		}
+		//if (JFolder::exists($tmp)) {
+		//JFolder::delete($tmp);
+		//}
 
 		// Try to extract the files
-
-		$state = JArchive::extract($storage, $tmp);
+		//chmod($tmp2, 0755);
+		//chmod($storage, 0755); chmod($tmp, 0755);
+		//$state = JArchive::extract($storage, $tmp);
 
 		// Regardless of the extraction state, delete the zip file otherwise anyone can download the zip file.
 		//@JFile::delete($storage);
 
-		if (!$state) {
-			$result = new stdClass();
-			$result->state = false;
-			$result->message = JText::_('COM_EASYSOCIAL_INSTALLATION_ERROR_EXTRACT_ERRORS');
+		/**if (!$state) {
+		$result = new stdClass();
+		$result->state = false;
+		$result->message = JText::_('COM_EASYSOCIAL_INSTALLATION_ERROR_EXTRACT_ERRORS');
 
-			$this->output($result);
-			exit;
-		}
-
+		$this->output($result);
+		exit;
+		}**/
+		$state = true;
 		$result = new stdClass();
 
 		$result->message = JText::_( 'COM_EASYSOCIAL_INSTALLATION_EXTRACT_SUCCESS' );
@@ -2010,7 +2012,7 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 	public function installFields()
 	{
 		// For development mode, we want to skip all this
-		if( true )
+		if( true)
 		{
 			return $this->output( $this->getResultObj( 'ok' , true )  );
 		}
@@ -2031,16 +2033,17 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		$target		= JPATH_ROOT . '/media/com_easysocial/apps/fields/' . $group;
 
 		// Try to extract the archive first
-		//$state 		= JArchive::extract( $archivePath , $path );
-		$state = true;
+		/**$state 		= JArchive::extract( $archivePath , $path );
+
 		if( !$state )
 		{
-			$result 			= new stdClass();
-			$result->state 		= false;
-			$result->message	= JText::sprintf( 'COM_EASYSOCIAL_INSTALLATION_ERROR_EXTRACT_FIELDS' , $group );
+		$result 			= new stdClass();
+		$result->state 		= false;
+		$result->message	= JText::sprintf( 'COM_EASYSOCIAL_INSTALLATION_ERROR_EXTRACT_FIELDS' , $group );
 
-			return $this->output( $result );
-		}
+		return $this->output( $result );
+		}**/
+		$state = true;
 
 		// If the apps folder does not exist, create it first.
 		if( !JFolder::exists( $target ) )
