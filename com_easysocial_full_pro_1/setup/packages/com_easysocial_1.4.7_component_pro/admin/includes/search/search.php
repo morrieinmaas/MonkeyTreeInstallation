@@ -102,6 +102,9 @@ class SocialSearch
 					case 'EasySocial.Events':
 							$row->displayTitle = JText::_( 'COM_EASYSOCIAL_SEARCH_TYPE_EVENTS' );
 							break;
+					case 'EasySocial.Projects':
+						$row->displayTitle = JText::_( 'COM_EASYSOCIAL_SEARCH_TYPE_PROJECTS' );
+						break;
 					case 'EasySocial.Videos':
 							$row->displayTitle = JText::_( 'COM_EASYSOCIAL_SEARCH_TYPE_VIDEOS' );
 							break;
@@ -377,6 +380,9 @@ class SocialSearch
 				$icon = 'fa-users';
 				break;
 			case 'EasySocial.Events':
+				$icon = 'fa-calendar';
+				break;
+			case 'EasySocial.Projects':
 				$icon = 'fa-calendar';
 				break;
 			case 'EasySocial.Videos':
