@@ -172,6 +172,14 @@ class EasySocialControllerInstallation extends EasySocialSetupController
 		return $this->output($result);
 	}
 
+
+	/**
+	 * Creates default project categories
+	 *
+	 * @since	1.3
+	 * @access	public
+	 * @return
+	 */
 	public function installDefaultProjectCategories()
 	{
 		$this->foundry();

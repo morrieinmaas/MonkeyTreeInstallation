@@ -159,6 +159,16 @@
 			}
 		},
 		{
+			"title"	: "COM_EASYSOCIAL_MENU_ITEM_SETTINGS_PROJECTS",
+			"class"	: "",
+			"url"	:
+			{
+				"view"	: "settings",
+				"layout": "form",
+				"page"	: "projects"
+			}
+		},
+		{
 			"title"	: "COM_EASYSOCIAL_MENU_ITEM_SETTINGS_GROUPS",
 			"class"	: "",
 			"url"	:

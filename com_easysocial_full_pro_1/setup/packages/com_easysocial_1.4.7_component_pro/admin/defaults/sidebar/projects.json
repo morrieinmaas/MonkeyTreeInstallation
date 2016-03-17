@@ -1,0 +1,40 @@
+{
+    "title"  : "COM_EASYSOCIAL_MENU_GROUP_PROJECTS",
+    "link"   : "index.php?option=com_easysocial&view=projects",
+    "access" : "easysocial.access.projects",
+    "class"  : "fa-calendar",
+    "view"   : "projects",
+    "counter": "projects/getPendingCount",
+    "active" : "layout",
+    "childs" :
+    [
+        {
+            "title" : "COM_EASYSOCIAL_MENU_ITEM_PROJECTS_CATEGORIES",
+            "url"   :
+            {
+                "view"  : "projects",
+                "layout": "categories"
+            },
+            "childs": []
+        },
+        {
+            "title" : "COM_EASYSOCIAL_MENU_ITEM_PROJECTS_PROJECTS",
+            "url"   :
+            {
+                "view"  : "projects",
+                "layout": ""
+            },
+            "childs": []
+        },
+        {
+            "title" : "COM_EASYSOCIAL_MENU_ITEM_PROJECTS_PENDING",
+            "url"   :
+            {
+                "view"  : "projects",
+                "layout": "pending"
+            },
+            "counter"   : "projects/getPendingCount",
+            "childs": []
+        }
+    ]
+}

@@ -256,6 +256,25 @@ var es =
 			});
 		},
 
+		//Currently NOT Called! @MARK
+		installProjectApps: function()
+		{
+			es.installation.setActive('data-progress-projectapps');
+
+			es.installation.ajaxCall('installApps' , { "group" : "project" } , function(result) {
+				// Set the progress
+				es.installation.update('data-progress-projectapps', result, '99%');
+
+				if( !result.state )
+				{
+					es.installation.showRetry('installProjectApps');
+					return false;
+				}
+
+				es.installation.installUserFields();
+			});
+		},
+
 		installUserFields: function()
 		{
 			es.installation.setActive( 'data-progress-userfields' );
@@ -565,24 +584,6 @@ var es =
 				}
 
 				es.installation.postInstall();
-			});
-		},
-		//Currently NOT Called! @MARK
-		installProjectApps: function()
-		{
-			es.installation.setActive('data-progress-projectapps');
-
-			es.installation.ajaxCall('installApps' , { "group" : "project" } , function(result) {
-				// Set the progress
-				es.installation.update('data-progress-projectapps', result, '99%');
-
-				if( !result.state )
-				{
-					es.installation.showRetry('installProjectApps');
-					return false;
-				}
-
-				es.installation.installUserFields();
 			});
 		},
 
