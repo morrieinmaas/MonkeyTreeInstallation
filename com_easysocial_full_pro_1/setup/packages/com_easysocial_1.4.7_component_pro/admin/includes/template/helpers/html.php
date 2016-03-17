@@ -151,7 +151,7 @@ class ThemesHelperHTML
 	public static function project($obj, $popbox = false, $popboxPosition = 'top-left')
 	{
 		if (!is_object($obj)) {
-			$event = FD::project($obj);
+			$project = FD::project($obj);
 		}
 
 		if ($obj instanceof SocialProject) {

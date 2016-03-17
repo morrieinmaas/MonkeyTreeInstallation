@@ -3126,7 +3126,7 @@ class SocialUser extends JUser
 
 		$options = array_merge($baseOptions, $customOptions);
 
-		return FD::model('Events')->getTotalProjects($options);
+		return FD::model('Projects')->getTotalProjects($options);
 	}
 
 	/**
