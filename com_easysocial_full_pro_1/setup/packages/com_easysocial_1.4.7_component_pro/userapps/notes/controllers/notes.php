@@ -141,7 +141,7 @@ class NotesControllerNotes extends SocialAppsController
 	 */
 	public function store()
 	{
-		// Check for request forgeriess
+		// Check for request forgeries
 		FD::checkToken();
 
 		// Ensure that the user is logged in.

@@ -44,6 +44,7 @@ class ESR
                             'leaderboard',
                             'points',
                             'photos',
+                            'projects',
                             'registration',
                             'search',
                             'login',
@@ -517,7 +518,9 @@ class ESR
 
                 if ($type == 'group') {
                     $view = 'groups';
-                } 
+                } elseif ($type == 'project'){
+                    $view = 'projects';
+                }
 
                 $menus = ESR::getMenus($view, 'item');
 
@@ -525,6 +528,7 @@ class ESR
                     $menuId = $menus[0]->id;
                 }
             }
+
 
             // Try to locate menu with just the view if we still can't find a menu id.
             $menus = FRoute::getMenus($view, '', '');

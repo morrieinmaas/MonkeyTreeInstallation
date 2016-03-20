@@ -39,6 +39,7 @@ includes/photo/adapters/project.php
 includes/router/adapters/activities.php
 includes/router/adapters/dashboard.php
 includes/router/adapters/projects.php
+includes/router/router.php
 includes/search/search.php
 includes/stream/stream.php
 includes/template/helper/html.php

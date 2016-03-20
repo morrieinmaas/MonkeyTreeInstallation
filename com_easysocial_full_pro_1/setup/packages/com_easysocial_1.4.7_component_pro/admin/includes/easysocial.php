@@ -1475,7 +1475,7 @@ class ES
 	 * @param	Mixed		$ids	The id to load.
 	 * @return	SocialProject			The project object
 	 */
-	public static function project($ids = null, $debug = false)
+	public static function project($ids = null, $debug = true)
 	{
 		// Load the group library
 		FD::load('project');
